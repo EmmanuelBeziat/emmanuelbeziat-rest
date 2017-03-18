@@ -1,7 +1,7 @@
 var express = require('express')
 var app = express()
 var port = process.env.PORT || 3001
-var posts = require('./api/models/postsModel.js')
+// var posts = require('./api/models/postsModel.js')
 var bodyParser = require('body-parser')
 var routes = require('./api/routes/postsRoutes.js')
 
