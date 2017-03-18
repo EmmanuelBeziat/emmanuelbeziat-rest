@@ -8,6 +8,14 @@ var routes = require('./api/routes/postsRoutes.js')
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
+app.use(function (req, res, next) {
+	res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3001')
+	res.setHeader('Access-Control-Allow-Methods', 'GET')
+	res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type')
+	res.setHeader('Access-Control-Allow-Credentials', true)
+	next()
+})
+
 routes(app)
 
 app.listen(port)
