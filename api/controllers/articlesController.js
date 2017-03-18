@@ -1,7 +1,6 @@
 'use strict'
 
 var fs = require('fs-extra')
-// var glob = require('glob-fs')({ gitignore: true })
 var glob = require('glob')
 var path = require('path')
 var markdown = require('markdown-parse')
@@ -39,7 +38,7 @@ exports.listAll = function (request, response) {
 					'tags': result.attributes.tags || [''],
 					'categories': result.attributes.categories || ['non-classe'],
 					'description': result.attributes.description || '',
-					'publish': result.attributes.publish || true
+					'publish': result.attributes.publish === false ? false : true
 				})
 			})
 		})
