@@ -22,8 +22,10 @@
   },
   "homepage": "https://github.com/EmmanuelBeziat/node-rest#readme",
   "devDependencies": {
+    "babel-eslint": "^7.1.1",
     "body-parser": "^1.17.1",
     "fs-extra": "^2.1.2",
+    "fs-promise": "^2.0.0",
     "glob": "^7.1.1",
     "markdown-parse": "^0.2.1",
     "nodemon": "^1.11.0",
