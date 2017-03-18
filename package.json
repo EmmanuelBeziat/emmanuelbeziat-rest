@@ -1,0 +1,35 @@
+{
+  "name": "node-rest",
+  "version": "1.0.0",
+  "description": "A NodeJS App that provide a REST API.",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EmmanuelBeziat/node-rest.git"
+  },
+  "keywords": [
+    "nodejs",
+    "rest-api"
+  ],
+  "author": "EmmanuelBeziat <contact@emmanuelbeziat.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/EmmanuelBeziat/node-rest/issues"
+  },
+  "homepage": "https://github.com/EmmanuelBeziat/node-rest#readme",
+  "devDependencies": {
+    "body-parser": "^1.17.1",
+    "fs-extra": "^2.1.2",
+    "markdown-parse": "^0.2.1",
+    "nodemon": "^1.11.0",
+    "path": "^0.12.7",
+    "slug": "^0.9.1"
+  },
+  "dependencies": {
+    "express": "^4.15.2"
+  }
+}
