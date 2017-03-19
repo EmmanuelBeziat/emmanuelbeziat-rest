@@ -43,7 +43,7 @@ exports.listAll = function (request, response) {
 			})
 		})
 
-		response.json(fileContent)
+		return response.json(fileContent)
 	})
 }
 
@@ -54,8 +54,13 @@ exports.getSingle = function (request, response) {
 
 	glob(folder + '/*' + request.params.slug + '.md', function (err, files) {
 		var file = files[0]
+
+		if (undefined === file) {
+			return response.status(404).send('No data found')
+		}
+
 		fs.readFile(file, 'utf8', function (error, post) {
-			if (error) return console.error(error)
+			if (error) console.error(error)
 			var fileContent = {}
 
 			markdown(post, function (error, result) {
@@ -70,7 +75,7 @@ exports.getSingle = function (request, response) {
 				fileContent.content = result.body
 			})
 
-			response.json(fileContent)
+			return response.json(fileContent)
 		})
 	})
 }
