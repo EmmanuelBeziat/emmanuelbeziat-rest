@@ -4,6 +4,11 @@ module.exports = function (app) {
 	var articles = require('../controllers/articlesController.js')
 	var portfolio = require('../controllers/portfolioController.js')
 
+	// Home
+	app.get('/', function (req, res) {
+		res.render('home.ejs', { message: 'Bienvenue' })
+	})
+
 	// Posts routes
 	app.route('/posts').get(articles.listAll)
 	app.route('/posts/:slug').get(articles.getSingle)
