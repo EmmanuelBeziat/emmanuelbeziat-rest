@@ -27,7 +27,7 @@ exports.listAll = function (request, response) {
 		if (error) throw error
 
 		files.forEach(function (file) {
-			var post = fs.readFile(path.resolve(folder, file), 'utf8')
+			var post = fs.readFileSync(path.resolve(folder, file), 'utf8')
 
 			markdown(post, function (error, result) {
 
