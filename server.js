@@ -1,10 +1,10 @@
-var express = require('express')
-var app = express()
-// var port = process.env.PORT || 3002
-var port = 3002
-// var posts = require('./api/models/postsModel.js')
-var bodyParser = require('body-parser')
-var routes = require('./api/routes/postsRoutes.js')
+const config = require('./config')
+const express = require('express')
+const app = express()
+
+// const posts = require('./api/models/postsModel.js')
+const bodyParser = require('body-parser')
+const routes = require('./api/routes/postsRoutes.js')
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
@@ -21,6 +21,6 @@ app.use(express.static('public'))
 
 routes(app)
 
-app.listen(port)
+app.listen(config.port)
 
-console.log('RESTful API server started on: ' + port)
+console.log('RESTful API server started on: ' + config.port)
