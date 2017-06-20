@@ -55,7 +55,7 @@ Il ne devrait jamais y avoir une portion de code qui ne soit pas couverte par au
 
 *   Indentation stricte.
 *   Préférer les propriétés raccourcies (`font`, `background`, `margin`…).
-*   Quand on utilise des propriétés `-vendor-prefix`, on n’oublie pas de mettre la propriété finale de la spec à la fin. Et surtout, on vérifie si c’est nécessaire (voir l’article [Préfixes CSS : jusqu’à quand](http://www.emmanuelbeziat.com/blog/prefixes-css-jusqua-quand/ "Préfixes CSS, jusqu’à quand ?"){ target="_blank" rel="noopener" }) !
+*   Quand on utilise des propriétés `-vendor-prefix`, on n’oublie pas de mettre la propriété finale de la spec à la fin. Et surtout, on vérifie si c’est nécessaire (voir l’article [Préfixes CSS : jusqu’à quand](https://www.emmanuelbeziat.com/blog/prefixes-css-jusqua-quand/ "Préfixes CSS, jusqu’à quand ?"){ target="_blank" rel="noopener" }) !
 *   Pas de hack, sauf si _vraiment_ pas le choix. Préférer les _commentaires conditionnels_ de HTML pour rajouter des feuilles de styles spécifiques ou des classes sur l’élément `<html>`.
 *   En _Less_, _Sass_ ou _Stylus_ :
 *   On utilise des variables explicites, et si elles sont globales, on les définit en tête de module ou dans un fichier séparé pour les _superglobales_.

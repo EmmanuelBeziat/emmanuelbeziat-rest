@@ -197,6 +197,9 @@ Nous allons donc simplement appliquer `display: flex;` à `body`, et spécifier 
 ```css
 body {
 	margin: 0;
+}
+
+.page {
 	display: flex;
 	flex-direction: column;
 	min-height: 100vh;
@@ -211,4 +214,4 @@ c’est tout !
 
 ## La méthode de demain
 
-À priori, il viendra un temps où nous utiliseront le module grid afin de faire le squelette de notre site (Et flexbox sera utilisé pour la gestion fine du contenu). Pour en savoir plus, je vous suggère de lire [cet article sur Alsacréations](http://www.alsacreations.com/article/lire/1388-css3-grid-layout.html){ target="_blank" rel="noopener" }.
+À priori, il viendra un temps où nous utiliserons le module grid afin de faire le squelette de notre site (Et flexbox sera utilisé pour la gestion fine du contenu). Pour en savoir plus, je vous suggère de lire [cet article sur Alsacréations](http://www.alsacreations.com/article/lire/1388-css3-grid-layout.html){ target="_blank" rel="noopener" }.

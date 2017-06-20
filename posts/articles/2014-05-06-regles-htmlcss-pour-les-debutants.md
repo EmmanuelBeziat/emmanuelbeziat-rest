@@ -27,7 +27,7 @@ déclaration {
 }
 ```
 
-Une déclaration CSS est composée de sélecteurs. Si vous ne voyez pas de quoi il s’agit, voir l’article sur les [sélecteurs CSS](http://www.emmanuelbeziat.com/blog/principes-du-css-les-selecteurs-partie1-css2/ "Principes du CSS – Les sélecteurs (Partie1 : cSS2)"). { .c-note .c-note--important }
+Une déclaration CSS est composée de sélecteurs. Si vous ne voyez pas de quoi il s’agit, voir l’article sur les [sélecteurs CSS](https://www.emmanuelbeziat.com/blog/principes-du-css-les-selecteurs-partie1-css2/ "Principes du CSS – Les sélecteurs (Partie1 : cSS2)"). { .c-note .c-note--important }
 
 Voilà ; dorénavant, interdiction de parler de "propriétés html" ou de "balises css".
 
@@ -115,7 +115,7 @@ La balise `
 
 ### L’attribut style
 
-Évitez d’utiliser l’attribut `style=""` pour mettre du CSS directement dans votre html. Outre le fait que ça rende le code difficile à maintenir (principalement à cause du problème de poids, cf. l’article sur le [poids des déclarations](http://www.emmanuelbeziat.com/blog/principes-du-css-poids-des-declarations/ "Principes du CSS – Poids des déclarations")), ça brise la séparation contenu / mise en forme.
+Évitez d’utiliser l’attribut `style=""` pour mettre du CSS directement dans votre html. Outre le fait que ça rende le code difficile à maintenir (principalement à cause du problème de poids, cf. l’article sur le [poids des déclarations](https://www.emmanuelbeziat.com/blog/principes-du-css-poids-des-declarations/ "Principes du CSS – Poids des déclarations")), ça brise la séparation contenu / mise en forme.
 
 ## CSS
 
@@ -127,7 +127,7 @@ L’erreur la plus répandue est de croire qu’utiliser la propriété `positio
 
 Une autre croyance qui a la vie dure : mettre toutes les valeurs en % serait mieux. Ce n’est pas le cas. Il n’y a que de rares cas où l’utilisation des % se justifie (notamment les grilles CSS, comme [960.gz](http://960.gs/){ target="_blank" rel="noopener" } ou celles utilisé par [Bootstrap](http://getbootstrap.com/){ target="_blank" rel="noopener" } ou [Foundation](http://foundation.zurb.com/){ target="_blank" rel="noopener" }).
 
-Vous pouvez très bien faire un site extensible en n’utilisant qu’un minimum de valeurs en % (un exemple : [Aligner trois colonnes proprement](http://www.emmanuelbeziat.com/blog/aligner-trois-colonnes-proprement/ "Aligner trois colonnes proprement"). Et même dans ces cas-là, n’utilisez pas les % pour des marges, elles n’ont pas à être extensibles !
+Vous pouvez très bien faire un site extensible en n’utilisant qu’un minimum de valeurs en % (un exemple : [Aligner trois colonnes proprement](https://www.emmanuelbeziat.com/blog/aligner-trois-colonnes-proprement/ "Aligner trois colonnes proprement"). Et même dans ces cas-là, n’utilisez pas les % pour des marges, elles n’ont pas à être extensibles !
 
 Les pourcentages apportent beaucoup plus de problèmes et de problématiques que de solutions, alors il faut être parfaitement certain de maîtriser son environnement avant de s’en servir. [Voici un exemple concret](https://jsfiddle.net/ee944u5t/){ target="_blank" rel="noopener" }, rencontré par un internaute d’OpenClassrooms : lorsqu’on agrandi la fenêtre de rendu, on remarque un dépassement vertical (en bas). Les marges ayant été définies de façon relative (avec des pourcentages), celles-ci sont calculées par rapport à la largeur du parent, même pour les marges verticales. Donc en étirant la largeur du conteneur, on étire la marge verticale du bloc enfant… Bref, n’importe quoi.
 
@@ -145,7 +145,7 @@ Il est parfaitement inutile d’essayer de donner à un élément flottant une p
 
 ### Le reset CSS
 
-Une autre mauvaise idée. Plus d’explications dans l’article [Doucement sur le box-sizing !](http://www.emmanuelbeziat.com/blog/doucement-sur-le-box-sizing/ "Doucement sur le box-sizing !").
+Une autre mauvaise idée. Plus d’explications dans l’article [Doucement sur le box-sizing !](https://www.emmanuelbeziat.com/blog/doucement-sur-le-box-sizing/ "Doucement sur le box-sizing !").
 
 Et surtout, évidemment, surtout pas ça :
 

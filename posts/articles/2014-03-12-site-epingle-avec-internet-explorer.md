@@ -11,7 +11,7 @@ categories:
 
 Avec Windows 7 est apparue la possibilité d’épingler des programmes dans la barre des tâches. Internet Explorer (depuis la version 9) propose une fonctionnalité d’épinglage avancé : il suffit de déplacer l’onglet d’une page vers la barre des tâches pour y trouver de nouvelles actions possibles. Ces fonctionnalités se paramètrent sur votre propre site, nous allons donc voir comment.
 
-![sites-epingles](https://www.emmanuelbeziat.com/wp-content/uploads/2013/07/sites-epingles.jpg) { .text-align-center }
+![sites-epingles](https://images.emmanuelbeziat.com/sites-epingles.jpg) { .text-align-center }
 
 Pour la première partie, un minimum de connaissances en HTML est requis. Les parties HTML seront suffisamment détaillées pour que les moins expérimentés s’y retrouvent.
 
@@ -25,7 +25,7 @@ Il existe plusieurs façons pour un utilisateur d’épingler un site.
 
 Dans Windows 7 et 8 (en mode bureau), il suffit de faire glisser l’onglet du site ou le favicon (icône du site) vers la barre des tâches pour que le site s’épingle seul. Il est également possible d’utiliser le menu Outils (`Alt` + `o`), puis de sélectionner "_Ajouter le site au menu démarrer_", mais le raccourci se place dans le menu et non sur la barre des tâches.
 
-![épinglage](https://www.emmanuelbeziat.com/wp-content/uploads/2013/07/epinglage.jpg) { .text-align-center }
+![épinglage](https://images.emmanuelbeziat.com/epinglage.jpg) { .text-align-center }
 
 Dans Windows 8 (en mode ModernUI), il y a un bouton "_Épingler à l’écran d’accueil_" dans la barre de navigation en bas de la fenêtre d’Internet Explorer.
 
@@ -35,13 +35,13 @@ Il est également possible de créer des outils d’épinglage (boutons, barres)
 
 Lorsqu’un site est lancé depuis un raccourci épinglé, l’interface change légèrement par rapport à une fenêtre normale d’Internet Explorer. Le bouton accueil à droite disparaît, l’icône du site est affichée à gauche des boutons de navigation, et ceux-ci adoptent une couleur différente.
 
-![Un exemple de site épinglé](https://www.emmanuelbeziat.com/wp-content/uploads/2013/07/exemple-site-epingle.jpg) { .text-align-center }
+![Un exemple de site épinglé](https://images.emmanuelbeziat.com/exemple-site-epingle.jpg) { .text-align-center }
 
 ### La barre des tâches, mais pas seulement !
 
 Il existe également une petite subtilité : si vous glissez le site non pas sur la barre des tâches mais sur le bouton du menu Démarrer (uniquement pour Windows 7 donc), votre site et ses raccourcis apparaîtront dans celui-ci.
 
-![epinglage menu démarrer](https://www.emmanuelbeziat.com/wp-content/uploads/2013/07/menu-demarrer.jpg) { .text-align-center }
+![epinglage menu démarrer](https://images.emmanuelbeziat.com/menu-demarrer.jpg) { .text-align-center }
 
 La théorie étant vue, place à l’action.
 
@@ -156,11 +156,11 @@ Saviez-vous que de nombreux sites utilisent déjà ces fonctionnalités ? Voici
 <meta name="msapplication-TileColor" content="#00aced">
 ```
 
-![exemple-bing](https://www.emmanuelbeziat.com/wp-content/uploads/2013/07/exemple-bing.jpg)
+![exemple-bing](https://images.emmanuelbeziat.com/exemple-bing.jpg)
 
 ## Liste de raccourcis statiques (tâches)
 
-![taches facebook](https://www.emmanuelbeziat.com/wp-content/uploads/2013/07/taches-fb.jpg)
+![taches facebook](https://images.emmanuelbeziat.com/taches-fb.jpg)
 
 Le plus simple pour commencer, est de pouvoir ajouter des liens statiques, appelés "tâches" (jumplists en anglais). Ces liens ont pour but de rediriger vers des pages pérennes de votre site.
 

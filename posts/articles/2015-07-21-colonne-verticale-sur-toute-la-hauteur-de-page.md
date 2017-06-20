@@ -33,7 +33,7 @@ Oui, je sais : c’est assez impressionnant.
 
 Vous pouvez bien sûr ajouter vos fioritures et votre contenu, mais globalement, tout ce dont vous avez besoin est là : une largeur, et un positionnement (Ici à gauche, mais vous pouvez le mettre à droite si vous voulez).
 
-Pour l’instant, votre colonne ne va pas jusqu’en bas de votre écran, à moins que vous n’ayez beaucoup de contenu à l’intérieur. Alors pour ça, nous allons créer un petit trompe-l’œil au moyen d’un **pseudo-élément** (Si vous ne savez pas de quoi je parle, direction '[Principes du CSS - Les sélecteurs](http://www.emmanuelbeziat.com/blog/principes-du-css-les-selecteurs-partie1-css2/)').
+Pour l’instant, votre colonne ne va pas jusqu’en bas de votre écran, à moins que vous n’ayez beaucoup de contenu à l’intérieur. Alors pour ça, nous allons créer un petit trompe-l’œil au moyen d’un **pseudo-élément** (Si vous ne savez pas de quoi je parle, direction '[Principes du CSS - Les sélecteurs](https://www.emmanuelbeziat.com/blog/principes-du-css-les-selecteurs-partie1-css2/)').
 
 ```css
 .colonne::after {

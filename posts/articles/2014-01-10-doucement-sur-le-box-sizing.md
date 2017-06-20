@@ -35,7 +35,7 @@ Et je trouve personnellement qu’aujourd’hui, on se passe très bien des deux
 
 ### Un point sur le sélecteur universel
 
-Le sélecteur universel `*` (À ne pas confondre avec le [sélecteur d’enfant indirect](http://www.emmanuelbeziat.com/blog/principes-du-css-les-selecteurs-partie1-css2/#selecteur-enfant-indirect)) n’a que peu d’utilité dans un cas pratique. On s’en sert très peu, voire quasiment jamais. Ses manifestations les plus courantes sont généralement les plus mauvaises, comme dans le cas de ce reset sauvage.
+Le sélecteur universel `*` (À ne pas confondre avec le [sélecteur d’enfant indirect](https://www.emmanuelbeziat.com/blog/principes-du-css-les-selecteurs-partie1-css2/#selecteur-enfant-indirect)) n’a que peu d’utilité dans un cas pratique. On s’en sert très peu, voire quasiment jamais. Ses manifestations les plus courantes sont généralement les plus mauvaises, comme dans le cas de ce reset sauvage.
 
 > "Toi là, vil élément ! Peu importe qui tu es, tu n’auras plus aucune marge !
 >

@@ -30,7 +30,7 @@ Alors certains se posent peut-être une question intéressante, par exemple "mai
 
 L’attribut `data-` permet de stocker des données sur des éléments, tout simplement. [D’autres en parlent bien mieux que moi](http://www.alsacreations.com/article/lire/1397-html5-attribut-data-dataset.html){ target="_blank" rel="noopener" } !
 
-c’est arbitraire, j’aurais aussi bien pu utiliser une classe, mais je trouvais ça tellement plus _pimp_ d’utiliser de beaux `data-` que j’y ai été à cœur joie. Dans les faits, ça se prête très bien au CSS avec les [sélecteurs d’attributs](http://www.emmanuelbeziat.com/blog/principes-du-css-les-selecteurs-partie1-css2/#selecteur-attribut) (va lire mon tutoriel sur les sélecteurs, va !).
+c’est arbitraire, j’aurais aussi bien pu utiliser une classe, mais je trouvais ça tellement plus _pimp_ d’utiliser de beaux `data-` que j’y ai été à cœur joie. Dans les faits, ça se prête très bien au CSS avec les [sélecteurs d’attributs](https://www.emmanuelbeziat.com/blog/principes-du-css-les-selecteurs-partie1-css2/#selecteur-attribut) (va lire mon tutoriel sur les sélecteurs, va !).
 
 ## Le CSS
 

@@ -69,7 +69,7 @@ On vante souvent les fonctionnalités des autres navigateurs mais IE offre gén�
 
 Microsoft propose en sus des outils d’intégration à Windows assez intéressant, il est dommage que les autres navigateurs ne suivent pas le mouvement. On peut en effet épingler un site de façon plus ou moins avancée dans la barre des tâches avec divers raccourcis, et sur les tuiles de l’interface Modern UI de Windows 8.
 
-J’ai écrit un [tutoriel sur le sujet](http://www.emmanuelbeziat.com/blog/site-epingle-avec-internet-explorer/ "Site épinglé avec Internet Explorer"){ target="_blank" rel="noopener" } qui vous permettra d’en savoir plus si ça vous intéresse.
+J’ai écrit un [tutoriel sur le sujet](https://www.emmanuelbeziat.com/blog/site-epingle-avec-internet-explorer/ "Site épinglé avec Internet Explorer"){ target="_blank" rel="noopener" } qui vous permettra d’en savoir plus si ça vous intéresse.
 
 ## Alors pourquoi tant de haine ?
 

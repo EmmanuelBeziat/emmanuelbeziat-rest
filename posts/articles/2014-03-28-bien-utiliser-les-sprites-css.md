@@ -277,7 +277,7 @@ Et c’est là le rôle de l’attribut `alt`, qui est obligatoire dans la balis
 
 ### Une solution ?
 
-Bien sûr ! Et elle se trouve dans un autre article sur ce blog ! '[Changer une image au survol](http://www.emmanuelbeziat.com/blog/changer-une-image-au-survol/ "Changer une image au survol")'.
+Bien sûr ! Et elle se trouve dans un autre article sur ce blog ! '[Changer une image au survol](https://www.emmanuelbeziat.com/blog/changer-une-image-au-survol/ "Changer une image au survol")'.
 
 ## Conclusion
 

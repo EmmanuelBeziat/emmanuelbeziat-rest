@@ -7,7 +7,7 @@ categories:
 - Tutoriels
 ---
 
-Lorsque l’on fait un site, on est parfois confronté à un besoin : celui de gérer le **changement d’une image au survol de la souris**. c’est souvent le cas avec des menus. Si la technique des _sprites CSS_ (à propos desquels j’ai écrit [ce tutoriel](http://www.emmanuelbeziat.com/blog/bien-utiliser-les-sprites-css/ "Bien utiliser les sprites CSS") et qui ne sera donc pas détaillée ici) est utile dans certains cas, elle est fortement déconseillée dans le cas d’une image cliquable. Nous allons donc voir une solution alternative intéressante.
+Lorsque l’on fait un site, on est parfois confronté à un besoin : celui de gérer le **changement d’une image au survol de la souris**. c’est souvent le cas avec des menus. Si la technique des _sprites CSS_ (à propos desquels j’ai écrit [ce tutoriel](https://www.emmanuelbeziat.com/blog/bien-utiliser-les-sprites-css/ "Bien utiliser les sprites CSS") et qui ne sera donc pas détaillée ici) est utile dans certains cas, elle est fortement déconseillée dans le cas d’une image cliquable. Nous allons donc voir une solution alternative intéressante.
 
 ## Le problème posé
 

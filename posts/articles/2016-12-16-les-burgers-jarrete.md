@@ -16,4 +16,4 @@ J’ai réalisé que la plupart des Apps mobiles obtaient pour cette présentati
 
 Or, je n’étais pas du tout satisfait de mon menu burger ; autant dans sa présentation que son fonctionnement. Du coup, j’ai changé et opté pour un menu fixe en icones en bas de mon site. Et honnêtement, je préfère largement ça. Autant que faire se peut, j’opterai désormais pour cette mise en page sur les sites que je réaliserai.
 
-![Menu Mobile](http://image.noelshack.com/fichiers/2016/50/1481917844-phoneebmenu.jpg)
+![Menu Mobile](https://images.emmanuelbeziat.com/phoneebmenu.jpg)
