@@ -17,6 +17,6 @@ module.exports = function (app) {
 	app.route('/portfolio/:slug').get(portfolio.getSingle)
 
 	app.get('*', function (request, response) {
-		response.send('There is no valid data here', 404)
+		response.status(404).send('There is no valid data here')
 	})
 }
