@@ -5,15 +5,9 @@ var glob = require('glob')
 var path = require('path')
 var markdown = require('markdown-parse')
 
-var folder = path.resolve('./posts/portfolio')
+var folder = path.resolve('./datas/portfolio')
 
-/**
- * slugName
- * @param {string} fileName
- * @param {boolean} [path=false]
- * @returns string
- */
-function slugName (fileName) {
+let slug = function (fileName) {
 	return fileName.replace(/\.[^/.]+$/, '').slice(11)
 }
 
@@ -33,7 +27,7 @@ exports.listAll = function (request, response) {
 
 				fileContent.unshift({
 					'title': result.attributes.title,
-					'slug': slugName(file, true),
+					'slug': slug(file, true),
 					'image': result.attributes.image || '',
 					'date': result.attributes.date || new Date(),
 					'tags': result.attributes.tags || [''],
@@ -66,7 +60,7 @@ exports.getSingle = function (request, response) {
 
 			markdown(post, function (error, result) {
 				fileContent.title = result.attributes.title
-				fileContent.slug = slugName(file)
+				fileContent.slug = slug(file)
 				fileContent.image = result.attributes.image || ''
 				fileContent.date = result.attributes.date || new Date()
 				fileContent.tags = result.attributes.tags || ['']

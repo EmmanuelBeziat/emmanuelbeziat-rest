@@ -2,6 +2,7 @@
 logs
 *.log
 npm-debug.log*
+yarn-debug.lock
 
 # Runtime data
 pids
@@ -35,3 +36,5 @@ jspm_packages
 
 # Optional REPL history
 .node_repl_history
+
+bin
