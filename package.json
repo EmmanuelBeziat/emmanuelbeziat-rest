@@ -4,7 +4,8 @@
 	"description": "A NodeJS App that provide a REST API.",
 	"main": "bin/app.js",
 	"scripts": {
-		"start": "nodemon bin/app.js",
+		"start": "pm2 start bin/app.js",
+		"dev": "nodemon bin/app.js",
 		"build": "./node_modules/.bin/babel src -d bin"
 	},
 	"repository": {
@@ -34,11 +35,12 @@
 		"prompt": "^1.0.0"
 	},
 	"dependencies": {
-		"path": "^0.12.7",
-		"nodemon": "^1.11.0",
 		"ejs": "^2.5.6",
 		"express": "^4.15.3",
 		"mitan-eko": "^0.1.0",
+		"nodemon": "^1.11.0",
+		"path": "^0.12.7",
+		"pm2": "^2.5.0",
 		"zouti": "^0.5.0"
 	}
 }
