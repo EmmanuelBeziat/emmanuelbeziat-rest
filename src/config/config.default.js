@@ -4,4 +4,4 @@ let config = module.exports = {}
 
 config.env = 'development'
 config.host = 'localhost'
-config.port = '3001'
+config.port = '3002'
