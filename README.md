@@ -1,3 +1,2 @@
-# EmmanuelBéziat — NodeJS REST API
-
+# node-rest
 A NodeJS App that provide a REST API.
