@@ -9,6 +9,8 @@ module.exports = function (app) {
 		res.render('home.ejs', { message: 'Bienvenue' })
 	})
 
+	app.get('/health-check', (req, res) => res.sendStatus(200));
+
 	// Posts routes
 	app.route('/posts').get(articles.listAll)
 	app.route('/posts/:slug').get(articles.getSingle)
