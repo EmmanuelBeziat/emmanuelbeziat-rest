@@ -36,7 +36,7 @@ exports.listAll = function (request, response) {
 				fileContent.unshift({
 					'title': result.attributes.title,
 					'slug': slugName(file),
-					'image': result.attributeS.image || '',
+					'image': result.attributes.image || '',
 					'date': result.attributes.date || new Date(),
 					'tags': result.attributes.tags || [''],
 					'categories': result.attributes.categories || ['non-classe'],
