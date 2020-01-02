@@ -24,7 +24,9 @@ exports.listAll = function (request, response) {
 	var fileContent = []
 
 	fs.readdir(path.resolve(folder), 'utf8', function (error, files) {
-		if (error) throw error
+		if (error) {
+			return response.status(500).send(`No folder found. ${error}`)
+		}
 
 		files.forEach(function (file) {
 			var post = fs.readFileSync(path.resolve(folder, file), 'utf8')
@@ -34,6 +36,7 @@ exports.listAll = function (request, response) {
 				fileContent.unshift({
 					'title': result.attributes.title,
 					'slug': slugName(file),
+					'image': result.attributeS.image || '',
 					'date': result.attributes.date || new Date(),
 					'tags': result.attributes.tags || [''],
 					'categories': result.attributes.categories || ['non-classe'],
@@ -60,7 +63,9 @@ exports.getSingle = function (request, response) {
 		}
 
 		fs.readFile(file, 'utf8', function (error, post) {
-			if (error) console.error(error)
+			if (error) {
+				return response.status(500).send(`No data found. ${error}`)
+			}
 			var fileContent = {}
 
 			markdown(post, function (error, result) {
@@ -71,7 +76,6 @@ exports.getSingle = function (request, response) {
 				fileContent.tags = result.attributes.tags || ['']
 				fileContent.categories = result.attributes.categories || ['non-classe']
 				fileContent.description = result.attributes.description || ''
-				fileContent.disqus = result.attributes.disqus || true
 				fileContent.content = result.body
 			})
 
