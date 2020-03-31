@@ -41,7 +41,8 @@ exports.listAll = function (request, response) {
 					'tags': result.attributes.tags || [''],
 					'categories': result.attributes.categories || ['non-classe'],
 					'description': result.attributes.description || '',
-					'publish': result.attributes.publish === false ? false : true
+					'publish': result.attributes.publish === false ? false : true,
+					'content': result.body || ''
 				})
 			})
 		})

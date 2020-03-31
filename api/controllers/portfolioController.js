@@ -42,7 +42,8 @@ exports.listAll = function (request, response) {
 					'clients': result.attributes.clients || [''],
 					'color': result.attributes.color || '',
 					'categories': result.attributes.categories || ['non-classe'],
-					'publish': result.attributes.publish === false ? false : true
+					'publish': result.attributes.publish === false ? false : true,
+					'content': result.body
 				})
 			})
 		})
@@ -76,6 +77,8 @@ exports.getSingle = function (request, response) {
 				fileContent.date = result.attributes.date || new Date()
 				fileContent.tags = result.attributes.tags || ['']
 				fileContent.clients = result.attributes.clients || ['']
+				fileContent.color = result.attributes.color || ''
+				fileContent.categories = result.attributes.categories || ['non-classe']
 				fileContent.content = result.body
 			})
 
