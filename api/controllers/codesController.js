@@ -14,7 +14,7 @@ var folder = path.resolve('./../posts/codes')
  * @returns string
  */
 function slugName (fileName) {
-	return fileName.replace(/\.[^/.]+$/, '').slice(11)
+	return fileName.replace(/\.[^/.]+$/, '')
 }
 
 /**
@@ -32,7 +32,6 @@ exports.listAll = function (request, response) {
 			var post = fs.readFileSync(path.resolve(folder, file), 'utf8')
 
 			markdown(post, function (error, result) {
-
 				fileContent.unshift({
 					'slug': 'code-' + slugName(file),
 					'content': result.body
