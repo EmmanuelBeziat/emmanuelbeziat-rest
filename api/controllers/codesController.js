@@ -34,7 +34,7 @@ exports.listAll = function (request, response) {
 			markdown(post, function (error, result) {
 
 				fileContent.unshift({
-					'slug': slugName(file),
+					'slug': 'code-' + slugName(file),
 					'content': result.body
 				})
 			})
