@@ -3,6 +3,7 @@
 module.exports = function (app) {
 	var articles = require('../controllers/articlesController.js')
 	var portfolio = require('../controllers/portfolioController.js')
+	var codes = require('../controllers/codesController.js')
 
 	// Home
 	app.get('/', function (req, res) {
