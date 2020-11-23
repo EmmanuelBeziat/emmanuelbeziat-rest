@@ -4,8 +4,8 @@
   "description": "A NodeJS App that provide a REST API.",
   "main": "index.js",
   "scripts": {
-		"start": "nodemon server.js",
-		"deploy": "pm2 start index.js --name 'emmanuelb-rest'",
+    "start": "nodemon server.js",
+    "deploy": "pm2 start index.js --name 'emmanuelb-rest'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -35,6 +35,6 @@
   },
   "dependencies": {
     "express": "^4.17.1",
-    "helmet": "^3.22.0"
+    "helmet": "^4.1.0"
   }
 }
