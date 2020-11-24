@@ -1,4 +1,12 @@
 # node-rest
-A NodeJS App that provide a REST API.
+A NodeJS App that provide a REST API from Markdown files
 
-To upgrade…
+## .env file
+
+```env
+PORT=<port>
+LOGGER=<bool>
+POSTS="<folder path>"
+CODES="<folder path>"
+PORTFOLIO="<folder path>"
+```

@@ -1,12 +1,14 @@
 {
   "name": "node-rest",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A NodeJS App that provide a REST API.",
-  "main": "index.js",
+  "main": "src/index.js",
+  "type": "module",
   "scripts": {
-    "start": "nodemon server.js",
-    "deploy": "pm2 start index.js --name 'emmanuelb-rest'",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npm run dev",
+    "dev": "node -r dotenv/config src/index.js",
+    "prod": "nodemon src/index.js",
+    "deploy": "pm2 start src/index.js --name 'emmanuelb-rest'"
   },
   "repository": {
     "type": "git",
@@ -14,7 +16,8 @@
   },
   "keywords": [
     "nodejs",
-    "rest-api"
+    "rest-api",
+    "fastify"
   ],
   "author": "EmmanuelBeziat <contact@emmanuelbeziat.com>",
   "license": "MIT",
@@ -22,19 +25,11 @@
     "url": "https://github.com/EmmanuelBeziat/node-rest/issues"
   },
   "homepage": "https://github.com/EmmanuelBeziat/node-rest#readme",
-  "devDependencies": {
-    "babel-eslint": "^10.1.0",
-    "body-parser": "^1.19.0",
-    "ejs": "^3.0.2",
-    "fs-extra": "^9.0.0",
-    "fs-promise": "^2.0.0",
-    "glob": "^7.1.6",
-    "markdown-parse": "^0.2.1",
-    "nodemon": "^2.0.2",
-    "path": "^0.12.7"
-  },
   "dependencies": {
-    "express": "^4.17.1",
-    "helmet": "^4.1.0"
+    "@braintree/sanitize-url": "^5.0.0",
+    "dotenv": "^8.2.0",
+    "fastify": "^3.8.0",
+    "glob": "^7.1.6",
+    "meta-marked": "^0.5.0"
   }
 }
