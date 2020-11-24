@@ -7,8 +7,8 @@
   "scripts": {
     "start": "npm run dev",
     "dev": "node -r dotenv/config src/index.js",
-    "prod": "nodemon src/index.js",
-    "deploy": "pm2 start src/index.js --name 'emmanuelb-rest'"
+    "prod": "nodemon -r dotenv/config  src/index.js",
+    "deploy": "pm2 start pm2.config.js"
   },
   "repository": {
     "type": "git",
