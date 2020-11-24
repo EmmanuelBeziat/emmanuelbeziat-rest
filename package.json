@@ -29,6 +29,7 @@
     "@braintree/sanitize-url": "^5.0.0",
     "dotenv": "^8.2.0",
     "fastify": "^3.8.0",
+    "fastify-cors": "^5.0.0",
     "glob": "^7.1.6",
     "meta-marked": "^0.5.0"
   }
