@@ -57,7 +57,7 @@ class Portfolio {
 	/**
 	 * Send a single post content by its filename
 	 */
-	getPost (param, reply) {
+	getPost (param) {
 		return new Promise((resolve, reject) => {
 			const slug = this.sanitize(param)
 

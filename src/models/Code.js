@@ -49,7 +49,7 @@ class Code {
 	/**
 	 * Send a single code content by its filename
 	 */
-	getCode (param, reply) {
+	getCode (param) {
 		return new Promise((resolve, reject) => {
 			const slug = this.sanitize(param)
 
