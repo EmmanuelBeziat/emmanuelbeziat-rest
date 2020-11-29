@@ -3,6 +3,7 @@ import path from 'path'
 import glob from 'glob'
 import { sanitizeUrl } from '@braintree/sanitize-url'
 import metaMarked from 'meta-marked'
+import Markdown from '../classes/Markdown.js'
 
 class Code {
 	constructor () {
@@ -34,10 +35,12 @@ class Code {
 				files.forEach(file => {
 					const code = fs.readFileSync(path.resolve(this.folder, file), 'utf8')
 					const marked = metaMarked(code)
+					const html = Markdown.renderMarkdown(marked.markdown)
 
 					fileContent.unshift({
 						slug: `code-${this.slugName(file)}`,
-						content: marked.markdown || ''
+						markdown: marked.markdown || '',
+						markup: html || ''
 					})
 				})
 
@@ -67,9 +70,11 @@ class Code {
 
 					const code = {}
 					const marked = metaMarked(file)
+					const html = Markdown.renderMarkdown(marked.markdown)
 
 					code.slug = slug
-					code.content = marked.markdown || ''
+					code.markdown = marked.markdown || ''
+					code.markup = html || ''
 
 					resolve(code)
 				})
