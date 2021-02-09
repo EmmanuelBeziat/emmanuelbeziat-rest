@@ -30,6 +30,7 @@
     "dotenv": "^8.2.0",
     "fastify": "^3.8.0",
     "fastify-cors": "^5.0.0",
+    "fastify-favicon": "^3.0.0",
     "glob": "^7.1.6",
     "markdown-it": "^12.0.2",
     "markdown-it-anchor": "^6.0.1",
