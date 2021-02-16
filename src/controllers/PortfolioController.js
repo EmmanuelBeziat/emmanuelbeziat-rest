@@ -8,7 +8,7 @@ export class PortfolioController {
 	}
 
 	single (req, reply) {
-		Portfolio.getPost(req.params.slug)
+		Portfolio.getPost(req.params.slug, {...req.query})
 			.then(data => reply.send(data))
 			.catch(err => reply.code(404).send(err))
 	}

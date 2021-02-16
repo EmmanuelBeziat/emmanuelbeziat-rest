@@ -60,9 +60,14 @@ class Portfolio {
 	/**
 	 * Send a single post content by its filename
 	 */
-	getPost (param) {
+	getPost (param, options) {
 		return new Promise((resolve, reject) => {
 			const slug = this.sanitize(param)
+
+			const queries = {
+				markup: options.type == undefined ? true :options.type.split(',').includes('markup') ? true : false,
+				markdown: options.type == undefined ? false : options.type.split(',').includes('markdown') ? true : false
+			}
 
 			glob(`${this.folder}/*${slug}.md`, (error, files) => {
 				if (!files.length || error) {
@@ -89,8 +94,12 @@ class Portfolio {
 					post.clients = marked.meta.clients || ['']
 					post.categories = marked.meta.categories || ['non-classe']
 					post.description = marked.meta.description || ''
-					post.markdown = marked.markdown || ''
-					post.markup = html || ''
+					if (queries.markdown) {
+						post.markdown = marked.markdown || ''
+					}
+					if (queries.markup) {
+						post.markup = html || ''
+					}
 
 					resolve(post)
 				})

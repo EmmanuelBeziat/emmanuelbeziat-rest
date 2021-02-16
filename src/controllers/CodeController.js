@@ -8,7 +8,7 @@ export class CodeController {
 	}
 
 	single (req, reply) {
-		Code.getCode(req.params.slug)
+		Code.getCode(req.params.slug, {...req.query})
 			.then(data => reply.send(data))
 			.catch(err => reply.code(404).send(err))
 	}

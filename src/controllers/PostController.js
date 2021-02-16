@@ -8,7 +8,7 @@ export class PostController {
 	}
 
 	single (req, reply) {
-		Post.getPost(req.params.slug)
+		Post.getPost(req.params.slug, {...req.query})
 			.then(data => reply.send(data))
 			.catch(err => reply.code(404).send(err))
 	}

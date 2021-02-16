@@ -52,9 +52,14 @@ class Code {
 	/**
 	 * Send a single code content by its filename
 	 */
-	getCode (param) {
+	getCode (param, options) {
 		return new Promise((resolve, reject) => {
 			const slug = this.sanitize(param)
+
+			const queries = {
+				markup: options.type == undefined ? true :options.type.split(',').includes('markup') ? true : false,
+				markdown: options.type == undefined ? false : options.type.split(',').includes('markdown') ? true : false
+			}
 
 			glob(`${this.folder}/*${slug}.md`, (error, files) => {
 				if (!files.length || error) {
@@ -73,8 +78,12 @@ class Code {
 					const html = Markdown.renderMarkdown(marked.markdown)
 
 					code.slug = slug
-					code.markdown = marked.markdown || ''
-					code.markup = html || ''
+					if (queries.markdown) {
+						code.markdown = marked.markdown || ''
+					}
+					if (queries.markup) {
+						code.markup = html || ''
+					}
 
 					resolve(code)
 				})

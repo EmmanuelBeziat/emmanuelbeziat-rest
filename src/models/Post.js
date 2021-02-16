@@ -59,9 +59,14 @@ class Post {
 	/**
 	 * Send a single post content by its filename
 	 */
-	getPost (param) {
+	getPost (param, options) {
 		return new Promise((resolve, reject) => {
 			const slug = this.sanitize(param)
+
+			const queries = {
+				markup: options.type == undefined ? true : options.type.split(',').includes('markup') ? true : false,
+				markdown: options.type == undefined ? false : options.type.split(',').includes('markdown') ? true : false
+			}
 
 			glob(`${this.folder}/*${slug}.md`, (error, files) => {
 				if (!files.length || error) {
@@ -86,8 +91,12 @@ class Post {
 					post.tags = marked.meta.tags || ['']
 					post.categories = marked.meta.categories || ['non-classe']
 					post.description = marked.meta.description || ''
-					post.markdown = marked.markdown || ''
-					post.markup = html || ''
+					if (queries.markup) {
+						post.markup = html || ''
+					}
+					if (queries.markdown) {
+						post.markdown = marked.markdown || ''
+					}
 
 					resolve(post)
 				})
