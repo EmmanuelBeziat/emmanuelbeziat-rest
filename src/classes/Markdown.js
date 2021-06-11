@@ -29,8 +29,8 @@ class Markdown {
 		const MarkdownItAnchorOptions = {
 			permalink: true,
 			slugify: value => slug(value).toLowerCase(),
-			permalinkClass: 'icon-link post__anchor',
-			permalinkSymbol: ''
+			permalinkClass: 'post__anchor',
+			permalinkSymbol: '🔗'
 		}
 
 		const md = new MarkdownIt(markdownItOptions)
