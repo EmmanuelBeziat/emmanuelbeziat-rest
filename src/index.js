@@ -17,11 +17,11 @@ App.register(favicons, {
 	path: './public/favicons'
 })
 
-App.listen({ port: process.env.PORT || 3000 }, (err, address) => {
-	if (err) {
-		App.log.error(err)
+App.listen({ port: process.env.PORT || 3000, host: '127.0.0.1' })
+	.then(address => {
+		console.log(`Server started on ${address}`)
+	})
+	.catch(error => {
+		console.log(`Error starting server: ${error}`)
 		process.exit(1)
-	}
-
-	App.log.info(`Server started on ${address}`)
-})
+	})
