@@ -27,7 +27,12 @@ class Markdown {
 			allowFullScreen: true
 		}
 		const MarkdownItAnchorOptions = {
-			permalink: true,
+			permalink: MarkdownItAnchor.permalink.linkAfterHeader({
+				style: 'visually-hidden',
+				visuallyHiddenClass: 'post__anchor',
+				placement: 'before',
+				assistiveText: title => `Permalien vers « ${title} »`
+			}),
 			slugify: value => slug(value).toLowerCase(),
 			permalinkClass: 'post__anchor',
 			permalinkSymbol: '🔗'
