@@ -28,7 +28,7 @@ class Markdown {
 		}
 		const MarkdownItAnchorOptions = {
 			permalink: MarkdownItAnchor.permalink.linkInsideHeader({
-				symbol: `<span class="post__anchor>🔗 <span class="sr-only">Permalien</span></span>`,
+				symbol: `<span class="post__anchor">🔗 <span class="sr-only">Permalien</span></span>`,
 				placement: 'before'
 			}),
 			slugify: value => slug(value).toLowerCase()
