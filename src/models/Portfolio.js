@@ -32,7 +32,12 @@ class Portfolio {
 					return
 				}
 
-				files.forEach(file => {
+				if (!files.length) {
+					reject('No files in folder')
+					return
+				}
+
+				files?.forEach(file => {
 					const post = fs.readFileSync(path.resolve(this.folder, file), 'utf8')
 					const marked = metaMarked(post)
 					const html = Markdown.renderMarkdown(marked.markdown)

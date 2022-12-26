@@ -32,7 +32,12 @@ class Code {
 					return
 				}
 
-				files.forEach(file => {
+				if (!files.length) {
+					reject('No files in folder')
+					return
+				}
+
+				files?.forEach(file => {
 					const code = fs.readFileSync(path.resolve(this.folder, file), 'utf8')
 					const marked = metaMarked(code)
 					const html = Markdown.renderMarkdown(marked.markdown)
