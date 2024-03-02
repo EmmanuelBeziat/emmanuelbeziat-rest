@@ -1,15 +1,8 @@
 import Post from '../models/Post.js'
+import MainController from '../classes/MainController.js'
 
-export class PostController {
-	index (req, reply) {
-		Post.getAllPosts()
-			.then(data => reply.send(data))
-			.catch(err => reply.code(404).send(err))
-	}
-
-	single (req, reply) {
-		Post.getPost(req.params.slug, {...req.query})
-			.then(data => reply.send(data))
-			.catch(err => reply.code(404).send(err))
+export class PostController extends MainController {
+	constructor () {
+		super(Post)
 	}
 }
