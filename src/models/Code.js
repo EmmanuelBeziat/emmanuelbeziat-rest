@@ -6,15 +6,6 @@ class Code extends ModelHandler {
 	}
 
 	/**
-	 * slugName
-	 * @param {string} fileName
-	 * @returns string
-	 */
-	slugName (fileName) {
-		return fileName.replace(/\.[^/.]+$/, '')
-	}
-
-	/**
    * Reads the content of a marked file and returns its components
    * @param {Object} marked parsed marked files with metadata
    * @returns {Object}

@@ -24,8 +24,13 @@ class ModelHandler {
 	 * @param {string} fileName
 	 * @returns string
 	 */
-	slugName (fileName) {
-		return fileName.replace(/\.[^/.]+$/, '').slice(11)
+	slugName(fileName) {
+		// Extract the base file name without the extension
+		const baseName = path.basename(fileName, path.extname(fileName))
+		// Remove the date from the start of the filename (format: YYYY-MM-DD-)
+		// and any potential file prefix
+		const cleanedName = baseName.replace(/^\d{4}-\d{2}-\d{2}-/, '').replace(/^code-/, '')
+		return cleanedName
 	}
 
 	/**
