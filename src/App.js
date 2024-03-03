@@ -1,6 +1,9 @@
 import fastify from 'fastify'
 import { Router } from './routes/Routes.js'
 
+/**
+ * Initializes Fastify server with routes
+ */
 class App {
 	constructor () {
 		this.app = fastify()

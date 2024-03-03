@@ -1,22 +1,19 @@
-import fs from 'fs'
-import path from 'path'
-import metaMarked from 'meta-marked'
-import Markdown from '../classes/Markdown.js'
-import FileHandler from '../classes/FileHandler.js'
+import ModelHandler from '../classes/ModelHandler.js'
 
-class Post extends FileHandler {
+class Post extends ModelHandler {
 	constructor () {
 		super(process.env.POSTS)
 	}
 
-  readFileContent(file) {
-    const post = fs.readFileSync(path.resolve(this.folder, file), 'utf8')
-    const marked = metaMarked(post)
-    const html = Markdown.renderMarkdown(marked.markdown)
-
+	/**
+   * Reads the content of a marked file and returns its components
+   * @param {Object} marked parsed marked files with metadata
+   * @returns {Object}
+   */
+  readFileContent (marked) {
     return {
       title: marked.meta.title,
-      slug: this.slugName(file),
+      slug: marked.slug,
       image: marked.meta.image || '',
       date: marked.meta.date || new Date(),
       tags: marked.meta.tags || [''],
@@ -24,7 +21,7 @@ class Post extends FileHandler {
       description: marked.meta.description || '',
       publish: marked.meta.publish === false ? false : true,
       markdown: marked.markdown || '',
-      markup: html || ''
+      markup: marked.html || ''
     }
   }
 }

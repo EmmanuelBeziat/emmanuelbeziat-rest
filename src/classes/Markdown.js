@@ -7,11 +7,15 @@ import MarkdownItAnchor from 'markdown-it-anchor'
 import MarkdownItSmartArrows from 'markdown-it-smartarrows'
 import MarkdownItLazyLoading from 'markdown-it-image-lazy-loading'
 
+// PrismJS components for syntax highlighting
 import 'prismjs/components/prism-php.min.js'
 import 'prismjs/components/prism-markdown.min.js'
 import 'prismjs/components/prism-pug.min.js'
 import 'prismjs/components/prism-markup-templating.min.js'
 
+/**
+ * Markdown class to initialize and render markdown content with plugins
+ */
 class Markdown {
 	constructor () {
 		const markdownItOptions = {
@@ -20,12 +24,14 @@ class Markdown {
 			langPrefix: 'language-',
 			typographer: true
 		}
+
 		const MarkdownItBlockEmbedOptions = {
 			containerClassName: 'video',
 			serviceClassPrefix: 'video--',
 			outputPlayerSize: false,
 			allowFullScreen: true
 		}
+
 		const MarkdownItAnchorOptions = {
 			permalink: MarkdownItAnchor.permalink.linkInsideHeader({
 				symbol: `<span class="post__anchor">🔗 <span class="sr-only">Permalien</span></span>`,
@@ -45,6 +51,11 @@ class Markdown {
 		this.md = md
 	}
 
+	/**
+	 * Renders the given markdown string to HTML
+	 * @param {string} value Markdown string to be rendered
+	 * @returns {string} Rendered HTML string
+	 */
 	renderMarkdown (value) {
 		return this.md.render(value)
 	}

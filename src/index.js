@@ -2,8 +2,10 @@ import App from './App.js'
 import cors from '@fastify/cors'
 import favicons from 'fastify-favicon'
 
+// CORS
 App.register(cors, {
 	origin: (origin, cb) => {
+		// Allow requests from localhost or a specific domain
 		if (/localhost/.test(origin) || 'https://www.emmanuelbeziat.com') {
 			cb(null, true)
 			return
@@ -17,6 +19,7 @@ App.register(favicons, {
 	path: './public/favicons'
 })
 
+// Server start
 App.listen({ port: process.env.PORT || 3000, host: '127.0.0.1' })
 	.then(address => {
 		console.log(`Server started on ${address}`)

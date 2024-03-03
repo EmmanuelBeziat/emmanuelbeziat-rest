@@ -1,10 +1,6 @@
-import fs from 'fs'
-import path from 'path'
-import metaMarked from 'meta-marked'
-import Markdown from '../classes/Markdown.js'
-import FileHandler from '../classes/FileHandler.js'
+import ModelHandler from '../classes/ModelHandler.js'
 
-class Code extends FileHandler {
+class Code extends ModelHandler {
 	constructor () {
 		super(process.env.CODES, 'code-')
 	}
@@ -18,15 +14,16 @@ class Code extends FileHandler {
 		return fileName.replace(/\.[^/.]+$/, '')
 	}
 
-	readFileContent(file) {
-    const code = fs.readFileSync(path.resolve(this.folder, file), 'utf8')
-    const marked = metaMarked(code)
-    const html = Markdown.renderMarkdown(marked.markdown)
-
+	/**
+   * Reads the content of a marked file and returns its components
+   * @param {Object} marked parsed marked files with metadata
+   * @returns {Object}
+   */
+	readFileContent (marked) {
     return {
-      slug: this.slugName(file),
+      slug: marked.slug,
       markdown: marked.markdown || '',
-      markup: html || ''
+      markup: marked.html || ''
     }
   }
 }
