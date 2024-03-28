@@ -1,7 +1,5 @@
 # node-rest
-A NodeJS App that provide a REST API from Markdown files
-
-Using Github actions to run tests.
+A NodeJS App that provide a REST API from Markdown files.
 
 ## .env file
 
