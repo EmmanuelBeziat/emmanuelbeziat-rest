@@ -37,4 +37,8 @@ jspm_packages
 .node_repl_history
 
 .env
+.env.test
+.env.dist
+.env.prod
+.env.local
 dist
