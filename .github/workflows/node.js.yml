@@ -12,10 +12,10 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [20.x]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@main
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
@@ -37,4 +37,3 @@ jobs:
         with:
           webhook_url: ${{ secrets.WEBHOOK_URL }}
           data: '{"text":"CI workflow completed. Tests have been run."}'
-          custom_headers: '{"Content-Type": "application/json"}'
