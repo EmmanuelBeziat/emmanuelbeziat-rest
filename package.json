@@ -1,6 +1,6 @@
 {
   "name": "node-rest",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "A NodeJS App that provide a REST API.",
   "main": "src/index.js",
   "type": "module",
