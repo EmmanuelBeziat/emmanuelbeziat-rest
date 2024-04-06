@@ -155,3 +155,15 @@ describe('404 Routes', () => {
 		expect(response.statusCode).toBe(404)
 	})
 })
+
+describe('RSS Route', () => {
+	let response
+
+	beforeAll(async () => {
+		response = await App.inject({ method: 'GET', url: '/rss/blog.xml' })
+	})
+
+	it('responds with status code 200 for the RSS feed', () => {
+		expect(response.statusCode).toBe(200)
+	})
+})

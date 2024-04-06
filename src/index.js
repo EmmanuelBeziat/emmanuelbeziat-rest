@@ -16,7 +16,8 @@ App.register(cors, {
 })
 
 App.register(favicons, {
-	path: './public/favicons'
+	path: './public/favicons',
+	name: 'favicon.ico'
 })
 
 // Server start

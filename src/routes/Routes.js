@@ -1,4 +1,4 @@
-import { HomeController, PostController, CodeController, PortfolioController } from '../controllers/index.js'
+import { HomeController, PostController, CodeController, PortfolioController, RssController } from '../controllers/index.js'
 
 /**
  * Defines application routes and their corresponding controllers.
@@ -10,6 +10,7 @@ export class Router {
 		this.post = new PostController()
 		this.code = new CodeController()
 		this.portfolio = new PortfolioController()
+		this.rss = new RssController()
 	}
 
 	/**
@@ -32,5 +33,6 @@ export class Router {
 		app.get(`${this.apiURL}codes/:slug`, opts, (req, reply) => { this.code.single(req, reply) })
 		app.get(`${this.apiURL}portfolio`, (req, reply) => this.portfolio.index(req, reply))
 		app.get(`${this.apiURL}portfolio/:slug`, opts, (req, reply) => { this.portfolio.single(req, reply) })
+		app.get(`${this.apiURL}rss/blog.xml`, (req, reply) => { this.rss.serve(req, reply) })
 	}
 }

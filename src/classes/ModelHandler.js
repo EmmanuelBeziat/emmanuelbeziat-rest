@@ -14,7 +14,7 @@ class ModelHandler {
    * @param {string} folder The folder containing the files.
    * @param {string} filePrefix The prefix for file names.
    */
-  constructor(folder, filePrefix) {
+  constructor (folder, filePrefix) {
     this.folder = folder
     this.filePrefix = filePrefix
   }
@@ -24,7 +24,7 @@ class ModelHandler {
 	 * @param {string} fileName
 	 * @returns string
 	 */
-	slugName(fileName) {
+	slugName (fileName) {
 		// Extract the base file name without the extension
 		const baseName = path.basename(fileName, path.extname(fileName))
 		// Remove the date from the start of the filename (format: YYYY-MM-DD-)
@@ -65,7 +65,7 @@ class ModelHandler {
    * @param {string} param The parameter to sanitize and use for file retrieval.
    * @returns {Promise<Object>} A promise that resolves with the content of the file.
    */
-  async getFile (param,) {
+  async getFile (param) {
     const slug = this.sanitize(param)
 
     try {
