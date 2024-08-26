@@ -53,7 +53,7 @@ class ModelHandler {
         if (error) reject('No folder found.')
         if (!files.length) reject('No files in folder')
 
-        Promise.all(files.map(file =>  this.getFileContent(file)))
+        Promise.all(files.map(file => this.getFileContent(file)))
 					.then(fileContents => { resolve(fileContents) })
 					.catch(reject)
       })
