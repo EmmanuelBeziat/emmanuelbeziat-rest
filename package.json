@@ -37,7 +37,7 @@
     "fastify-favicon": "^4.3.0",
     "glob": "^11.0.0",
     "markdown-it": "^14.1.0",
-    "markdown-it-anchor": "^9.0.1",
+    "markdown-it-anchor": "^9.1.0",
     "markdown-it-attrs": "^4.2.0",
     "markdown-it-block-embed": "^0.0.3",
     "markdown-it-image-lazy-loading": "^2.0.1",
@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
-    "@babel/preset-env": "^7.25.3",
+    "@babel/preset-env": "^7.25.4",
     "cross-env": "^7.0.3",
     "jest": "^29.7.0",
     "supertest": "^7.0.0"
