@@ -1,6 +1,6 @@
 # ![Emmanuel Béziat Logo](public/favicons/favicon-32x32.png) emmanuelbeziat-rest :: Emmanuel Béziat
 
-🪝A NodeJS App that provide a REST API from Markdown files.
+🎲 A NodeJS App that provide a very simple REST API (just GET) from markdown files.
 
 ![Built with](https://img.shields.io/badge/built_with-fastify-blue.svg?style=flat) ![Built With](https://img.shields.io/badge/built_with-nunjucks-green.svg?style=flat
 )

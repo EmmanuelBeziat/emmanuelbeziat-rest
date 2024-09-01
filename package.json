@@ -1,7 +1,7 @@
 {
   "name": "node-rest",
   "version": "3.2.0",
-  "description": "🪝 A NodeJS App that provide a REST API.",
+  "description": "🎲 A NodeJS App that provide a very simple REST API (just GET) from markdown files.",
   "main": "src/index.js",
   "type": "module",
   "scripts": {
