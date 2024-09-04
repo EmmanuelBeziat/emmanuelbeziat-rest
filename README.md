@@ -34,7 +34,6 @@ CODES="<folder path>"
 PORTFOLIO="<folder path>"
 ```
 
-
 ## Usage
 
 - **Start the application in development mode:**
