@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "npm run dev",
+		"setup": "node setup.js",
     "dev": "node --watch -r dotenv/config src/index.js",
     "prod": "nodemon -r dotenv/config src/index.js",
     "deploy": "pm2 start src/index.js --name 'emmanuelb-rest' --node-args='-r dotenv/config' || pm2 reload emmanuelb-rest --update-env",
