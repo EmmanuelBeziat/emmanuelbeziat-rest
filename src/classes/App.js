@@ -1,5 +1,5 @@
 import fastify from 'fastify'
-import { Router } from './routes/Routes.js'
+import { Router } from '../routes/Routes.js'
 
 /**
  * Initializes Fastify server with routes

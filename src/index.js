@@ -1,31 +1,48 @@
-import App from './App.js'
+import App from './classes/App.js'
 import cors from '@fastify/cors'
 import favicons from 'fastify-favicon'
+import { config } from './config.js'
 
-// CORS
-App.register(cors, {
-	origin: (origin, cb) => {
-		// Allow requests from localhost or a specific domain
-		if (/localhost/.test(origin) || 'https://www.emmanuelbeziat.com') {
-			cb(null, true)
-			return
-		}
+/**
+ * Initializes the server with necessary plugins and configurations
+ */
+class Server {
+	constructor () {
+		this.app = App
 
-		cb(new Error('Not allowed'))
+		this.setupPlugins()
 	}
-})
 
-App.register(favicons, {
-	path: './public/favicons',
-	name: 'favicon.ico'
-})
+	setupPlugins () {
+		this.setupCors()
+		this.setupFavicons()
+	}
 
-// Server start
-App.listen({ port: process.env.PORT || 3000, host: '127.0.0.1' })
-	.then(address => {
-		console.log(`Server started on ${address}`)
-	})
-	.catch(error => {
-		console.log(`Error starting server: ${error}`)
-		process.exit(1)
-	})
+	setupCors () {
+		this.app.register(cors, config.cors)
+	}
+
+	setupFavicons () {
+		this.app.register(favicons, {
+			root: config.paths.public,
+			name: 'favicon.ico'
+		})
+	}
+
+	/**
+   * Starts the server on the specified host and port
+   */
+	async start () {
+		try {
+			const address = await this.app.listen({ port: config.port, host: config.host })
+			console.log(`Server started on ${address}`)
+		}
+		catch (error) {
+			console.error(`Error starting server: ${error}`)
+			process.exit(1)
+		}
+	}
+}
+
+const server = new Server()
+server.start()
