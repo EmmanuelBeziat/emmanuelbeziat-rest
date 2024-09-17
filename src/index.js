@@ -1,6 +1,6 @@
 import App from './classes/App.js'
 import cors from '@fastify/cors'
-import favicons from 'fastify-favicon'
+// import favicons from 'fastify-favicon'
 import { config } from './config.js'
 
 /**
@@ -23,9 +23,12 @@ class Server {
 	}
 
 	setupFavicons () {
-		this.app.register(favicons, {
+		/* this.app.register(favicons, {
 			root: config.paths.public,
 			name: 'favicon.ico'
+		}) */
+		this.app.get('/favicon.ico', (request, reply) => {
+			reply.sendFile('favicons/favicon.ico')
 		})
 	}
 
