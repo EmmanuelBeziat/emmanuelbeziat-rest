@@ -1,5 +1,3 @@
-import App from '../src/App.js'
-
 describe('Environment Variables', () => {
   it('should have PORT defined', () => {
     expect(process.env.PORT).toBeDefined()

@@ -1,4 +1,4 @@
-import App from '../src/App.js'
+import App from '../src/classes/App.js'
 
 describe('Home Route', () => {
 	let response, responseBody
