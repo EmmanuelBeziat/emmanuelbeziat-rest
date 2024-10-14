@@ -10,10 +10,7 @@
     "dev": "node --watch -r dotenv/config src/index.js",
     "prod": "nodemon -r dotenv/config src/index.js",
     "deploy": "pm2 start src/index.js --name 'emmanuelb-rest' --node-args='-r dotenv/config' || pm2 reload emmanuelb-rest --update-env",
-    "test": "bunx vitest --run",
-    "test:jest": "cross-env NODE_ENV=test node -r dotenv/config node_modules/jest/bin/jest.js",
-    "test:routes": "cross-env NODE_ENV=test node -r dotenv/config node_modules/jest/bin/jest.js tests/Routes.test.js",
-    "test:env": "cross-env NODE_ENV=test node -r dotenv/config node_modules/jest/bin/jest.js tests/Environment.test.js"
+    "test": "bun vitest --run"
   },
   "repository": {
     "type": "git",
