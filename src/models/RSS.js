@@ -3,7 +3,7 @@ import path from 'path'
 
 class RSS {
 	constructor () {
-		this.folder = process.env.VITE_RSS
+		this.folder = process.env.RSS
 	}
 
 	serveRSS () {

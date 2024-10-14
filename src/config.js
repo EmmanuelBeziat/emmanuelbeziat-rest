@@ -5,8 +5,8 @@ import { fileURLToPath } from 'url'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export const config = {
-	host: process.env.VITE_HOST || '127.0.0.1',
-	port: process.env.VITE_PORT || 3000,
+	host: process.env.HOST || '127.0.0.1',
+	port: process.env.PORT || 3000,
 	paths: {
 		// Path to the public directory
     public: path.resolve(__dirname, '../public'),

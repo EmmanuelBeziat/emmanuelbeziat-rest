@@ -1,10 +1,9 @@
 import App from '../src/classes/App.js'
-import { describe, it, expect, beforeEach } from 'vitest'
 
 describe('Home Route', () => {
 	let response, responseBody
 
-	beforeEach(async () => {
+	beforeAll(async () => {
 		response = await App.inject({ method: 'GET', url: '/' })
 		responseBody = JSON.parse(response.body)
 	})
@@ -21,7 +20,7 @@ describe('Home Route', () => {
 describe('Posts Route', () => {
 	let response, responseBody
 
-	beforeEach(async () => {
+	beforeAll(async () => {
 		response = await App.inject({ method: 'GET', url: '/posts' })
 		responseBody = JSON.parse(response.body)
 	})
@@ -46,7 +45,7 @@ describe('Posts Route', () => {
 describe('Posts Single Item Route', () => {
 	let response, responseBody
 
-	beforeEach(async () => {
+	beforeAll(async () => {
 		response = await App.inject({ method: 'GET', url: '/posts/les-unites-css' })
 		responseBody = JSON.parse(response.body)
 	})
@@ -65,7 +64,7 @@ describe('Posts Single Item Route', () => {
 describe('Portfolio Route', () => {
 	let response, responseBody
 
-	beforeEach(async () => {
+	beforeAll(async () => {
 		response = await App.inject({ method: 'GET', url: '/portfolio' })
 		responseBody = JSON.parse(response.body)
 	})
@@ -90,7 +89,7 @@ describe('Portfolio Route', () => {
 describe('Portfolio Single Item Route', () => {
 	let response, responseBody
 
-	beforeEach(async () => {
+	beforeAll(async () => {
 		response = await App.inject({ method: 'GET', url: '/portfolio/hit-the-road' })
 		responseBody = JSON.parse(response.body)
 	})
@@ -109,7 +108,7 @@ describe('Portfolio Single Item Route', () => {
 describe('Codes Route', () => {
 	let response, responseBody
 
-	beforeEach(async () => {
+	beforeAll(async () => {
 		response = await App.inject({ method: 'GET', url: '/codes' })
 		responseBody = JSON.parse(response.body)
 	})
@@ -126,7 +125,7 @@ describe('Codes Route', () => {
 describe('Codes Single Item Route', () => {
 	let response
 
-	beforeEach(async () => {
+	beforeAll(async () => {
 		response = await App.inject({ method: 'GET', url: '/codes/css' })
 	})
 
@@ -160,7 +159,7 @@ describe('404 Routes', () => {
 describe('RSS Route', () => {
 	let response
 
-	beforeEach(async () => {
+	beforeAll(async () => {
 		response = await App.inject({ method: 'GET', url: '/rss/blog.xml' })
 	})
 

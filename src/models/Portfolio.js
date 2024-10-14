@@ -2,7 +2,7 @@ import ModelHandler from '../classes/ModelHandler.js'
 
 class Portfolio extends ModelHandler {
 	constructor () {
-		super(process.env.VITE_PORTFOLIO)
+		super(process.env.PORTFOLIO)
 	}
 
 	/**
