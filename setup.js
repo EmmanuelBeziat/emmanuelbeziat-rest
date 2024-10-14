@@ -3,14 +3,13 @@ import inquirer from 'inquirer'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
-import dotenv from 'dotenv'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-async function createEnvFile() {
-	if (fs.existsSync(envPath)) {
-    console.log('.env file already exists. Skipping creation.')
+async function createEnvFile (fileName = '.env') {
+	if (fs.existsSync(fileName)) {
+    console.log(`${fileName} file already exists. Skipping creation.`)
     return
   }
 
@@ -28,5 +27,12 @@ async function createEnvFile() {
 
   const responses = await inquirer.prompt(questions)
   const envContent = Object.entries(responses).map(([key, value]) => `${key}=${value}`).join('\n')
-  fs.writeFileSync('.env', envContent)
+  fs.writeFileSync(fileName, envContent)
 }
+
+async function setup () {
+  await createEnvFile()
+  console.log('Setup completed.')
+}
+
+setup()

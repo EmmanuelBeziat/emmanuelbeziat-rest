@@ -26,12 +26,13 @@ npm i
 ## .env file example
 
 ```env
-PORT=<port>
-HOST=<host>
-LOGGER=<bool>
-POSTS="<folder path>"
-CODES="<folder path>"
-PORTFOLIO="<folder path>"
+VITE_PORT=<port>
+VITE_HOST=<host>
+VITE_POSTS="<folder path>"
+VITE_CODES="<folder path>"
+VITE_PORTFOLIO="<folder path>"
+VITE_RSS="<rss.xml path>"
+
 ```
 
 ## Usage

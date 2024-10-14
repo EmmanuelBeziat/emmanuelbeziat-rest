@@ -6,11 +6,12 @@
   "type": "module",
   "scripts": {
     "start": "npm run dev",
-    "setup": "npm i && node setup.js",
+    "setup": "bun i && node setup.js",
     "dev": "node --watch -r dotenv/config src/index.js",
     "prod": "nodemon -r dotenv/config src/index.js",
     "deploy": "pm2 start src/index.js --name 'emmanuelb-rest' --node-args='-r dotenv/config' || pm2 reload emmanuelb-rest --update-env",
-    "test": "cross-env NODE_ENV=test node -r dotenv/config node_modules/jest/bin/jest.js",
+    "test": "bunx vitest --run",
+    "test:jest": "cross-env NODE_ENV=test node -r dotenv/config node_modules/jest/bin/jest.js",
     "test:routes": "cross-env NODE_ENV=test node -r dotenv/config node_modules/jest/bin/jest.js tests/Routes.test.js",
     "test:env": "cross-env NODE_ENV=test node -r dotenv/config node_modules/jest/bin/jest.js tests/Environment.test.js"
   },
@@ -49,10 +50,11 @@
     "slug": "^9.1.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.25.7",
-    "@babel/preset-env": "^7.25.7",
+    "@babel/core": "^7.25.8",
+    "@babel/preset-env": "^7.25.8",
     "cross-env": "^7.0.3",
-    "jest": "^29.7.0",
-    "supertest": "^7.0.0"
+    "inquirer": "^12.0.0",
+    "supertest": "^7.0.0",
+    "vitest": "^2.1.3"
   }
 }

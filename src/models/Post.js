@@ -2,7 +2,7 @@ import ModelHandler from '../classes/ModelHandler.js'
 
 class Post extends ModelHandler {
 	constructor () {
-		super(process.env.POSTS)
+		super(process.env.VITE_POSTS)
 	}
 
 	/**

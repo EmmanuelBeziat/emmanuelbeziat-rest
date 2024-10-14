@@ -2,7 +2,7 @@ import ModelHandler from '../classes/ModelHandler.js'
 
 class Code extends ModelHandler {
 	constructor () {
-		super(process.env.CODES, 'code-')
+		super(process.env.VITE_CODES, 'code-')
 	}
 
 	/**
