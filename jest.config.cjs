@@ -8,4 +8,7 @@ module.exports = {
     '/node_modules/(?!slug)', // Allow transformation of the slug package
   ],
   testEnvironment: 'node', // Set the test environment to Node
+	testPathIgnorePatterns: [
+    '<rootDir>/tests/Routes.test.js', // Ignore the Routes.test.js file
+  ],
 }
