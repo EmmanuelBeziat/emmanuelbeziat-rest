@@ -1,4 +1,5 @@
 import App from '../src/classes/App.js'
+import { describe, it, expect, beforeAll } from 'vitest'
 
 describe('Home Route', () => {
 	let response, responseBody
