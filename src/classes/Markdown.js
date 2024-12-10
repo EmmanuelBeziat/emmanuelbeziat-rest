@@ -25,14 +25,14 @@ class Markdown {
 			typographer: true
 		}
 
-		const MarkdownItBlockEmbedOptions = {
+		const blockEmbedOptions = {
 			containerClassName: 'video',
 			serviceClassPrefix: 'video--',
 			outputPlayerSize: false,
 			allowFullScreen: true
 		}
 
-		const MarkdownItAnchorOptions = {
+		const anchorOptions = {
 			permalink: MarkdownItAnchor.permalink.linkInsideHeader({
 				symbol: `<span class="anchor">🔗 <span class="visually-hidden">Permalien</span></span>`,
 				placement: 'before'
@@ -41,12 +41,12 @@ class Markdown {
 		}
 
 		const md = new MarkdownIt(markdownItOptions)
-		md.use(MarkdownItAttrs)
-		md.use(MarkdownItLazyLoading)
-		md.use(MarkdownItBlockEmbed, MarkdownItBlockEmbedOptions)
-		md.use(MarkdownItAnchor, MarkdownItAnchorOptions)
-		md.use(MarkdownItPrism)
-		md.use(MarkdownItSmartArrows)
+			.use(MarkdownItAttrs)
+			.use(MarkdownItLazyLoading)
+			.use(MarkdownItBlockEmbed, blockEmbedOptions)
+			.use(MarkdownItAnchor, anchorOptions)
+			.use(MarkdownItPrism)
+			.use(MarkdownItSmartArrows)
 
 		this.md = md
 	}
