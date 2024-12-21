@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/EmmanuelBeziat/node-rest#readme",
   "dependencies": {
-    "@braintree/sanitize-url": "^7.1.0",
+    "@braintree/sanitize-url": "^7.1.1",
     "@fastify/cors": "^10.0.1",
     "@fastify/static": "^8.0.3",
     "dotenv": "^16.4.7",
@@ -50,7 +50,7 @@
     "@babel/core": "^7.26.0",
     "@babel/preset-env": "^7.26.0",
     "cross-env": "^7.0.3",
-    "inquirer": "^12.2.0",
+    "inquirer": "^12.3.0",
     "supertest": "^7.0.0",
     "vitest": "^2.1.8"
   }
