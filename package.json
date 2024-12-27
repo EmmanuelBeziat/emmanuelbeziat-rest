@@ -38,7 +38,7 @@
     "glob": "^11.0.0",
     "markdown-it": "^14.1.0",
     "markdown-it-anchor": "^9.2.0",
-    "markdown-it-attrs": "^4.3.0",
+    "markdown-it-attrs": "^4.3.1",
     "markdown-it-block-embed": "^0.0.3",
     "markdown-it-image-lazy-loading": "^2.0.1",
     "markdown-it-prism": "^2.2.1",
