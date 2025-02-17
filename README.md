@@ -1,4 +1,4 @@
-# ![Emmanuel Béziat Logo](public/favicons/favicon-32x32.png) emmanuelbeziat-rest :: Emmanuel Béziat
+# ![Emmanuel Béziat Logo](public/favicons/favicon-96x96.png) emmanuelbeziat-rest :: Emmanuel Béziat
 
 🎲 A NodeJS App that provide a very simple REST API (just GET) from markdown files.
 
