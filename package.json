@@ -52,6 +52,6 @@
     "cross-env": "^7.0.3",
     "inquirer": "^12.5.0",
     "supertest": "^7.0.0",
-    "vitest": "^3.0.8"
+    "vitest": "^3.0.9"
   }
 }
