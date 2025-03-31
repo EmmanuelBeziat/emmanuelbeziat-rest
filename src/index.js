@@ -30,8 +30,8 @@ class Server {
 	}
 
 	/**
-   * Starts the server on the specified host and port
-   */
+	 * Starts the server on the specified host and port
+	 */
 	async start () {
 		try {
 			const address = await this.app.listen({ port: config.port, host: config.host })

@@ -6,17 +6,17 @@ class Code extends ModelHandler {
 	}
 
 	/**
-   * Reads the content of a marked file and returns its components
-   * @param {Object} marked parsed marked files with metadata
-   * @returns {Object}
-   */
+	 * Reads the content of a marked file and returns its components
+	 * @param {Object} marked parsed marked files with metadata
+	 * @returns {Object}
+	 */
 	readFileContent (marked) {
-    return {
-      slug: marked.slug,
-      markdown: marked.markdown || '',
-      markup: marked.html || ''
-    }
-  }
+		return {
+			slug: marked.slug,
+			markdown: marked.markdown || '',
+			markup: marked.html || ''
+		}
+	}
 }
 
 export default new Code()

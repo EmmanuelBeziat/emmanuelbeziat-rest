@@ -9,10 +9,10 @@ export const config = {
 	port: process.env.PORT || 3000,
 	paths: {
 		// Path to the public directory
-    public: path.resolve(__dirname, '../public'),
+		public: path.resolve(__dirname, '../public'),
 
 		// Path to the favicons directory within the public folder
-    favicons: path.resolve(__dirname, '../public/favicons')
+		favicons: path.resolve(__dirname, '../public/favicons')
 	},
 	cors: {
 		origin: (origin, cb) => {

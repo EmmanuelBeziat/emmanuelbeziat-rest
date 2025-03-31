@@ -6,15 +6,15 @@ class Portfolio extends ModelHandler {
 	}
 
 	/**
-   * Reads the content of a marked file and returns its components
-   * @param {Object} marked parsed marked files with metadata
-   * @returns {Object}
-   */
+	 * Reads the content of a marked file and returns its components
+	 * @param {Object} marked parsed marked files with metadata
+	 * @returns {Object}
+	 */
 	readFileContent (marked) {
-    return {
-      title: marked.meta.title,
-      slug: marked.slug,
-      image: marked.meta.image || '',
+		return {
+			title: marked.meta.title,
+			slug: marked.slug,
+			image: marked.meta.image || '',
 			date: marked.meta.date || new Date(),
 			tags: marked.meta.tags || [''],
 			color: marked.meta.color || '',
@@ -23,8 +23,8 @@ class Portfolio extends ModelHandler {
 			description: marked.meta.description || '',
 			markdown: marked.markdown || '',
 			markup: marked.html || ''
-    }
-  }
+		}
+	}
 }
 
 export default new Portfolio()
