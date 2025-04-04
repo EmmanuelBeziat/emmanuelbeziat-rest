@@ -41,7 +41,7 @@
     "markdown-it-attrs": "^4.3.1",
     "markdown-it-block-embed": "^0.0.3",
     "markdown-it-image-lazy-loading": "^2.0.1",
-    "markdown-it-prism": "^2.3.1",
+    "markdown-it-prism": "^3.0.0",
     "markdown-it-smartarrows": "^1.0.1",
     "meta-marked": "^0.5.0",
     "slug": "^10.0.0"
@@ -50,8 +50,8 @@
     "@babel/core": "^7.26.10",
     "@babel/preset-env": "^7.26.9",
     "cross-env": "^7.0.3",
-    "inquirer": "^12.5.0",
+    "inquirer": "^12.5.2",
     "supertest": "^7.1.0",
-    "vitest": "^3.0.9"
+    "vitest": "^3.1.1"
   }
 }
