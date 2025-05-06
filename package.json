@@ -11,6 +11,7 @@
     "prod": "nodemon -r dotenv/config src/index.js",
     "deploy": "pm2 start src/index.js --name 'emmanuelb-rest' --node-args='-r dotenv/config' || pm2 reload emmanuelb-rest --update-env",
     "test": "vitest --run",
+		"lint": "npx eslint src",
     "prepare": "husky"
   },
 	"lint-staged": {
