@@ -17,7 +17,7 @@ export const config = {
 	cors: {
 		origin: (origin, cb) => {
 			// Allow requests from localhost or a specific domain
-			if (/localhost/.test(origin) || 'https://www.emmanuelbeziat.com') {
+			if (/localhost/.test(origin) || origin === process.env.CORS_ORIGIN) {
 				cb(null, true)
 				return
 			}

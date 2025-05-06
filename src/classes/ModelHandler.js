@@ -78,7 +78,7 @@ class ModelHandler {
 			return await this.getFileContent(files[0])
 		}
 		catch (error) {
-			throw new Error('No data found.')
+			throw new Error(`No data found. ${error.message}`)
 		}
 	}
 
@@ -107,7 +107,7 @@ class ModelHandler {
 	 * @param {Object} marked The parsed markdown file content.
 	 * @throws {Error} Throw an error if the method is not overrided within a subclass.
 	 */
-	readFileContent (marked) {
+	readFileContent (_marked) {
 		throw new Error('Not implemented.')
 	}
 }
