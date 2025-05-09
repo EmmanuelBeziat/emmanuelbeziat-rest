@@ -60,6 +60,7 @@
     "cross-env": "^7.0.3",
     "eslint": "^9.26.0",
     "globals": "^16.1.0",
+    "husky": "^9.1.7",
     "inquirer": "^12.6.0",
     "lint-staged": "^15.5.2",
     "supertest": "^7.1.0",
