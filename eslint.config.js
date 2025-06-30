@@ -9,7 +9,10 @@ export default defineConfig([
 		extends: ["js/recommended"],
 		rules: {
 			'no-tabs': 'off',
-			'brace-style': 'off',
+			'brace-style': [
+				'error',
+				'stroustrup'
+			],
 			'comma-dangle': [
 				'error',
 				'only-multiline'

@@ -1,36 +1,22 @@
-import fs from 'fs'
-import path from 'path'
-import { glob } from 'glob'
 import { sanitizeUrl } from '@braintree/sanitize-url'
-import metaMarked from 'meta-marked'
-import Markdown from './Markdown.js'
+import MarkdownContentService from '../services/MarkdownContentService.js'
 
 /**
- * Default model
+ * Default model using a cached content service.
  */
 class ModelHandler {
 	/**
-	 * Constructs the FileHandler with a specified folder and file prefix.
+	 * Constructs the ModelHandler with a specified folder.
 	 * @param {string} folder The folder containing the files.
-	 * @param {string} filePrefix The prefix for file names.
 	 */
-	constructor (folder, filePrefix) {
+	constructor (folder) {
 		this.folder = folder
-		this.filePrefix = filePrefix
-	}
-
-	/**
-	 * slugName
-	 * @param {string} fileName
-	 * @returns string
-	 */
-	slugName (fileName) {
-		// Extract the base file name without the extension
-		const baseName = path.basename(fileName, path.extname(fileName))
-		// Remove the date from the start of the filename (format: YYYY-MM-DD-)
-		// and any potential file prefix
-		const cleanedName = baseName.replace(/^\d{4}-\d{2}-\d{2}-/, '').replace(/^code-/, '')
-		return cleanedName
+		this.service = new MarkdownContentService(folder, this.readFileContent.bind(this))
+		this.service.initialize().catch(error => {
+			console.error(`Failed to initialize model for ${folder}:`, error)
+			// Depending on the desired behavior, you might want to exit the process
+			// process.exit(1)
+		})
 	}
 
 	/**
@@ -43,72 +29,57 @@ class ModelHandler {
 	}
 
 	/**
-	 * Retrieves all files from the folder, reads their content, and returns it.
+	 * Retrieves all content from the cache.
 	 * @returns {Promise<Array>} A promise that resolves with the content of all files.
 	 */
 	getAllFiles () {
 		return new Promise((resolve, reject) => {
-			fs.readdir(path.resolve(this.folder), 'utf8', (error, files) => {
-
-				if (error) reject('No folder found.')
-				if (!files.length) reject('No files in folder')
-
-				Promise.all(files.map(file => this.getFileContent(file)))
-					.then(fileContents => { resolve(fileContents) })
-					.catch(reject)
-			})
+			const allContent = this.service.getAll()
+			if (!allContent.length) {
+				// This might happen if initialization is not complete or the folder is empty.
+				// We'll wait a bit and retry once, in case initialization is in progress.
+				setTimeout(() => {
+					const allContentRetry = this.service.getAll()
+					if (!allContentRetry.length) {
+						reject(new Error('No content found.'))
+					}
+					else {
+						resolve(allContentRetry)
+					}
+				}, 500)
+			}
+			else {
+				resolve(allContent)
+			}
 		})
 	}
 
 	/**
-	 * Retrieves a file based on a sanitized parameter and returns its content.
-	 * @param {string} param The parameter to sanitize and use for file retrieval.
+	 * Retrieves a file from the cache based on its slug.
+	 * @param {string} param The slug to search for.
 	 * @returns {Promise<Object>} A promise that resolves with the content of the file.
 	 */
-	async getFile (param) {
-		const slug = this.sanitize(param)
-
-		try {
-			const files = await glob(`${this.folder}/*${slug}.md`)
-
-			if (!files.length) {
-				throw new Error('No data found.')
-			}
-
-			return await this.getFileContent(files[0])
-		}
-		catch (error) {
-			throw new Error(`No data found. ${error.message}`)
-		}
-	}
-
-	/**
-	 * Reads the content of a file, parses it, and returns the parsed content.
-	 * @param {string} fileName The name of the file to read.
-	 * @returns {Promise<Object>} A promise that resolves with the parsed content of the file.
-	 */
-	getFileContent (fileName) {
+	getFile (param) {
 		return new Promise((resolve, reject) => {
-			fs.readFile(path.resolve(this.folder, fileName), 'utf8', (error, file) => {
-				if (error) reject(error)
+			const slug = this.sanitize(param)
+			const content = this.service.findBySlug(slug)
 
-				const marked = metaMarked(file)
-				marked.slug = this.slugName(fileName)
-				marked.markdown = marked.markdown || ''
-				marked.html = Markdown.renderMarkdown(marked.markdown) || ''
-
-				resolve(this.readFileContent(marked))
-			})
+			if (content) {
+				resolve(content)
+			}
+			else {
+				reject(new Error('No data found.'))
+			}
 		})
 	}
 
 	/**
 	 * Placeholder for processing the read file content. Should be implemented by subclasses.
 	 * @param {Object} marked The parsed markdown file content.
-	 * @throws {Error} Throw an error if the method is not overrided within a subclass.
+	 * @throws {Error} Throw an error if the method is not implemented in a subclass.
 	 */
 	readFileContent (_marked) {
-		throw new Error('Not implemented.')
+		throw new Error('readFileContent must be implemented in a subclass.')
 	}
 }
 
