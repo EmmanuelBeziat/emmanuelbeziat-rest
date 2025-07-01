@@ -5,9 +5,9 @@ import { config } from 'dotenv'
 config({ path: '.env' })
 
 export default defineConfig({
-  test: {
-    globals: true,
-    environment: 'node',
-    include: ['tests/**/*.test.js'],
-  },
+	test: {
+		globals: true,
+		environment: 'node',
+		include: ['tests/**/*.test.{js,ts}'],
+	},
 })

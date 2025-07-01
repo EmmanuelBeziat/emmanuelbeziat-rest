@@ -1,4 +1,4 @@
-import fastify from 'fastify'
+import fastify, { FastifyInstance } from 'fastify'
 import cors from '@fastify/cors'
 import favicons from 'fastify-favicon'
 import { config } from '../config.js'
@@ -11,6 +11,8 @@ import mainRoutes from '../routes/main.js'
  * Initializes and configures the Fastify application.
  */
 class App {
+	public app: FastifyInstance
+
 	constructor () {
 		this.app = fastify()
 		this.configure()
@@ -20,7 +22,7 @@ class App {
 		// Register core plugins
 		this.app.register(cors, config.cors)
 		this.app.register(favicons, {
-			root: config.paths.public,
+			path: config.paths.favicons,
 			name: 'favicon.ico'
 		})
 

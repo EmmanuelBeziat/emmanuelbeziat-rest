@@ -1,0 +1,5 @@
+declare module 'markdown-it-block-embed'
+declare module 'markdown-it-smartarrows'
+declare module 'markdown-it-image-lazy-loading'
+declare module 'markdown-it-prism'
+declare module 'meta-marked'

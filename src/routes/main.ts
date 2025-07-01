@@ -1,17 +1,18 @@
+import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify'
 import RSS from '../models/RSS.js'
 
 /**
  * Encapsulates the core routes of the application, like home and RSS.
- * @param {import('fastify').FastifyInstance} fastify - The Fastify instance.
+ * @param {FastifyInstance} fastify - The Fastify instance.
  */
-async function mainRoutes (fastify) {
+async function mainRoutes (fastify: FastifyInstance) {
 	// Home route
-	fastify.get('/', async (_request, reply) => {
+	fastify.get('/', async (_request: FastifyRequest, reply: FastifyReply) => {
 		reply.send([{ hello: 'world' }])
 	})
 
 	// RSS feed route
-	fastify.get('/rss/blog.xml', async (_request, reply) => {
+	fastify.get('/rss/blog.xml', async (_request: FastifyRequest, reply: FastifyReply) => {
 		try {
 			const rssModel = new RSS()
 			const rssData = await rssModel.serveRSS()

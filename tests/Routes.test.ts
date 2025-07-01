@@ -1,8 +1,9 @@
 import App from '../src/classes/App.js'
 import { describe, it, expect, beforeAll } from 'vitest'
+import { LightMyRequestResponse } from 'fastify'
 
 describe('Home Route', () => {
-	let response, responseBody
+	let response: LightMyRequestResponse, responseBody: any
 
 	beforeAll(async () => {
 		response = await App.inject({ method: 'GET', url: '/' })
@@ -19,7 +20,7 @@ describe('Home Route', () => {
 })
 
 describe('Posts Route', () => {
-	let response, responseBody
+	let response: LightMyRequestResponse, responseBody: any
 
 	beforeAll(async () => {
 		response = await App.inject({ method: 'GET', url: '/posts' })
@@ -35,7 +36,7 @@ describe('Posts Route', () => {
 	})
 
 	it('each item in the array has a title', () => {
-		responseBody.forEach(item => {
+		responseBody.forEach((item: any) => {
 			expect(item).toHaveProperty('title')
 			expect(typeof item.title).toBe('string')
 			expect(item.title).not.toBe('')
@@ -44,7 +45,7 @@ describe('Posts Route', () => {
 })
 
 describe('Posts Single Item Route', () => {
-	let response, responseBody
+	let response: LightMyRequestResponse, responseBody: any
 
 	beforeAll(async () => {
 		response = await App.inject({ method: 'GET', url: '/posts/les-unites-css' })
@@ -63,7 +64,7 @@ describe('Posts Single Item Route', () => {
 })
 
 describe('Portfolio Route', () => {
-	let response, responseBody
+	let response: LightMyRequestResponse, responseBody: any
 
 	beforeAll(async () => {
 		response = await App.inject({ method: 'GET', url: '/portfolio' })
@@ -79,7 +80,7 @@ describe('Portfolio Route', () => {
 	})
 
 	it('each item in the array has a title', () => {
-		responseBody.forEach(item => {
+		responseBody.forEach((item: any) => {
 			expect(item).toHaveProperty('title')
 			expect(typeof item.title).toBe('string')
 			expect(item.title).not.toBe('')
@@ -88,7 +89,7 @@ describe('Portfolio Route', () => {
 })
 
 describe('Portfolio Single Item Route', () => {
-	let response, responseBody
+	let response: LightMyRequestResponse, responseBody: any
 
 	beforeAll(async () => {
 		response = await App.inject({ method: 'GET', url: '/portfolio/hit-the-road' })
@@ -107,7 +108,7 @@ describe('Portfolio Single Item Route', () => {
 })
 
 describe('Codes Route', () => {
-	let response, responseBody
+	let response: LightMyRequestResponse, responseBody: any
 
 	beforeAll(async () => {
 		response = await App.inject({ method: 'GET', url: '/codes' })
@@ -124,7 +125,7 @@ describe('Codes Route', () => {
 })
 
 describe('Codes Single Item Route', () => {
-	let response
+	let response: LightMyRequestResponse
 
 	beforeAll(async () => {
 		response = await App.inject({ method: 'GET', url: '/codes/css' })
@@ -158,7 +159,7 @@ describe('404 Routes', () => {
 })
 
 describe('RSS Route', () => {
-	let response
+	let response: LightMyRequestResponse
 
 	beforeAll(async () => {
 		response = await App.inject({ method: 'GET', url: '/rss/blog.xml' })

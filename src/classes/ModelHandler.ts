@@ -1,15 +1,19 @@
 import { sanitizeUrl } from '@braintree/sanitize-url'
 import MarkdownContentService from '../services/MarkdownContentService.js'
+import { MarkedFile } from '../types.js'
 
 /**
  * Default model using a cached content service.
  */
 class ModelHandler {
+	protected folder: string
+	protected service: MarkdownContentService
+
 	/**
 	 * Constructs the ModelHandler with a specified folder.
 	 * @param {string} folder The folder containing the files.
 	 */
-	constructor (folder) {
+	constructor (folder: string) {
 		this.folder = folder
 		this.service = new MarkdownContentService(folder, this.readFileContent.bind(this))
 		this.service.initialize().catch(error => {
@@ -24,7 +28,7 @@ class ModelHandler {
 	 * @param {string} string The string to sanitize.
 	 * @returns {string} The sanitized string.
 	 */
-	sanitize (string) {
+	sanitize (string: string): string {
 		return sanitizeUrl(string)
 	}
 
@@ -32,7 +36,7 @@ class ModelHandler {
 	 * Retrieves all content from the cache.
 	 * @returns {Promise<Array>} A promise that resolves with the content of all files.
 	 */
-	getAllFiles () {
+	getAllFiles (): Promise<any[]> {
 		return new Promise((resolve, reject) => {
 			const allContent = this.service.getAll()
 			if (!allContent.length) {
@@ -59,7 +63,7 @@ class ModelHandler {
 	 * @param {string} param The slug to search for.
 	 * @returns {Promise<Object>} A promise that resolves with the content of the file.
 	 */
-	getFile (param) {
+	getFile (param: string): Promise<any> {
 		return new Promise((resolve, reject) => {
 			const slug = this.sanitize(param)
 			const content = this.service.findBySlug(slug)
@@ -75,10 +79,10 @@ class ModelHandler {
 
 	/**
 	 * Placeholder for processing the read file content. Should be implemented by subclasses.
-	 * @param {Object} marked The parsed markdown file content.
+	 * @param {MarkedFile} marked The parsed markdown file content.
 	 * @throws {Error} Throw an error if the method is not implemented in a subclass.
 	 */
-	readFileContent (_marked) {
+	readFileContent (_marked: MarkedFile): any {
 		throw new Error('readFileContent must be implemented in a subclass.')
 	}
 }

@@ -2,15 +2,16 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 import fs from 'fs/promises'
 import { glob } from 'glob'
 import MarkdownContentService from '../src/services/MarkdownContentService.js'
+import { MarkedFile } from '../src/types.js'
 
 // Mock modules at the top level
 vi.mock('fs/promises')
 vi.mock('glob')
 
 describe('MarkdownContentService', () => {
-	let service
+	let service: MarkdownContentService
 	const mockContentPath = '/fake/path'
-	const mockDataShapeFn = (marked) => ({
+	const mockDataShapeFn = (marked: MarkedFile) => ({
 		slug: marked.slug,
 		title: marked.meta.title,
 		content: marked.html
@@ -23,19 +24,19 @@ describe('MarkdownContentService', () => {
 	})
 
 	it('should throw an error if no content path is provided', () => {
-		expect(() => new MarkdownContentService(null, mockDataShapeFn)).toThrow('A content path must be provided.')
+		expect(() => new MarkdownContentService(null as any, mockDataShapeFn)).toThrow('A content path must be provided.')
 	})
 
 	it('should throw an error if no data shaping function is provided', () => {
-		expect(() => new MarkdownContentService(mockContentPath, null)).toThrow('A data shaping function must be provided.')
+		expect(() => new MarkdownContentService(mockContentPath, null as any)).toThrow('A data shaping function must be provided.')
 	})
 
 	it('should initialize correctly with markdown files', async () => {
 		const mockFileContent = '---\ntitle: Test Post\n---\nHello World'
 		const mockGlobResult = [`${mockContentPath}/2024-01-01-test-post.md`]
 
-		glob.mockResolvedValue(mockGlobResult)
-		fs.readFile.mockResolvedValue(mockFileContent)
+		vi.mocked(glob).mockResolvedValue(mockGlobResult)
+		vi.mocked(fs.readFile).mockResolvedValue(mockFileContent)
 
 		await service.initialize()
 
@@ -48,7 +49,7 @@ describe('MarkdownContentService', () => {
 	})
 
 	it('should handle initialization with no files found', async () => {
-		glob.mockResolvedValue([])
+		vi.mocked(glob).mockResolvedValue([])
 		const consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
 
 		await service.initialize()
@@ -64,9 +65,9 @@ describe('MarkdownContentService', () => {
 			`${mockContentPath}/2024-01-01-post-one.md`,
 			`${mockContentPath}/2024-01-02-post-two.md`
 		]
-		glob.mockResolvedValue(mockGlobResult)
+		vi.mocked(glob).mockResolvedValue(mockGlobResult)
 
-		fs.readFile
+		vi.mocked(fs.readFile)
 			.mockResolvedValueOnce('---\ntitle: Post One\n---\nContent One')
 			.mockResolvedValueOnce('---\ntitle: Post Two\n---\nContent Two')
 
@@ -81,8 +82,8 @@ describe('MarkdownContentService', () => {
 	})
 
 	it('should not re-initialize if already initialized', async () => {
-		glob.mockResolvedValue([`${mockContentPath}/2024-01-01-post-one.md`])
-		fs.readFile.mockResolvedValue('---\ntitle: Post One\n---\nContent One')
+		vi.mocked(glob).mockResolvedValue([`${mockContentPath}/2024-01-01-post-one.md`])
+		vi.mocked(fs.readFile).mockResolvedValue('---\ntitle: Post One\n---\nContent One')
 		const consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {})
 
 		await service.initialize() // First initialization

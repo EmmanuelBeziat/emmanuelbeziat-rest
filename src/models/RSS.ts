@@ -1,12 +1,14 @@
-import fs from 'fs'
-import path from 'path'
+import * as fs from 'fs'
+import * as path from 'path'
 
 class RSS {
+	private folder: string
+
 	constructor () {
-		this.folder = process.env.RSS
+		this.folder = process.env.RSS as string
 	}
 
-	serveRSS () {
+	serveRSS (): Promise<string> {
 		return new Promise((resolve, reject) => {
 			fs.readFile(path.resolve(this.folder), 'utf8', (error, file) => {
 				if (error) reject(error)

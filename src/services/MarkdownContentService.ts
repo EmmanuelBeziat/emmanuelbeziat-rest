@@ -3,20 +3,23 @@ import path from 'path'
 import { glob } from 'glob'
 import metaMarked from 'meta-marked'
 import Markdown from '../classes/Markdown.js'
+import { MarkedFile } from '../types.js'
 
 /**
  * A caching service to read, parse, and store markdown content from the filesystem.
  * Content is loaded once at startup to avoid filesystem access on every request.
  */
 class MarkdownContentService {
-	#content = new Map()
-	#isInitialized = false
+	private content: Map<string, any> = new Map()
+	private isInitialized = false
+	private contentPath: string
+	private dataShapeFn: (marked: MarkedFile) => any
 
 	/**
 	 * @param {string} contentPath The path to the directory containing markdown files.
 	 * @param {Function} dataShapeFn A function to shape the parsed markdown data.
 	 */
-	constructor (contentPath, dataShapeFn) {
+	constructor (contentPath: string, dataShapeFn: (marked: MarkedFile) => any) {
 		if (!contentPath) {
 			throw new Error('A content path must be provided.')
 		}
@@ -31,8 +34,8 @@ class MarkdownContentService {
 	 * Initializes the cache by reading and parsing all markdown files.
 	 * This method should be called once at application startup.
 	 */
-	async initialize () {
-		if (this.#isInitialized) {
+	async initialize (): Promise<void> {
+		if (this.isInitialized) {
 			console.log(`Content from ${this.contentPath} is already initialized.`)
 			return
 		}
@@ -44,15 +47,15 @@ class MarkdownContentService {
 				return
 			}
 
-			const allContent = await Promise.all(files.map(file => this.#processFile(file)))
-			allContent.forEach(item => {
+			const allContent = await Promise.all(files.map(file => this.processFile(file)))
+			allContent.forEach((item: any) => {
 				if (item && item.slug) {
-					this.#content.set(item.slug, item)
+					this.content.set(item.slug, item)
 				}
 			})
 
-			this.#isInitialized = true
-			console.log(`Successfully initialized ${this.#content.size} items from ${this.contentPath}`)
+			this.isInitialized = true
+			console.log(`Successfully initialized ${this.content.size} items from ${this.contentPath}`)
 		}
 		catch (error) {
 			console.error(`Failed to initialize content from ${this.contentPath}:`, error)
@@ -65,10 +68,10 @@ class MarkdownContentService {
 	 * @param {string} filePath The full path to the file.
 	 * @returns {Promise<Object|null>}
 	 */
-	async #processFile (filePath) {
-		try {
-			const fileContent = await fs.readFile(filePath, 'utf8')
-			const marked = metaMarked(fileContent)
+	private async processFile (filePath: string): Promise<any | null> {
+	 try {
+	 	const fileContent = await fs.readFile(filePath, 'utf8')
+			const marked = metaMarked(fileContent) as MarkedFile
 
 			// Extract the base file name without the extension to create a slug
 			const baseName = path.basename(filePath, path.extname(filePath))
@@ -89,8 +92,8 @@ class MarkdownContentService {
 	 * Retrieves all content from the cache.
 	 * @returns {Array<Object>}
 	 */
-	getAll () {
-		return Array.from(this.#content.values())
+	getAll (): any[] {
+	 return Array.from(this.content.values())
 	}
 
 	/**
@@ -98,8 +101,8 @@ class MarkdownContentService {
 	 * @param {string} slug
 	 * @returns {Object | undefined}
 	 */
-	findBySlug (slug) {
-		return this.#content.get(slug)
+	findBySlug (slug: string): any | undefined {
+	 return this.content.get(slug)
 	}
 }
 
