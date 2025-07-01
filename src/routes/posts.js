@@ -8,7 +8,8 @@ async function postRoutes (fastify) {
 	fastify.get('/posts', async (_request, reply) => {
 		try {
 			const data = await Post.getAllFiles()
-			reply.send(data.reverse())
+			const sortedData = data.sort((a, b) => new Date(b.date) - new Date(a.date))
+			reply.send(sortedData)
 		}
 		catch (err) {
 			reply.code(404).send(err)
