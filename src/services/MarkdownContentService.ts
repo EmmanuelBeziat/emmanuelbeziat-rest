@@ -69,8 +69,8 @@ class MarkdownContentService {
 	 * @returns {Promise<Object|null>}
 	 */
 	private async processFile (filePath: string): Promise<any | null> {
-	 try {
-	 	const fileContent = await fs.readFile(filePath, 'utf8')
+		try {
+			const fileContent = await fs.readFile(filePath, 'utf8')
 			const marked = metaMarked(fileContent) as MarkedFile
 
 			// Extract the base file name without the extension to create a slug
@@ -93,7 +93,7 @@ class MarkdownContentService {
 	 * @returns {Array<Object>}
 	 */
 	getAll (): any[] {
-	 return Array.from(this.content.values())
+		return Array.from(this.content.values())
 	}
 
 	/**
@@ -102,7 +102,7 @@ class MarkdownContentService {
 	 * @returns {Object | undefined}
 	 */
 	findBySlug (slug: string): any | undefined {
-	 return this.content.get(slug)
+		return this.content.get(slug)
 	}
 }
 
