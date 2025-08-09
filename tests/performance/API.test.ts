@@ -2,8 +2,19 @@ import { describe, it, expect, beforeAll } from 'vitest'
 import App from '../../src/classes/App.js'
 
 describe('API Performance', () => {
-	// Définir un seuil de temps de réponse acceptable (en ms)
-	const RESPONSE_TIME_THRESHOLD = 200
+    // Définir un seuil de temps de réponse acceptable (en ms)
+    const RESPONSE_TIME_THRESHOLD = Number(process.env.RESPONSE_TIME_THRESHOLD || 200)
+
+    // S'assurer que l'app est prête et réaliser un warmup avant les mesures
+    beforeAll(async () => {
+        await App.ready()
+        await Promise.all([
+            App.inject({ method: 'GET', url: '/' }),
+            App.inject({ method: 'GET', url: '/posts' }),
+            App.inject({ method: 'GET', url: '/portfolio' }),
+            App.inject({ method: 'GET', url: '/codes' }),
+        ])
+    })
 
 	// Fonction utilitaire pour mesurer le temps de réponse
 	async function measureResponseTime(url: string): Promise<number> {
