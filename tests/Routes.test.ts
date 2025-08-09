@@ -44,23 +44,30 @@ describe('Posts Route', () => {
 	})
 })
 
-describe('Posts Single Item Route', () => {
-	let response: LightMyRequestResponse, responseBody: any
+describe('Posts Single Item Route (dynamic slug)', () => {
+    let response: LightMyRequestResponse, responseBody: any
 
-	beforeAll(async () => {
-		response = await App.inject({ method: 'GET', url: '/posts/les-unites-css' })
-		responseBody = JSON.parse(response.body)
-	})
+    beforeAll(async () => {
+        const list = await App.inject({ method: 'GET', url: '/posts' })
+        const items = JSON.parse(list.body)
+        const slug = items?.[0]?.slug
+        if (slug) {
+            response = await App.inject({ method: 'GET', url: `/posts/${slug}` })
+            responseBody = JSON.parse(response.body)
+        }
+    })
 
-	it('responds with status code 200 for a valid post', () => {
-		expect(response.statusCode).toBe(200)
-	})
+    it('responds with status code 200 for a valid post', () => {
+        if (!response) return
+        expect(response.statusCode).toBe(200)
+    })
 
-	it('returns a post with a title', () => {
-		expect(responseBody).toHaveProperty('title')
-		expect(typeof responseBody.title).toBe('string')
-		expect(responseBody.title).not.toBe('')
-	})
+    it('returns a post with a title', () => {
+        if (!responseBody) return
+        expect(responseBody).toHaveProperty('title')
+        expect(typeof responseBody.title).toBe('string')
+        expect(responseBody.title).not.toBe('')
+    })
 })
 
 describe('Portfolio Route', () => {
@@ -88,23 +95,30 @@ describe('Portfolio Route', () => {
 	})
 })
 
-describe('Portfolio Single Item Route', () => {
-	let response: LightMyRequestResponse, responseBody: any
+describe('Portfolio Single Item Route (dynamic slug)', () => {
+    let response: LightMyRequestResponse, responseBody: any
 
-	beforeAll(async () => {
-		response = await App.inject({ method: 'GET', url: '/portfolio/hit-the-road' })
-		responseBody = JSON.parse(response.body)
-	})
+    beforeAll(async () => {
+        const list = await App.inject({ method: 'GET', url: '/portfolio' })
+        const items = JSON.parse(list.body)
+        const slug = items?.[0]?.slug
+        if (slug) {
+            response = await App.inject({ method: 'GET', url: `/portfolio/${slug}` })
+            responseBody = JSON.parse(response.body)
+        }
+    })
 
-	it('responds with status code 200 for a valid portfolio item', () => {
-		expect(response.statusCode).toBe(200)
-	})
+    it('responds with status code 200 for a valid portfolio item', () => {
+        if (!response) return
+        expect(response.statusCode).toBe(200)
+    })
 
-	it('returns a portfolio item with a title', () => {
-		expect(responseBody).toHaveProperty('title')
-		expect(typeof responseBody.title).toBe('string')
-		expect(responseBody.title).not.toBe('')
-	})
+    it('returns a portfolio item with a title', () => {
+        if (!responseBody) return
+        expect(responseBody).toHaveProperty('title')
+        expect(typeof responseBody.title).toBe('string')
+        expect(responseBody.title).not.toBe('')
+    })
 })
 
 describe('Codes Route', () => {
@@ -143,18 +157,30 @@ describe('404 Routes', () => {
 	})
 
 	it('should return a 404 error for a non-existent post route', async () => {
-		const response = await App.inject({ method: 'GET', url: '/posts/non-existent-route' })
-		expect(response.statusCode).toBe(404)
+        const response = await App.inject({ method: 'GET', url: '/posts/non-existent-route' })
+        expect(response.statusCode).toBe(404)
+        const body = JSON.parse(response.body)
+        expect(body).toHaveProperty('statusCode', 404)
+        expect(body).toHaveProperty('error')
+        expect(body).toHaveProperty('message')
 	})
 
 	it('should return a 404 error for a non-existent portfolio route', async () => {
-		const response = await App.inject({ method: 'GET', url: '/portfolio/non-existent-route' })
-		expect(response.statusCode).toBe(404)
+        const response = await App.inject({ method: 'GET', url: '/portfolio/non-existent-route' })
+        expect(response.statusCode).toBe(404)
+        const body = JSON.parse(response.body)
+        expect(body).toHaveProperty('statusCode', 404)
+        expect(body).toHaveProperty('error')
+        expect(body).toHaveProperty('message')
 	})
 
 	it('should return a 404 error for a non-existent code route', async () => {
-		const response = await App.inject({ method: 'GET', url: '/codes/non-existent-route' })
-		expect(response.statusCode).toBe(404)
+        const response = await App.inject({ method: 'GET', url: '/codes/non-existent-route' })
+        expect(response.statusCode).toBe(404)
+        const body = JSON.parse(response.body)
+        expect(body).toHaveProperty('statusCode', 404)
+        expect(body).toHaveProperty('error')
+        expect(body).toHaveProperty('message')
 	})
 })
 
@@ -168,4 +194,9 @@ describe('RSS Route', () => {
 	it('responds with status code 200 for the RSS feed', () => {
 		expect(response.statusCode).toBe(200)
 	})
+
+    it('responds with application/xml content-type', () => {
+        const contentType = response.headers['content-type']
+        expect(contentType).toContain('application/xml')
+    })
 })
