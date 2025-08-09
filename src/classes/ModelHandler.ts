@@ -24,6 +24,13 @@ class ModelHandler {
 	}
 
 	/**
+	 * Exposes initialization so the application can deterministically await cache readiness
+	 */
+	async initialize (): Promise<void> {
+		return this.service.initialize()
+	}
+
+	/**
 	 * Sanitizes a string to prevent XSS attacks.
 	 * @param {string} string The string to sanitize.
 	 * @returns {string} The sanitized string.
@@ -40,17 +47,7 @@ class ModelHandler {
 		return new Promise((resolve, reject) => {
 			const allContent = this.service.getAll()
 			if (!allContent.length) {
-				// This might happen if initialization is not complete or the folder is empty.
-				// We'll wait a bit and retry once, in case initialization is in progress.
-				setTimeout(() => {
-					const allContentRetry = this.service.getAll()
-					if (!allContentRetry.length) {
-						reject(new Error('No content found.'))
-					}
-					else {
-						resolve(allContentRetry)
-					}
-				}, 500)
+				reject(new Error('No content found.'))
 			}
 			else {
 				resolve(allContent)
