@@ -38,11 +38,11 @@
   "homepage": "https://github.com/EmmanuelBeziat/node-rest#readme",
   "dependencies": {
     "@braintree/sanitize-url": "^7.1.1",
-    "@fastify/static": "^8.3.0",
+    "@fastify/static": "^9.0.0",
     "dotenv": "^17.2.3",
     "fastify": "^5.6.2",
     "fastify-favicon": "^5.0.0",
-    "glob": "^11.1.0",
+    "glob": "^13.0.0",
     "markdown-it": "^14.1.0",
     "markdown-it-anchor": "^9.2.0",
     "markdown-it-attrs": "^4.3.1",
@@ -56,22 +56,22 @@
   "devDependencies": {
     "@babel/core": "^7.28.5",
     "@babel/preset-env": "^7.28.5",
-    "@eslint/js": "^9.39.1",
-    "@fastify/cors": "^11.1.0",
+    "@eslint/js": "^9.39.2",
+    "@fastify/cors": "^11.2.0",
     "@types/markdown-it": "^14.1.2",
     "@types/markdown-it-anchor": "^7.0.0",
     "@types/markdown-it-attrs": "^4.1.3",
-    "@types/node": "^24.10.1",
+    "@types/node": "^25.0.3",
     "@types/slug": "^5.0.9",
     "cross-env": "^10.1.0",
-    "eslint": "^9.39.1",
+    "eslint": "^9.39.2",
     "globals": "^16.5.0",
     "husky": "^9.1.7",
-    "inquirer": "^13.0.2",
+    "inquirer": "^13.1.0",
     "lint-staged": "^16.2.7",
     "supertest": "^7.1.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
-    "vitest": "^4.0.15"
+    "vitest": "^4.0.16"
   }
 }
