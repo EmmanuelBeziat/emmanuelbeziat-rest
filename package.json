@@ -43,7 +43,7 @@
     "fastify": "^5.7.4",
     "fastify-favicon": "^5.0.0",
     "glob": "^13.0.0",
-    "markdown-it": "^14.1.0",
+    "markdown-it": "^14.1.1",
     "markdown-it-anchor": "^9.2.0",
     "markdown-it-attrs": "^4.3.1",
     "markdown-it-block-embed": "^0.0.3",
