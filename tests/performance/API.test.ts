@@ -26,37 +26,27 @@ describe('API Performance', () => {
 
 	it('should respond to / within acceptable time', async () => {
 		const responseTime = await measureResponseTime('/')
-
 		expect(responseTime).toBeLessThan(RESPONSE_TIME_THRESHOLD)
-		console.log(`Home route response time: ${responseTime.toFixed(2)}ms`)
 	})
 
 	it('should respond to /posts within acceptable time', async () => {
 		const responseTime = await measureResponseTime('/posts')
-
 		expect(responseTime).toBeLessThan(RESPONSE_TIME_THRESHOLD)
-		console.log(`Posts route response time: ${responseTime.toFixed(2)}ms`)
 	})
 
 	it('should respond to /portfolio within acceptable time', async () => {
 		const responseTime = await measureResponseTime('/portfolio')
-
 		expect(responseTime).toBeLessThan(RESPONSE_TIME_THRESHOLD)
-		console.log(`Portfolio route response time: ${responseTime.toFixed(2)}ms`)
 	})
 
 	it('should respond to /codes within acceptable time', async () => {
 		const responseTime = await measureResponseTime('/codes')
-
 		expect(responseTime).toBeLessThan(RESPONSE_TIME_THRESHOLD)
-		console.log(`Codes route response time: ${responseTime.toFixed(2)}ms`)
 	})
 
 	it('should respond to single post within acceptable time', async () => {
 		const responseTime = await measureResponseTime('/posts/les-unites-css')
-
 		expect(responseTime).toBeLessThan(RESPONSE_TIME_THRESHOLD)
-		console.log(`Single post route response time: ${responseTime.toFixed(2)}ms`)
 	})
 
 	it('handles multiple concurrent requests efficiently', async () => {
@@ -82,7 +72,6 @@ describe('API Performance', () => {
 		// Le temps total devrait être inférieur à 10 fois le temps d'une seule requête
 		// grâce à la mise en cache et au traitement parallèle
 		expect(totalTime).toBeLessThan(RESPONSE_TIME_THRESHOLD * 5)
-		console.log(`10 concurrent requests total time: ${totalTime.toFixed(2)}ms`)
 	})
 
 	it('maintains performance under repeated requests', async () => {
@@ -105,8 +94,5 @@ describe('API Performance', () => {
 		// La dernière requête devrait être dans une fourchette raisonnable de la première
 		// Permettre une variation de 50% pour tenir compte des fluctuations de performance
 		expect(times[times.length - 1]).toBeLessThanOrEqual(times[0] * 1.5)
-
-		console.log(`Average response time over ${iterations} requests: ${averageTime.toFixed(2)}ms`)
-		console.log(`First request: ${times[0].toFixed(2)}ms, Last request: ${times[times.length - 1].toFixed(2)}ms`)
 	})
 })

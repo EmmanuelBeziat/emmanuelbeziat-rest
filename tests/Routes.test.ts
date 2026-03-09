@@ -184,6 +184,23 @@ describe('404 Routes', () => {
 	})
 })
 
+describe('Unsupported HTTP Methods', () => {
+	it('should return 404 for POST on /posts', async () => {
+		const response = await App.inject({ method: 'POST', url: '/posts' })
+		expect(response.statusCode).toBe(404)
+	})
+
+	it('should return 404 for PUT on /portfolio', async () => {
+		const response = await App.inject({ method: 'PUT', url: '/portfolio' })
+		expect(response.statusCode).toBe(404)
+	})
+
+	it('should return 404 for DELETE on /codes', async () => {
+		const response = await App.inject({ method: 'DELETE', url: '/codes' })
+		expect(response.statusCode).toBe(404)
+	})
+})
+
 describe('RSS Route', () => {
 	let response: LightMyRequestResponse
 

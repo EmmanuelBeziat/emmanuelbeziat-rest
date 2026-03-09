@@ -36,7 +36,6 @@ class MarkdownContentService {
 	 */
 	async initialize (): Promise<void> {
 		if (this.isInitialized) {
-			console.log(`Content from ${this.contentPath} is already initialized.`)
 			return
 		}
 
@@ -55,7 +54,6 @@ class MarkdownContentService {
 			})
 
 			this.isInitialized = true
-			console.log(`Successfully initialized ${this.content.size} items from ${this.contentPath}`)
 		}
 		catch (error) {
 			console.error(`Failed to initialize content from ${this.contentPath}:`, error)

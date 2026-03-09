@@ -16,4 +16,8 @@ describe('Environment Variables', () => {
 	test('should have Portfolio environment path defined', () => {
 		expect(process.env.PORTFOLIO).toBeDefined()
 	})
+
+	test('should have RSS environment path defined', () => {
+		expect(process.env.RSS).toBeDefined()
+	})
 })
