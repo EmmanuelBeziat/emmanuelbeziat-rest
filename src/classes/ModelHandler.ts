@@ -16,11 +16,6 @@ class ModelHandler {
 	constructor (folder: string) {
 		this.folder = folder
 		this.service = new MarkdownContentService(folder, this.readFileContent.bind(this))
-		this.service.initialize().catch(error => {
-			console.error(`Failed to initialize model for ${folder}:`, error)
-			// Depending on the desired behavior, you might want to exit the process
-			// process.exit(1)
-		})
 	}
 
 	/**
@@ -43,16 +38,12 @@ class ModelHandler {
 	 * Retrieves all content from the cache.
 	 * @returns {Promise<Array>} A promise that resolves with the content of all files.
 	 */
-	getAllFiles (): Promise<any[]> {
-		return new Promise((resolve, reject) => {
-			const allContent = this.service.getAll()
-			if (!allContent.length) {
-				reject(new Error('No content found.'))
-			}
-			else {
-				resolve(allContent)
-			}
-		})
+	async getAllFiles (): Promise<any[]> {
+		const allContent = this.service.getAll()
+		if (!allContent.length) {
+			throw new Error('No content found.')
+		}
+		return allContent
 	}
 
 	/**
@@ -60,18 +51,13 @@ class ModelHandler {
 	 * @param {string} param The slug to search for.
 	 * @returns {Promise<Object>} A promise that resolves with the content of the file.
 	 */
-	getFile (param: string): Promise<any> {
-		return new Promise((resolve, reject) => {
-			const slug = this.sanitize(param)
-			const content = this.service.findBySlug(slug)
-
-			if (content) {
-				resolve(content)
-			}
-			else {
-				reject(new Error('No data found.'))
-			}
-		})
+	async getFile (param: string): Promise<any> {
+		const slug = this.sanitize(param)
+		const content = this.service.findBySlug(slug)
+		if (!content) {
+			throw new Error('No data found.')
+		}
+		return content
 	}
 
 	/**

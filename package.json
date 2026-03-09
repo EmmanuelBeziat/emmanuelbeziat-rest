@@ -16,7 +16,7 @@
     "prepare": "husky"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,cjs,mjs}": [
+    "src/**/*.{js,jsx,cjs,mjs,ts,tsx}": [
       "npx eslint"
     ]
   },
@@ -38,6 +38,7 @@
   "homepage": "https://github.com/EmmanuelBeziat/node-rest#readme",
   "dependencies": {
     "@braintree/sanitize-url": "^7.1.2",
+    "@fastify/cors": "^11.2.0",
     "@fastify/static": "^9.0.0",
     "dotenv": "^17.2.3",
     "fastify": "^5.8.2",
@@ -57,7 +58,6 @@
     "@babel/core": "^7.29.0",
     "@babel/preset-env": "^7.29.0",
     "@eslint/js": "^9.39.2",
-    "@fastify/cors": "^11.2.0",
     "@types/markdown-it": "^14.1.2",
     "@types/markdown-it-anchor": "^7.0.0",
     "@types/markdown-it-attrs": "^4.1.3",

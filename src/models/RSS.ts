@@ -1,4 +1,4 @@
-import * as fs from 'fs'
+import fs from 'fs/promises'
 import * as path from 'path'
 
 class RSS {
@@ -8,14 +8,8 @@ class RSS {
 		this.folder = process.env.RSS as string
 	}
 
-	serveRSS (): Promise<string> {
-		return new Promise((resolve, reject) => {
-			fs.readFile(path.resolve(this.folder), 'utf8', (error, file) => {
-				if (error) reject(error)
-
-				resolve(file)
-			})
-		})
+	async serveRSS (): Promise<string> {
+		return fs.readFile(path.resolve(this.folder), 'utf8')
 	}
 }
 

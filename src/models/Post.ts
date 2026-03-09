@@ -20,7 +20,7 @@ class Post extends ModelHandler {
 			tags: marked.meta.tags || [''],
 			categories: marked.meta.categories || ['non-classe'],
 			description: marked.meta.description || '',
-			publish: marked.meta.publish === false ? false : true,
+			publish: marked.meta.publish !== false,
 			markdown: marked.markdown || '',
 			markup: marked.html || ''
 		}

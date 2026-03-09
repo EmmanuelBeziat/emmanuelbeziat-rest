@@ -75,7 +75,7 @@ class MarkdownContentService {
 
 			// Extract the base file name without the extension to create a slug
 			const baseName = path.basename(filePath, path.extname(filePath))
-			marked.slug = baseName.replace(/^\d{4}-\d{2}-\d{2}-/, '').replace(/^code-/, '')
+			marked.slug = baseName.replace(/^\d{4}-\d{2}-\d{2}-/, '')
 
 			marked.markdown = marked.markdown || ''
 			marked.html = Markdown.renderMarkdown(marked.markdown) || ''

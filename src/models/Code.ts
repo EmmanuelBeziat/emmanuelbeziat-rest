@@ -13,7 +13,7 @@ class Code extends ModelHandler {
 	 */
 	readFileContent (marked: MarkedFile) {
 		return {
-			slug: marked.slug,
+			slug: marked.slug.replace(/^code-/, ''),
 			markdown: marked.markdown || '',
 			markup: marked.html || ''
 		}

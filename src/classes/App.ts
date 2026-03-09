@@ -49,14 +49,15 @@ class App {
 
 		// Global error handler
 		this.app.setErrorHandler((error, _request, reply) => {
-			const status = (error as any).statusCode || (reply.statusCode >= 400 ? reply.statusCode : 500)
+			const err = error as any
+			const status = err.statusCode || (reply.statusCode >= 400 ? reply.statusCode : 500)
 			reply
 				.code(status)
 				.type('application/json')
 				.send({
 					statusCode: status,
 					error: status === 500 ? 'Internal Server Error' : 'Error',
-					message: error.message
+					message: err.message || 'An error occurred'
 				})
 		})
 
