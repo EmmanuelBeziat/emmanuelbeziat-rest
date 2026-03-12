@@ -14,17 +14,7 @@ export default defineConfig({
       reporter: ['text', 'json', 'html'],
       exclude: ['**/node_modules/**', '**/dist/**', '**/tests/**']
     },
-    testTimeout: 10000, // Timeout plus long pour les tests d'intégration
-    tags: {
-      integration: {
-        include: ['tests/integration/**/*.test.{js,ts}'],
-        timeout: 15000 // Timeout encore plus long pour les tests d'intégration
-      },
-      performance: {
-        include: ['tests/performance/**/*.test.{js,ts}'],
-        timeout: 20000 // Timeout plus long pour les tests de performance
-      }
-    },
-    mockReset: true, // Réinitialiser les mocks entre les tests
+    testTimeout: 10000,
+    mockReset: true,
   },
 })
