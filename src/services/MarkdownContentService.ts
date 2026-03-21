@@ -1,7 +1,7 @@
 import fs from 'fs/promises'
 import path from 'path'
 import { glob } from 'glob'
-import metaMarked from 'meta-marked'
+import matter from 'gray-matter'
 import Markdown from '../classes/Markdown.js'
 import { MarkedFile } from '../types.js'
 
@@ -69,7 +69,13 @@ class MarkdownContentService {
 	private async processFile (filePath: string): Promise<any | null> {
 		try {
 			const fileContent = await fs.readFile(filePath, 'utf8')
-			const marked = metaMarked(fileContent) as MarkedFile
+			const parsed = matter(fileContent)
+			const marked: MarkedFile = {
+				meta: parsed.data,
+				markdown: parsed.content,
+				slug: '',
+				html: ''
+			}
 
 			// Extract the base file name without the extension to create a slug
 			const baseName = path.basename(filePath, path.extname(filePath))
