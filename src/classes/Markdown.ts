@@ -1,5 +1,5 @@
 import slug from 'slug'
-import MarkdownIt from 'markdown-it';
+import MarkdownIt, { Options as MarkdownItOptions } from 'markdown-it';
 import MarkdownItPrism from 'markdown-it-prism'
 import MarkdownItAttrs from 'markdown-it-attrs'
 import MarkdownItBlockEmbed from 'markdown-it-block-embed'
@@ -20,7 +20,7 @@ class Markdown {
 	private md: MarkdownIt
 
 	constructor () {
-		const markdownItOptions: MarkdownIt.Options = {
+		const markdownItOptions: MarkdownItOptions = {
 			html: true,
 			breaks: true,
 			langPrefix: 'language-',
