@@ -41,7 +41,7 @@
     "@fastify/cors": "^11.2.0",
     "@fastify/static": "^9.0.0",
     "dotenv": "^17.4.1",
-    "fastify": "^5.8.4",
+    "fastify": "^5.8.5",
     "fastify-favicon": "^5.0.0",
     "glob": "^13.0.6",
     "gray-matter": "^4.0.3",
