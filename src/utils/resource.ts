@@ -20,11 +20,17 @@ interface ResourceRoutesOptions<T extends { slug: string }> {
  * route (`/basePath/:slug`).
  */
 export function createResourceRoutes<T extends { slug: string }> ({ basePath, model, itemSchema, transform }: ResourceRoutesOptions<T>) {
+
+	let collection: T[] | null = null
+
 	return async function (fastify: FastifyInstance) {
 		fastify.get(`/${basePath}`, { schema: listSchema(itemSchema) }, async (_request: FastifyRequest, reply: FastifyReply) => {
 			try {
-				const data = await model.getAllFiles()
-				reply.send(transform ? transform(data) : data)
+				if (!collection) {
+					const data = await model.getAllFiles()
+					collection = transform ? transform(data) : data
+				}
+				reply.send(collection)
 			}
 			catch (err) {
 				sendError(reply, err)

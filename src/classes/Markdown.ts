@@ -1,5 +1,5 @@
 import slug from 'slug'
-import MarkdownIt, { Options as MarkdownItOptions } from 'markdown-it';
+import MarkdownIt, { Options as MarkdownItOptions } from 'markdown-it'
 import MarkdownItPrism from 'markdown-it-prism'
 import MarkdownItAttrs from 'markdown-it-attrs'
 import MarkdownItBlockEmbed from 'markdown-it-block-embed'
@@ -36,7 +36,7 @@ class Markdown {
 
 		const anchorOptions = {
 			permalink: MarkdownItAnchor.permalink.headerLink({
-				symbol: `<span class="anchor">🔗 <span class="visually-hidden">Permalien</span></span>`
+				symbol: '<span class="anchor">🔗 <span class="visually-hidden">Permalien</span></span>'
 			}),
 			slugify: (value: string) => slug(value).toLowerCase()
 		}

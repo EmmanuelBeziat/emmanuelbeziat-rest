@@ -1,4 +1,4 @@
-import fastify, { FastifyInstance } from 'fastify'
+import fastify, { FastifyInstance, FastifyError } from 'fastify'
 import cors from '@fastify/cors'
 import favicons from 'fastify-favicon'
 import { config } from '../config.js'
@@ -48,16 +48,15 @@ class App {
 		})
 
 		// Global error handler
-		this.app.setErrorHandler((error, _request, reply) => {
-			const err = error as any
-			const status = err.statusCode || (reply.statusCode >= 400 ? reply.statusCode : 500)
+		this.app.setErrorHandler((error: FastifyError, _request, reply) => {
+			const status = error.statusCode || (reply.statusCode >= 400 ? reply.statusCode : 500)
 			reply
 				.code(status)
 				.type('application/json')
 				.send({
 					statusCode: status,
 					error: status === 500 ? 'Internal Server Error' : 'Error',
-					message: err.message || 'An error occurred'
+					message: error.message || 'An error occurred'
 				})
 		})
 

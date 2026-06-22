@@ -1,0 +1,11 @@
+# Normalize line endings to LF for all text files on checkout, so the
+# ESLint `linebreak-style: unix` rule holds on every platform (matches .editorconfig).
+* text=auto eol=lf
+
+# Treat binary assets as binary (never normalized).
+*.png binary
+*.ico binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary

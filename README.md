@@ -4,8 +4,7 @@
 
 🎲 A NodeJS App that provide a very simple REST API (just GET) from markdown files.
 
-![Built with](https://img.shields.io/badge/built_with-fastify-blue.svg?style=flat) ![Built With](https://img.shields.io/badge/built_with-nunjucks-green.svg?style=flat
-)
+![Built with](https://img.shields.io/badge/built_with-fastify-blue.svg?style=flat) ![Language](https://img.shields.io/badge/language-typescript-blue.svg?style=flat)
 
 ## What?
 
@@ -21,11 +20,15 @@ git clone git+ssh://git@github.com/EmmanuelBeziat/emmanuelbeziat-rest.git
 # Navigate into project folder
 cd emmanuelbeziat-rest
 
-# Intall dependencies
+# Install dependencies
 npm i
 ```
 
-## .env file example
+## Configuration
+
+The app reads its content from filesystem paths and requires the variables
+below; they are validated at startup. Copy `.env.example` to `.env` and fill
+them in, or run `npm run setup` to generate `.env` interactively.
 
 ```env
 PORT=<port>
@@ -34,7 +37,7 @@ POSTS="<folder path>"
 CODES="<folder path>"
 PORTFOLIO="<folder path>"
 RSS="<rss.xml path>"
-
+CORS_ORIGIN="<allowed origin url>"
 ```
 
 ## Usage
@@ -43,37 +46,37 @@ RSS="<rss.xml path>"
   ```bash
   npm run dev
   ```
-  Launches the application with hot-reloading for development, with changes in real-time with node watch.
+  Compiles the TypeScript sources and runs the app with `node --watch` for hot-reloading.
 
 - **Start the application in production mode:**
   ```bash
   npm run prod
   ```
-  Runs the application in a production environment, optimized for performance and stability, with nodemon.
+  Compiles the sources and runs the compiled app from `dist/`.
+
+- **Build only:**
+  ```bash
+  npm run build
+  ```
+  Compiles `src/` to `dist/` with `tsc`.
 
 - **Deploy the application:**
   ```bash
   npm run deploy
   ```
-  Deploys the application for production using PM2.
+  Deploys for production using PM2.
 
 - **Run tests:**
   ```bash
   npm run test
   ```
-  Run all tests
+  Runs the full test suite once with Vitest. Use `npx vitest <file>` to run or watch a single test file.
 
-- **Run route tests:**
+- **Lint:**
   ```bash
-  npm run test:routes
+  npm run lint
   ```
-  Specifically tests the application's routes to verify that they respond correctly.
-
-- **Run environment tests:**
-  ```bash
-  npm run test:env
-  ```
-	Checks the environment configurations to ensure all necessary variables are set correctly.
+  Lints the TypeScript sources in `src/` with ESLint.
 
 ## License
 
