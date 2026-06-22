@@ -30,17 +30,25 @@ async function postRoutes (fastify: FastifyInstance) {
 			reply.send(sortedData)
 		}
 		catch (err) {
-			reply.code(404).send(err)
+			reply.code(404).send({
+				statusCode: 404,
+				error: 'Not Found',
+				message: err instanceof Error ? err.message : 'Resource not found'
+			})
 		}
 	})
 
-	fastify.get('/posts/:slug', { schema: { params: { type: 'object', properties: { slug: { type: 'string' } }, required: ['slug'] }, response: { 200: PostItemSchema } } }, async (request: FastifyRequest<{ Params: { slug: string } }>, reply: FastifyReply) => {
+	fastify.get('/posts/:slug', { schema: { params: { type: 'object', properties: { slug: { type: 'string', pattern: '^[a-z0-9-]+$' } }, required: ['slug'] }, response: { 200: PostItemSchema } } }, async (request: FastifyRequest<{ Params: { slug: string } }>, reply: FastifyReply) => {
 		try {
 			const data = await Post.getFile(request.params.slug)
 			reply.send(data)
 		}
 		catch (err) {
-			reply.code(404).send(err)
+			reply.code(404).send({
+				statusCode: 404,
+				error: 'Not Found',
+				message: err instanceof Error ? err.message : 'Resource not found'
+			})
 		}
 	})
 }

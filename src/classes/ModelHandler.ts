@@ -1,4 +1,3 @@
-import { sanitizeUrl } from '@braintree/sanitize-url'
 import MarkdownContentService from '../services/MarkdownContentService.js'
 import { MarkedFile } from '../types.js'
 
@@ -26,15 +25,6 @@ class ModelHandler {
 	}
 
 	/**
-	 * Sanitizes a string to prevent XSS attacks.
-	 * @param {string} string The string to sanitize.
-	 * @returns {string} The sanitized string.
-	 */
-	sanitize (string: string): string {
-		return sanitizeUrl(string)
-	}
-
-	/**
 	 * Retrieves all content from the cache.
 	 * @returns {Promise<Array>} A promise that resolves with the content of all files.
 	 */
@@ -48,11 +38,12 @@ class ModelHandler {
 
 	/**
 	 * Retrieves a file from the cache based on its slug.
-	 * @param {string} param The slug to search for.
+	 * Lookup is a Map key access (no filesystem path is built from the input),
+	 * and the slug format is validated at the route layer.
+	 * @param {string} slug The slug to search for.
 	 * @returns {Promise<Object>} A promise that resolves with the content of the file.
 	 */
-	async getFile (param: string): Promise<any> {
-		const slug = this.sanitize(param)
+	async getFile (slug: string): Promise<any> {
 		const content = this.service.findBySlug(slug)
 		if (!content) {
 			throw new Error('No data found.')

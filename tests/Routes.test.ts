@@ -184,6 +184,18 @@ describe('404 Routes', () => {
 	})
 })
 
+describe('Slug Validation', () => {
+	it('rejects a malformed post slug with 400', async () => {
+		const response = await App.inject({ method: 'GET', url: '/posts/Invalid_Slug!' })
+		expect(response.statusCode).toBe(400)
+	})
+
+	it('rejects a malformed code slug with 400', async () => {
+		const response = await App.inject({ method: 'GET', url: '/codes/UPPER_CASE' })
+		expect(response.statusCode).toBe(400)
+	})
+})
+
 describe('Unsupported HTTP Methods', () => {
 	it('should return 404 for POST on /posts', async () => {
 		const response = await App.inject({ method: 'POST', url: '/posts' })

@@ -14,19 +14,6 @@ class TestModel extends ModelHandler {
 }
 
 describe('ModelHandler', () => {
-	describe('sanitize()', () => {
-		it('returns the URL unchanged for a safe string', () => {
-			const model = new TestModel('/tmp')
-			expect(model.sanitize('my-slug')).toBe('my-slug')
-		})
-
-		it('sanitizes a javascript: URL', () => {
-			const model = new TestModel('/tmp')
-			const result = model.sanitize('javascript:alert(1)')
-			expect(result).not.toContain('javascript:')
-		})
-	})
-
 	describe('getAllFiles()', () => {
 		it('throws when the cache is empty', async () => {
 			const model = new TestModel('/non-existent-path-that-has-no-files')

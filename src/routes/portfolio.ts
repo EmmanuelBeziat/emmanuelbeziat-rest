@@ -31,17 +31,25 @@ async function portfolioRoutes (fastify: FastifyInstance) {
 			reply.send(sortedData)
 		}
 		catch (err) {
-			reply.code(404).send(err)
+			reply.code(404).send({
+				statusCode: 404,
+				error: 'Not Found',
+				message: err instanceof Error ? err.message : 'Resource not found'
+			})
 		}
 	})
 
-	fastify.get('/portfolio/:slug', { schema: { params: { type: 'object', properties: { slug: { type: 'string' } }, required: ['slug'] }, response: { 200: PortfolioItemSchema } } }, async (request: FastifyRequest<{ Params: { slug: string } }>, reply: FastifyReply) => {
+	fastify.get('/portfolio/:slug', { schema: { params: { type: 'object', properties: { slug: { type: 'string', pattern: '^[a-z0-9-]+$' } }, required: ['slug'] }, response: { 200: PortfolioItemSchema } } }, async (request: FastifyRequest<{ Params: { slug: string } }>, reply: FastifyReply) => {
 		try {
 			const data = await Portfolio.getFile(request.params.slug)
 			reply.send(data)
 		}
 		catch (err) {
-			reply.code(404).send(err)
+			reply.code(404).send({
+				statusCode: 404,
+				error: 'Not Found',
+				message: err instanceof Error ? err.message : 'Resource not found'
+			})
 		}
 	})
 }

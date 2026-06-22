@@ -42,3 +42,6 @@ jspm_packages
 .env.prod
 .env.local
 dist
+
+# LLM
+CLAUDE.md

@@ -19,7 +19,11 @@ async function mainRoutes (fastify: FastifyInstance) {
 			reply.type('application/xml').send(rssData)
 		}
 		catch (err) {
-			reply.code(404).send(err)
+			reply.code(404).send({
+				statusCode: 404,
+				error: 'Not Found',
+				message: err instanceof Error ? err.message : 'Resource not found'
+			})
 		}
 	})
 }
