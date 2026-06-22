@@ -4,7 +4,7 @@ import { MarkedFile } from '../src/types.js'
 
 // Accéder à la méthode readFileContent pour les tests
 // Note: Ceci est une approche pour tester une méthode d'une instance singleton
-const readFileContent = (Post as any).readFileContent.bind(Post)
+const readFileContent = Post.readFileContent.bind(Post)
 
 describe('Post Model', () => {
 	// Test avec des métadonnées complètes

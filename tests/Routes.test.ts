@@ -20,7 +20,7 @@ describe('Home Route', () => {
 })
 
 describe('Posts Route', () => {
-	let response: LightMyRequestResponse, responseBody: any
+	let response: LightMyRequestResponse, responseBody: any[]
 
 	beforeAll(async () => {
 		response = await App.inject({ method: 'GET', url: '/posts' })
@@ -31,47 +31,46 @@ describe('Posts Route', () => {
 		expect(response.statusCode).toBe(200)
 	})
 
-	it('returns an array', () => {
-		expect(Array.isArray(responseBody)).toBeTruthy()
+	it('returns all fixture posts', () => {
+		expect(Array.isArray(responseBody)).toBe(true)
+		expect(responseBody).toHaveLength(3)
 	})
 
-	it('each item in the array has a title', () => {
-		responseBody.forEach((item: any) => {
-			expect(item).toHaveProperty('title')
-			expect(typeof item.title).toBe('string')
-			expect(item.title).not.toBe('')
-		})
+	it('orders posts by date, most recent first', () => {
+		expect(responseBody.map(post => post.slug)).toEqual(['second-post', 'third-post', 'first-post'])
+	})
+
+	it('strips the date prefix from the slug', () => {
+		responseBody.forEach(post => expect(post.slug).not.toMatch(/^\d{4}-\d{2}-\d{2}-/))
+	})
+
+	it('passes the publish flag through (including false)', () => {
+		const third = responseBody.find(post => post.slug === 'third-post')
+		expect(third.publish).toBe(false)
 	})
 })
 
-describe('Posts Single Item Route (dynamic slug)', () => {
-    let response: LightMyRequestResponse, responseBody: any
+describe('Posts Single Item Route', () => {
+	let response: LightMyRequestResponse, responseBody: any
 
-    beforeAll(async () => {
-        const list = await App.inject({ method: 'GET', url: '/posts' })
-        const items = JSON.parse(list.body)
-        const slug = items?.[0]?.slug
-        if (slug) {
-            response = await App.inject({ method: 'GET', url: `/posts/${slug}` })
-            responseBody = JSON.parse(response.body)
-        }
-    })
+	beforeAll(async () => {
+		response = await App.inject({ method: 'GET', url: '/posts/second-post' })
+		responseBody = JSON.parse(response.body)
+	})
 
-    it('responds with status code 200 for a valid post', () => {
-        if (!response) return
-        expect(response.statusCode).toBe(200)
-    })
+	it('responds with status code 200', () => {
+		expect(response.statusCode).toBe(200)
+	})
 
-    it('returns a post with a title', () => {
-        if (!responseBody) return
-        expect(responseBody).toHaveProperty('title')
-        expect(typeof responseBody.title).toBe('string')
-        expect(responseBody.title).not.toBe('')
-    })
+	it('returns the requested post with rendered markup', () => {
+		expect(responseBody.title).toBe('Second Post')
+		expect(responseBody.slug).toBe('second-post')
+		expect(responseBody.markup).toContain('<h1')
+	})
 })
 
 describe('Portfolio Route', () => {
-	let response: LightMyRequestResponse, responseBody: any
+	let response: LightMyRequestResponse, responseBody: any[]
 
 	beforeAll(async () => {
 		response = await App.inject({ method: 'GET', url: '/portfolio' })
@@ -82,47 +81,32 @@ describe('Portfolio Route', () => {
 		expect(response.statusCode).toBe(200)
 	})
 
-	it('returns an array', () => {
-		expect(Array.isArray(responseBody)).toBeTruthy()
-	})
-
-	it('each item in the array has a title', () => {
-		responseBody.forEach((item: any) => {
-			expect(item).toHaveProperty('title')
-			expect(typeof item.title).toBe('string')
-			expect(item.title).not.toBe('')
-		})
+	it('orders portfolio items by date, most recent first', () => {
+		expect(responseBody.map(item => item.slug)).toEqual(['project-beta', 'project-alpha'])
 	})
 })
 
-describe('Portfolio Single Item Route (dynamic slug)', () => {
-    let response: LightMyRequestResponse, responseBody: any
+describe('Portfolio Single Item Route', () => {
+	let response: LightMyRequestResponse, responseBody: any
 
-    beforeAll(async () => {
-        const list = await App.inject({ method: 'GET', url: '/portfolio' })
-        const items = JSON.parse(list.body)
-        const slug = items?.[0]?.slug
-        if (slug) {
-            response = await App.inject({ method: 'GET', url: `/portfolio/${slug}` })
-            responseBody = JSON.parse(response.body)
-        }
-    })
+	beforeAll(async () => {
+		response = await App.inject({ method: 'GET', url: '/portfolio/project-alpha' })
+		responseBody = JSON.parse(response.body)
+	})
 
-    it('responds with status code 200 for a valid portfolio item', () => {
-        if (!response) return
-        expect(response.statusCode).toBe(200)
-    })
+	it('responds with status code 200', () => {
+		expect(response.statusCode).toBe(200)
+	})
 
-    it('returns a portfolio item with a title', () => {
-        if (!responseBody) return
-        expect(responseBody).toHaveProperty('title')
-        expect(typeof responseBody.title).toBe('string')
-        expect(responseBody.title).not.toBe('')
-    })
+	it('returns the portfolio-specific fields', () => {
+		expect(responseBody.title).toBe('Project Alpha')
+		expect(responseBody.color).toBe('#ff0000')
+		expect(responseBody.clients).toEqual(['Client A'])
+	})
 })
 
 describe('Codes Route', () => {
-	let response: LightMyRequestResponse, responseBody: any
+	let response: LightMyRequestResponse, responseBody: any[]
 
 	beforeAll(async () => {
 		response = await App.inject({ method: 'GET', url: '/codes' })
@@ -133,55 +117,46 @@ describe('Codes Route', () => {
 		expect(response.statusCode).toBe(200)
 	})
 
-	it('returns an array', () => {
-		expect(Array.isArray(responseBody)).toBeTruthy()
+	it('returns all fixture codes with the "code-" prefix stripped', () => {
+		expect(responseBody).toHaveLength(2)
+		expect(responseBody.map(code => code.slug).sort()).toEqual(['css', 'javascript'])
 	})
 })
 
 describe('Codes Single Item Route', () => {
-	let response: LightMyRequestResponse
+	let response: LightMyRequestResponse, responseBody: any
 
 	beforeAll(async () => {
 		response = await App.inject({ method: 'GET', url: '/codes/css' })
+		responseBody = JSON.parse(response.body)
 	})
 
 	it('responds with status code 200 for a valid code', () => {
 		expect(response.statusCode).toBe(200)
 	})
+
+	it('returns rendered markup for the snippet', () => {
+		expect(responseBody.slug).toBe('css')
+		expect(responseBody.markup).toContain('language-css')
+	})
 })
 
 describe('404 Routes', () => {
-	it('should return a 404 error for a non-existent root route', async () => {
+	it('returns 404 for a non-existent root route', async () => {
 		const response = await App.inject({ method: 'GET', url: '/non-existent-route' })
 		expect(response.statusCode).toBe(404)
 	})
 
-	it('should return a 404 error for a non-existent post route', async () => {
-        const response = await App.inject({ method: 'GET', url: '/posts/non-existent-route' })
-        expect(response.statusCode).toBe(404)
-        const body = JSON.parse(response.body)
-        expect(body).toHaveProperty('statusCode', 404)
-        expect(body).toHaveProperty('error')
-        expect(body).toHaveProperty('message')
-	})
-
-	it('should return a 404 error for a non-existent portfolio route', async () => {
-        const response = await App.inject({ method: 'GET', url: '/portfolio/non-existent-route' })
-        expect(response.statusCode).toBe(404)
-        const body = JSON.parse(response.body)
-        expect(body).toHaveProperty('statusCode', 404)
-        expect(body).toHaveProperty('error')
-        expect(body).toHaveProperty('message')
-	})
-
-	it('should return a 404 error for a non-existent code route', async () => {
-        const response = await App.inject({ method: 'GET', url: '/codes/non-existent-route' })
-        expect(response.statusCode).toBe(404)
-        const body = JSON.parse(response.body)
-        expect(body).toHaveProperty('statusCode', 404)
-        expect(body).toHaveProperty('error')
-        expect(body).toHaveProperty('message')
-	})
+	it.each(['/posts/no-such-post', '/portfolio/no-such-item', '/codes/no-such-code'])(
+		'returns a structured 404 body for %s',
+		async url => {
+			const response = await App.inject({ method: 'GET', url })
+			expect(response.statusCode).toBe(404)
+			const body = JSON.parse(response.body)
+			expect(body).toMatchObject({ statusCode: 404, error: 'Not Found' })
+			expect(body).toHaveProperty('message')
+		}
+	)
 })
 
 describe('Slug Validation', () => {
@@ -197,18 +172,12 @@ describe('Slug Validation', () => {
 })
 
 describe('Unsupported HTTP Methods', () => {
-	it('should return 404 for POST on /posts', async () => {
-		const response = await App.inject({ method: 'POST', url: '/posts' })
-		expect(response.statusCode).toBe(404)
-	})
-
-	it('should return 404 for PUT on /portfolio', async () => {
-		const response = await App.inject({ method: 'PUT', url: '/portfolio' })
-		expect(response.statusCode).toBe(404)
-	})
-
-	it('should return 404 for DELETE on /codes', async () => {
-		const response = await App.inject({ method: 'DELETE', url: '/codes' })
+	it.each([
+		{ method: 'POST', url: '/posts' },
+		{ method: 'PUT', url: '/portfolio' },
+		{ method: 'DELETE', url: '/codes' },
+	])('returns 404 for $method $url', async ({ method, url }) => {
+		const response = await App.inject({ method: method as any, url })
 		expect(response.statusCode).toBe(404)
 	})
 })
@@ -224,8 +193,12 @@ describe('RSS Route', () => {
 		expect(response.statusCode).toBe(200)
 	})
 
-    it('responds with application/xml content-type', () => {
-        const contentType = response.headers['content-type']
-        expect(contentType).toContain('application/xml')
-    })
+	it('responds with application/xml content-type', () => {
+		expect(response.headers['content-type']).toContain('application/xml')
+	})
+
+	it('returns the feed contents', () => {
+		expect(response.body).toContain('<rss')
+		expect(response.body).toContain('Test Feed')
+	})
 })

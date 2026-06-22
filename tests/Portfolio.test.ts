@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import Portfolio from '../src/models/Portfolio.js'
 import { MarkedFile } from '../src/types.js'
 
-const readFileContent = (Portfolio as any).readFileContent.bind(Portfolio)
+const readFileContent = Portfolio.readFileContent.bind(Portfolio)
 
 describe('Portfolio Model', () => {
 	it('processes complete metadata correctly', () => {

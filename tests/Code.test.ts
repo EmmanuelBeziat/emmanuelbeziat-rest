@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import Code from '../src/models/Code.js'
 import { MarkedFile } from '../src/types.js'
 
-const readFileContent = (Code as any).readFileContent.bind(Code)
+const readFileContent = Code.readFileContent.bind(Code)
 
 describe('Code Model', () => {
 	it('processes content correctly', () => {

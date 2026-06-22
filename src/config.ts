@@ -11,7 +11,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
  * @param {string} key The environment variable name.
  * @returns {string} The variable's value.
  */
-const requireEnv = (key: string): string => {
+export const requireEnv = (key: string): string => {
 	const value = process.env[key]
 	if (!value) {
 		throw new Error(`Missing required environment variable: ${key}`)

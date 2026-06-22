@@ -1,8 +1,8 @@
 import { defineConfig } from 'vitest/config'
 import { config } from 'dotenv'
 
-// Load environment variables from the .env file
-config({ path: '.env' })
+// Load environment variables from the .env.test file so the suite runs against the hermetic fixtures in tests/fixtures/content, not real content.
+config({ path: '.env.test' })
 
 export default defineConfig({
   test: {
