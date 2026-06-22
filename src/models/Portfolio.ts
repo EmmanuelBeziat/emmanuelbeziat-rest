@@ -1,17 +1,18 @@
 import ModelHandler from '../classes/ModelHandler.js'
-import { MarkedFile } from '../types.js'
+import { config } from '../config.js'
+import { MarkedFile, PortfolioData } from '../types.js'
 
-class Portfolio extends ModelHandler {
+class Portfolio extends ModelHandler<PortfolioData> {
 	constructor () {
-		super(process.env.PORTFOLIO as string)
+		super(config.content.portfolio)
 	}
 
 	/**
 	 * Reads the content of a marked file and returns its components
 	 * @param {MarkedFile} marked parsed marked files with metadata
-	 * @returns {Object}
+	 * @returns {PortfolioData}
 	 */
-	readFileContent (marked: MarkedFile) {
+	readFileContent (marked: MarkedFile): PortfolioData {
 		return {
 			title: marked.meta.title,
 			slug: marked.slug,

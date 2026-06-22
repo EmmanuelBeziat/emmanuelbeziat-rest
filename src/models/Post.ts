@@ -1,17 +1,18 @@
 import ModelHandler from '../classes/ModelHandler.js'
-import { MarkedFile } from '../types.js'
+import { config } from '../config.js'
+import { MarkedFile, PostData } from '../types.js'
 
-class Post extends ModelHandler {
+class Post extends ModelHandler<PostData> {
 	constructor () {
-		super(process.env.POSTS as string)
+		super(config.content.posts)
 	}
 
 	/**
 	 * Reads the content of a marked file and returns its components
 	 * @param {MarkedFile} marked parsed marked files with metadata
-	 * @returns {Object}
+	 * @returns {PostData}
 	 */
-	readFileContent (marked: MarkedFile) {
+	readFileContent (marked: MarkedFile): PostData {
 		return {
 			title: marked.meta.title,
 			slug: marked.slug,

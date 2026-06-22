@@ -9,17 +9,17 @@ import { MarkedFile } from '../types.js'
  * A caching service to read, parse, and store markdown content from the filesystem.
  * Content is loaded once at startup to avoid filesystem access on every request.
  */
-class MarkdownContentService {
-	private content: Map<string, any> = new Map()
+class MarkdownContentService<T extends { slug: string } = { slug: string }> {
+	private content: Map<string, T> = new Map()
 	private isInitialized = false
 	private contentPath: string
-	private dataShapeFn: (marked: MarkedFile) => any
+	private dataShapeFn: (marked: MarkedFile) => T
 
 	/**
 	 * @param {string} contentPath The path to the directory containing markdown files.
 	 * @param {Function} dataShapeFn A function to shape the parsed markdown data.
 	 */
-	constructor (contentPath: string, dataShapeFn: (marked: MarkedFile) => any) {
+	constructor (contentPath: string, dataShapeFn: (marked: MarkedFile) => T) {
 		if (!contentPath) {
 			throw new Error('A content path must be provided.')
 		}
@@ -47,7 +47,7 @@ class MarkdownContentService {
 			}
 
 			const allContent = await Promise.all(files.map(file => this.processFile(file)))
-			allContent.forEach((item: any) => {
+			allContent.forEach(item => {
 				if (item && item.slug) {
 					this.content.set(item.slug, item)
 				}
@@ -66,7 +66,7 @@ class MarkdownContentService {
 	 * @param {string} filePath The full path to the file.
 	 * @returns {Promise<Object|null>}
 	 */
-	private async processFile (filePath: string): Promise<any | null> {
+	private async processFile (filePath: string): Promise<T | null> {
 		try {
 			const fileContent = await fs.readFile(filePath, 'utf8')
 			const parsed = matter(fileContent)
@@ -96,7 +96,7 @@ class MarkdownContentService {
 	 * Retrieves all content from the cache.
 	 * @returns {Array<Object>}
 	 */
-	getAll (): any[] {
+	getAll (): T[] {
 		return Array.from(this.content.values())
 	}
 
@@ -105,7 +105,7 @@ class MarkdownContentService {
 	 * @param {string} slug
 	 * @returns {Object | undefined}
 	 */
-	findBySlug (slug: string): any | undefined {
+	findBySlug (slug: string): T | undefined {
 		return this.content.get(slug)
 	}
 }

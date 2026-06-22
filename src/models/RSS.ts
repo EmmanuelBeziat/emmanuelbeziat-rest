@@ -1,11 +1,12 @@
 import fs from 'fs/promises'
 import * as path from 'path'
+import { config } from '../config.js'
 
 class RSS {
 	private folder: string
 
 	constructor () {
-		this.folder = process.env.RSS as string
+		this.folder = config.content.rss
 	}
 
 	async serveRSS (): Promise<string> {
@@ -13,4 +14,4 @@ class RSS {
 	}
 }
 
-export default RSS
+export default new RSS()

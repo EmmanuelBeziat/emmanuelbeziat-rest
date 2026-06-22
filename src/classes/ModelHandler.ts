@@ -1,12 +1,13 @@
 import MarkdownContentService from '../services/MarkdownContentService.js'
+import { NotFoundError } from './NotFoundError.js'
 import { MarkedFile } from '../types.js'
 
 /**
  * Default model using a cached content service.
  */
-class ModelHandler {
+class ModelHandler<T extends { slug: string } = { slug: string }> {
 	protected folder: string
-	protected service: MarkdownContentService
+	protected service: MarkdownContentService<T>
 
 	/**
 	 * Constructs the ModelHandler with a specified folder.
@@ -14,7 +15,7 @@ class ModelHandler {
 	 */
 	constructor (folder: string) {
 		this.folder = folder
-		this.service = new MarkdownContentService(folder, this.readFileContent.bind(this))
+		this.service = new MarkdownContentService<T>(folder, this.readFileContent.bind(this))
 	}
 
 	/**
@@ -28,10 +29,10 @@ class ModelHandler {
 	 * Retrieves all content from the cache.
 	 * @returns {Promise<Array>} A promise that resolves with the content of all files.
 	 */
-	async getAllFiles (): Promise<any[]> {
+	async getAllFiles (): Promise<T[]> {
 		const allContent = this.service.getAll()
 		if (!allContent.length) {
-			throw new Error('No content found.')
+			throw new NotFoundError('No content found.')
 		}
 		return allContent
 	}
@@ -43,10 +44,10 @@ class ModelHandler {
 	 * @param {string} slug The slug to search for.
 	 * @returns {Promise<Object>} A promise that resolves with the content of the file.
 	 */
-	async getFile (slug: string): Promise<any> {
+	async getFile (slug: string): Promise<T> {
 		const content = this.service.findBySlug(slug)
 		if (!content) {
-			throw new Error('No data found.')
+			throw new NotFoundError('No data found.')
 		}
 		return content
 	}
@@ -56,7 +57,7 @@ class ModelHandler {
 	 * @param {MarkedFile} marked The parsed markdown file content.
 	 * @throws {Error} Throw an error if the method is not implemented in a subclass.
 	 */
-	readFileContent (_marked: MarkedFile): any {
+	readFileContent (_marked: MarkedFile): T {
 		throw new Error('readFileContent must be implemented in a subclass.')
 	}
 }

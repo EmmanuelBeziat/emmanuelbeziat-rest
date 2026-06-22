@@ -1,5 +1,6 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify'
-import RSS from '../models/RSS.js'
+import rss from '../models/RSS.js'
+import { sendError } from '../utils/errors.js'
 
 /**
  * Encapsulates the core routes of the application, like home and RSS.
@@ -14,16 +15,11 @@ async function mainRoutes (fastify: FastifyInstance) {
 	// RSS feed route
 	fastify.get('/rss/blog.xml', { schema: { response: { 200: { type: 'string' } } } }, async (_request: FastifyRequest, reply: FastifyReply) => {
 		try {
-			const rssModel = new RSS()
-			const rssData = await rssModel.serveRSS()
+			const rssData = await rss.serveRSS()
 			reply.type('application/xml').send(rssData)
 		}
 		catch (err) {
-			reply.code(404).send({
-				statusCode: 404,
-				error: 'Not Found',
-				message: err instanceof Error ? err.message : 'Resource not found'
-			})
+			sendError(reply, err)
 		}
 	})
 }

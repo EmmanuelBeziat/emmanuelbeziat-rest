@@ -1,17 +1,18 @@
 import ModelHandler from '../classes/ModelHandler.js'
-import { MarkedFile } from '../types.js'
+import { config } from '../config.js'
+import { MarkedFile, CodeData } from '../types.js'
 
-class Code extends ModelHandler {
+class Code extends ModelHandler<CodeData> {
 	constructor () {
-		super(process.env.CODES as string)
+		super(config.content.codes)
 	}
 
 	/**
 	 * Reads the content of a marked file and returns its components
 	 * @param {MarkedFile} marked parsed marked files with metadata
-	 * @returns {Object}
+	 * @returns {CodeData}
 	 */
-	readFileContent (marked: MarkedFile) {
+	readFileContent (marked: MarkedFile): CodeData {
 		return {
 			slug: marked.slug.replace(/^code-/, ''),
 			markdown: marked.markdown || '',
