@@ -1,14 +1,18 @@
 import { defineConfig } from 'vitest/config'
-import { config } from 'dotenv'
-
-// Load environment variables from the .env.test file so the suite runs against the hermetic fixtures in tests/fixtures/content, not real content.
-config({ path: '.env.test' })
 
 export default defineConfig({
   test: {
     globals: true,
     environment: 'node',
     include: ['tests/**/*.test.{js,ts}'],
+    env: {
+      PORT: '3002',
+      POSTS: 'tests/fixtures/content/posts',
+      CODES: 'tests/fixtures/content/codes',
+      PORTFOLIO: 'tests/fixtures/content/portfolio',
+      RSS: 'tests/fixtures/content/rss/blog.xml',
+      CORS_ORIGIN: 'https://example.com',
+    },
     coverage: {
       provider: 'c8',
       reporter: ['text', 'json', 'html'],
