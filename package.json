@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "npm run dev",
+		"update": "git pull && npm-check -u",
     "setup": "npm i && node setup.js",
     "build": "tsc",
     "dev": "tsc && node --watch -r dotenv/config dist/index.js",
