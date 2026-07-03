@@ -18,7 +18,7 @@ describe('Markdown Class', () => {
 		const input = '```javascript\nconst x = 1;\n```'
 		const output = Markdown.renderMarkdown(input)
 
-		expect(output).toContain('<pre class="language-javascript">')
+		expect(output).toContain('<pre>')
 		expect(output).toContain('<code class="language-javascript">')
 		expect(output).toContain('const')
 		expect(output).toContain('1')
