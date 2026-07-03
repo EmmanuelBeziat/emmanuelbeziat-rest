@@ -1,6 +1,6 @@
-import ModelHandler from '../classes/ModelHandler'
-import { config } from '../config'
-import { MarkedFile, PortfolioData } from '../types'
+import ModelHandler from '../classes/ModelHandler.js'
+import { config } from '../config.js'
+import { MarkedFile, PortfolioData } from '../types.js'
 
 class Portfolio extends ModelHandler<PortfolioData> {
 	constructor () {
