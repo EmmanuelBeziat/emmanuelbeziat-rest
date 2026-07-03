@@ -1,4 +1,4 @@
-import App from '../src/classes/App.js'
+import App from '../src/classes/App'
 import { describe, it, expect, beforeAll } from 'vitest'
 import { LightMyRequestResponse } from 'fastify'
 

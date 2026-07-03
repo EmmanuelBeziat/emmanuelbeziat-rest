@@ -1,6 +1,6 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify'
-import rss from '../models/RSS.js'
-import { sendError } from '../utils/errors.js'
+import rss from '../models/RSS'
+import { sendError } from '../utils/errors'
 
 /**
  * Encapsulates the core routes of the application, like home and RSS.

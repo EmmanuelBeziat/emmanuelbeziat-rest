@@ -1,14 +1,14 @@
 import fastify, { FastifyInstance, FastifyError } from 'fastify'
 import cors from '@fastify/cors'
 import favicons from 'fastify-favicon'
-import { config } from '../config.js'
-import postRoutes from '../routes/posts.js'
-import portfolioRoutes from '../routes/portfolio.js'
-import codeRoutes from '../routes/code.js'
-import mainRoutes from '../routes/main.js'
-import Post from '../models/Post.js'
-import Portfolio from '../models/Portfolio.js'
-import Code from '../models/Code.js'
+import { config } from '../config'
+import postRoutes from '../routes/posts'
+import portfolioRoutes from '../routes/portfolio'
+import codeRoutes from '../routes/code'
+import mainRoutes from '../routes/main'
+import Post from '../models/Post'
+import Portfolio from '../models/Portfolio'
+import Code from '../models/Code'
 
 /**
  * Initializes and configures the Fastify application.

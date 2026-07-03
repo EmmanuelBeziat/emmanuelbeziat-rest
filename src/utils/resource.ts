@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify'
-import ModelHandler from '../classes/ModelHandler.js'
-import { listSchema, detailSchema } from './schemas.js'
-import { sendError } from './errors.js'
+import ModelHandler from '../classes/ModelHandler'
+import { listSchema, detailSchema } from './schemas'
+import { sendError } from './errors'
 
 interface ResourceRoutesOptions<T extends { slug: string }> {
 	// URL segment for the resource, e.g. 'posts' -> /posts and /posts/:slug

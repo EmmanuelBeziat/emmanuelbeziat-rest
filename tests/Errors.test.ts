@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest'
-import { sendError } from '../src/utils/errors.js'
-import { NotFoundError } from '../src/classes/NotFoundError.js'
+import { sendError } from '../src/utils/errors'
+import { NotFoundError } from '../src/classes/NotFoundError'
 
 // Minimal FastifyReply stand-in capturing the status and payload.
 const makeReply = () => ({

@@ -1,6 +1,6 @@
 import fs from 'fs/promises'
 import * as path from 'path'
-import { config } from '../config.js'
+import { config } from '../config'
 
 class RSS {
 	private folder: string

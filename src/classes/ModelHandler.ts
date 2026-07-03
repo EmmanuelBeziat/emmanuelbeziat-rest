@@ -1,6 +1,6 @@
-import MarkdownContentService from '../services/MarkdownContentService.js'
-import { NotFoundError } from './NotFoundError.js'
-import { MarkedFile } from '../types.js'
+import MarkdownContentService from '../services/MarkdownContentService'
+import { NotFoundError } from './NotFoundError'
+import { MarkedFile } from '../types'
 
 /**
  * Default model using a cached content service.

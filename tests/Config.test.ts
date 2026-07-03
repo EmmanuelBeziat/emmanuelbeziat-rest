@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { requireEnv, config } from '../src/config.js'
+import { requireEnv, config } from '../src/config'
 
 // The cors `origin` option is a callback: (origin, cb) => void.
 type OriginFn = (origin: string | undefined, cb: (err: Error | null, allow?: boolean) => void) => void

@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import ModelHandler from '../src/classes/ModelHandler.js'
-import { MarkedFile } from '../src/types.js'
+import ModelHandler from '../src/classes/ModelHandler'
+import { MarkedFile } from '../src/types'
 
 // Concrete subclass for testing
 class TestModel extends ModelHandler {

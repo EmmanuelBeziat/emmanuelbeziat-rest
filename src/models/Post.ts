@@ -1,6 +1,6 @@
-import ModelHandler from '../classes/ModelHandler.js'
-import { config } from '../config.js'
-import { MarkedFile, PostData } from '../types.js'
+import ModelHandler from '../classes/ModelHandler'
+import { config } from '../config'
+import { MarkedFile, PostData } from '../types'
 
 class Post extends ModelHandler<PostData> {
 	constructor () {

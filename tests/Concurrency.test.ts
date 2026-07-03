@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll } from 'vitest'
-import App from '../src/classes/App.js'
+import App from '../src/classes/App'
 
 // Replaces the former wall-clock "performance" suite, which was flaky on shared
 // runners and depended on production slugs. These checks are deterministic:

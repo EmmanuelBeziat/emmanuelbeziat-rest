@@ -1,5 +1,5 @@
-import Post from '../models/Post.js'
-import { createResourceRoutes, byDateDesc } from '../utils/resource.js'
+import Post from '../models/Post'
+import { createResourceRoutes, byDateDesc } from '../utils/resource'
 
 const PostItemSchema = {
 	type: 'object',

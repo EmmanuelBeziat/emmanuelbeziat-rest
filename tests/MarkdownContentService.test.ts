@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import MarkdownContentService from '../src/services/MarkdownContentService.js'
-import { MarkedFile } from '../src/types.js'
+import MarkdownContentService from '../src/services/MarkdownContentService'
+import { MarkedFile } from '../src/types'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
