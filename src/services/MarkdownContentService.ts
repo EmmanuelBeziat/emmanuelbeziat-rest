@@ -2,8 +2,8 @@ import fs from 'fs/promises'
 import path from 'path'
 import { glob } from 'glob'
 import matter from 'gray-matter'
-import Markdown from '../classes/Markdown'
-import { MarkedFile } from '../types'
+import Markdown from '../classes/Markdown.js'
+import { MarkedFile } from '../types.js'
 
 /**
  * A caching service to read, parse, and store markdown content from the filesystem.

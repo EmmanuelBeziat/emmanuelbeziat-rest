@@ -1,5 +1,5 @@
-import Code from '../models/Code'
-import { createResourceRoutes } from '../utils/resource'
+import Code from '../models/Code.js'
+import { createResourceRoutes } from '../utils/resource.js'
 
 const CodeItemSchema = {
 	type: 'object',

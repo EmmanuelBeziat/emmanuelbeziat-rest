@@ -1,5 +1,5 @@
-import Portfolio from '../models/Portfolio'
-import { createResourceRoutes, byDateDesc } from '../utils/resource'
+import Portfolio from '../models/Portfolio.js'
+import { createResourceRoutes, byDateDesc } from '../utils/resource.js'
 
 const PortfolioItemSchema = {
 	type: 'object',

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import Markdown from '../src/classes/Markdown'
+import Markdown from '../src/classes/Markdown.js'
 
 describe('Markdown Class', () => {
 	// Rendu markdown de base (test smoke, non dépendant de plugins spécifiques)

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { byDateDesc } from '../src/utils/resource'
+import { byDateDesc } from '../src/utils/resource.js'
 
 describe('byDateDesc', () => {
 	it('orders items by date string, most recent first', () => {

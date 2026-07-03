@@ -1,5 +1,5 @@
-import App from './classes/App'
-import { config } from './config'
+import App from './classes/App.js'
+import { config } from './config.js'
 
 /**
  * Starts the server.

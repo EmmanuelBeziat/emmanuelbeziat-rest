@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import Post from '../src/models/Post'
-import { MarkedFile } from '../src/types'
+import Post from '../src/models/Post.js'
+import { MarkedFile } from '../src/types.js'
 
 // Accéder à la méthode readFileContent pour les tests
 // Note: Ceci est une approche pour tester une méthode d'une instance singleton

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import Portfolio from '../src/models/Portfolio'
-import { MarkedFile } from '../src/types'
+import Portfolio from '../src/models/Portfolio.js'
+import { MarkedFile } from '../src/types.js'
 
 const readFileContent = Portfolio.readFileContent.bind(Portfolio)
 

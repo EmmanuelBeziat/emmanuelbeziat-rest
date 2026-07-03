@@ -1,5 +1,5 @@
 import { FastifyReply } from 'fastify'
-import { NotFoundError } from '../classes/NotFoundError'
+import { NotFoundError } from '../classes/NotFoundError.js'
 
 /**
  * Sends a consistent JSON error response. Known "not found" errors become a
