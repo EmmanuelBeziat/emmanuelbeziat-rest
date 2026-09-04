@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import MarkdownContentService from '../src/services/MarkdownContentService.js'
 import { MarkedFile } from '../src/types.js'
 import path from 'path'
@@ -6,6 +6,7 @@ import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const FIXTURES_PATH = path.resolve(__dirname, 'fixtures/markdown')
+const EMPTY_FIXTURES_PATH = path.resolve(__dirname, 'fixtures/empty-content')
 
 // Simple data shaping function for tests
 const dataShapeFn = (marked: MarkedFile) => ({
@@ -46,13 +47,21 @@ describe('MarkdownContentService', () => {
 			expect(sizeAfter).toBe(sizeBefore)
 		})
 
-		it('warns but does not throw when no markdown files are found', async () => {
-			const service = new MarkdownContentService('/non-existent-empty-path', dataShapeFn)
+		it('warns but does not throw when the directory exists but has no markdown files', async () => {
+			const service = new MarkdownContentService(EMPTY_FIXTURES_PATH, dataShapeFn)
 			const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
 			// Should not throw
 			await expect(service.initialize()).resolves.toBeUndefined()
 			expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('No markdown files found'))
+			expect(service.getAll()).toEqual([])
 			warnSpy.mockRestore()
+		})
+
+		it('throws a clear error when the content path does not exist', async () => {
+			const service = new MarkdownContentService('/non-existent-path-that-has-no-files', dataShapeFn)
+			const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+			await expect(service.initialize()).rejects.toThrow('Content path does not exist: /non-existent-path-that-has-no-files')
+			errorSpy.mockRestore()
 		})
 	})
 

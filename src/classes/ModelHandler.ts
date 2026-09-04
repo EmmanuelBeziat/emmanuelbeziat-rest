@@ -26,15 +26,12 @@ class ModelHandler<T extends { slug: string } = { slug: string }> {
 	}
 
 	/**
-	 * Retrieves all content from the cache.
+	 * Retrieves all content from the cache. Resolves to an empty array when
+	 * the content folder is legitimately empty.
 	 * @returns {Promise<Array>} A promise that resolves with the content of all files.
 	 */
 	async getAllFiles (): Promise<T[]> {
-		const allContent = this.service.getAll()
-		if (!allContent.length) {
-			throw new NotFoundError('No content found.')
-		}
-		return allContent
+		return this.service.getAll()
 	}
 
 	/**

@@ -6,6 +6,7 @@ export default defineConfig({
     environment: 'node',
     include: ['tests/**/*.test.{js,ts}'],
     env: {
+      LOG_LEVEL: 'silent',
       PORT: '3002',
       POSTS: 'tests/fixtures/content/posts',
       CODES: 'tests/fixtures/content/codes',

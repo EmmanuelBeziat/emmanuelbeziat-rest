@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect } from 'vitest'
 import ModelHandler from '../src/classes/ModelHandler.js'
 import { MarkedFile } from '../src/types.js'
 
@@ -15,9 +15,9 @@ class TestModel extends ModelHandler {
 
 describe('ModelHandler', () => {
 	describe('getAllFiles()', () => {
-		it('throws when the cache is empty', async () => {
+		it('returns an empty array when the cache is empty', async () => {
 			const model = new TestModel('/non-existent-path-that-has-no-files')
-			await expect(model.getAllFiles()).rejects.toThrow('No content found.')
+			await expect(model.getAllFiles()).resolves.toEqual([])
 		})
 	})
 

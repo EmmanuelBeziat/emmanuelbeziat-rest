@@ -1,5 +1,6 @@
 import App from '../src/classes/App.js'
-import { describe, it, expect, beforeAll } from 'vitest'
+import rss from '../src/models/RSS.js'
+import { describe, it, expect, beforeAll, vi } from 'vitest'
 import { LightMyRequestResponse } from 'fastify'
 
 describe('Home Route', () => {
@@ -200,5 +201,18 @@ describe('RSS Route', () => {
 	it('returns the feed contents', () => {
 		expect(response.body).toContain('<rss')
 		expect(response.body).toContain('Test Feed')
+	})
+
+	it('returns a generic 500 without leaking details when the feed file cannot be read', async () => {
+		const serveRSS = vi.spyOn(rss, 'serveRSS').mockRejectedValueOnce(new Error('ENOENT: no such file or directory'))
+
+		const errorResponse = await App.inject({ method: 'GET', url: '/rss/blog.xml' })
+
+		expect(errorResponse.statusCode).toBe(500)
+		const body = JSON.parse(errorResponse.body)
+		expect(body).toEqual({ statusCode: 500, error: 'Internal Server Error', message: 'An error occurred' })
+		expect(body.message).not.toContain('ENOENT')
+
+		serveRSS.mockRestore()
 	})
 })

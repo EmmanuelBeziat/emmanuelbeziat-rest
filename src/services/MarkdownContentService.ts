@@ -40,9 +40,17 @@ class MarkdownContentService<T extends { slug: string } = { slug: string }> {
 		}
 
 		try {
+			const stat = await fs.stat(this.contentPath).catch(() => {
+				throw new Error(`Content path does not exist: ${this.contentPath}`)
+			})
+			if (!stat.isDirectory()) {
+				throw new Error(`Content path is not a directory: ${this.contentPath}`)
+			}
+
 			const files = await glob(`${this.contentPath}/*.md`)
 			if (!files.length) {
 				console.warn(`No markdown files found in ${this.contentPath}`)
+				this.isInitialized = true
 				return
 			}
 
