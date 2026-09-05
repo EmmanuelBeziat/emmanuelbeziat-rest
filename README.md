@@ -81,3 +81,6 @@ CORS_ORIGIN="<allowed origin url>"
 ## License
 
 This project is licensed under the MIT License.
+
+
+<!-- Security scan triggered at 2026-09-05 08:02:39 -->
