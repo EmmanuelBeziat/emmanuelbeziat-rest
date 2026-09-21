@@ -39,8 +39,8 @@
   "homepage": "https://github.com/EmmanuelBeziat/node-rest#readme",
   "dependencies": {
     "@fastify/cors": "^11.3.0",
-    "dotenv": "^17.4.2",
-    "fastify": "^5.12.1",
+    "dotenv": "^18.0.1",
+    "fastify": "^5.12.5",
     "fastify-favicon": "^5.0.0",
     "glob": "^13.0.6",
     "gray-matter": "^4.0.3",
@@ -48,24 +48,24 @@
     "markdown-it-anchor": "^9.2.1",
     "markdown-it-attrs": "^5.0.1",
     "markdown-it-block-embed": "^0.0.3",
-    "markdown-it-image-lazy-loading": "^2.0.1",
+    "markdown-it-image-lazy-loading": "^2.1.0",
     "markdown-it-prism": "^4.0.0",
     "markdown-it-smartarrows": "^1.0.1",
     "slug": "^12.0.1"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@types/markdown-it": "14.1.2",
+    "@types/markdown-it": "^14.2.0",
     "@types/markdown-it-attrs": "^4.1.3",
-    "@types/node": "^26.4.1",
+    "@types/node": "^26.6.2",
     "@types/slug": "^5.0.9",
-    "eslint": "^10.9.1",
+    "eslint": "^10.11.0",
     "globals": "^17.12.0",
     "husky": "^9.1.7",
-    "inquirer": "^14.2.1",
-    "lint-staged": "^17.4.1",
-    "typescript": "^6.0.1",
-    "typescript-eslint": "^8.69.0",
-    "vitest": "^5.0.0"
+    "inquirer": "^14.2.2",
+    "lint-staged": "^17.5.1",
+    "typescript": "^7.0.2",
+    "typescript-eslint": "^8.70.0",
+    "vitest": "^5.0.1"
   }
 }
