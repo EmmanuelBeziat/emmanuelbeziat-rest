@@ -1,5 +1,6 @@
 import ModelHandler from '../classes/ModelHandler.js'
 import { config } from '../config.js'
+import { requireTitle, requireDate } from '../utils/meta.js'
 import { MarkedFile, PortfolioData } from '../types.js'
 
 class Portfolio extends ModelHandler<PortfolioData> {
@@ -14,10 +15,10 @@ class Portfolio extends ModelHandler<PortfolioData> {
 	 */
 	readFileContent (marked: MarkedFile): PortfolioData {
 		return {
-			title: marked.meta.title,
+			title: requireTitle(marked),
 			slug: marked.slug,
 			image: marked.meta.image || '',
-			date: marked.meta.date || new Date(),
+			date: requireDate(marked),
 			tags: marked.meta.tags || [''],
 			color: marked.meta.color || '',
 			clients: marked.meta.clients || [''],

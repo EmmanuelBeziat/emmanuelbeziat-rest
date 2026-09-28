@@ -6,10 +6,9 @@ import { FastifyCorsOptions } from '@fastify/cors'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 /**
- * Reads a required environment variable, failing fast with a clear message
- * if it is missing rather than letting an `undefined` path surface later.
- * @param {string} key The environment variable name.
- * @returns {string} The variable's value.
+ * Reads a required environment variable, failing fast with a clear message if it is missing rather than letting an `undefined` path surface later
+ * @param {string} key The environment variable name
+ * @returns {string} The variable's value
  */
 export const requireEnv = (key: string): string => {
 	const value = process.env[key]
@@ -19,14 +18,27 @@ export const requireEnv = (key: string): string => {
 	return value
 }
 
+/**
+ * Parses a TCP port, rejecting anything that is not an integer in 1-65535 (PORT=abc would otherwise become NaN)
+ * @param {string | undefined} value The raw value, or undefined for the default
+ * @returns {number} The port number
+ */
+export const parsePort = (value: string | undefined): number => {
+	if (value === undefined || value === '') {
+		return 3000
+	}
+	const port = Number(value)
+	if (!Number.isInteger(port) || port < 1 || port > 65535) {
+		throw new Error(`Invalid PORT: "${value}" (expected an integer between 1 and 65535)`)
+	}
+	return port
+}
+
 export const config = {
 	host: process.env.HOST || '127.0.0.1',
-	port: process.env.PORT ? parseInt(process.env.PORT, 10) : 3000,
+	port: parsePort(process.env.PORT),
 	paths: {
-		// Path to the public directory
 		public: path.resolve(__dirname, '../public'),
-
-		// Path to the favicons directory within the public folder
 		favicons: path.resolve(__dirname, '../public/favicons')
 	},
 	// Filesystem locations of the markdown content, validated at startup.

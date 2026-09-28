@@ -3,9 +3,9 @@ import { NotFoundError } from './NotFoundError.js'
 import { MarkedFile } from '../types.js'
 
 /**
- * Default model using a cached content service.
+ * Base model using a cached content service. Subclasses define the JSON shape.
  */
-class ModelHandler<T extends { slug: string } = { slug: string }> {
+abstract class ModelHandler<T extends { slug: string } = { slug: string }> {
 	protected folder: string
 	protected service: MarkdownContentService<T>
 
@@ -26,8 +26,7 @@ class ModelHandler<T extends { slug: string } = { slug: string }> {
 	}
 
 	/**
-	 * Retrieves all content from the cache. Resolves to an empty array when
-	 * the content folder is legitimately empty.
+	 * Retrieves all content from the cache. Resolves to an empty array when the content folder is legitimately empty.
 	 * @returns {Promise<Array>} A promise that resolves with the content of all files.
 	 */
 	async getAllFiles (): Promise<T[]> {
@@ -36,8 +35,7 @@ class ModelHandler<T extends { slug: string } = { slug: string }> {
 
 	/**
 	 * Retrieves a file from the cache based on its slug.
-	 * Lookup is a Map key access (no filesystem path is built from the input),
-	 * and the slug format is validated at the route layer.
+	 * Lookup is a Map key access (no filesystem path is built from the input), and the slug format is validated at the route layer.
 	 * @param {string} slug The slug to search for.
 	 * @returns {Promise<Object>} A promise that resolves with the content of the file.
 	 */
@@ -50,13 +48,10 @@ class ModelHandler<T extends { slug: string } = { slug: string }> {
 	}
 
 	/**
-	 * Placeholder for processing the read file content. Should be implemented by subclasses.
+	 * Shapes a parsed markdown file into the resource's JSON record.
 	 * @param {MarkedFile} marked The parsed markdown file content.
-	 * @throws {Error} Throw an error if the method is not implemented in a subclass.
 	 */
-	readFileContent (_marked: MarkedFile): T {
-		throw new Error('readFileContent must be implemented in a subclass.')
-	}
+	abstract readFileContent (marked: MarkedFile): T
 }
 
 export default ModelHandler

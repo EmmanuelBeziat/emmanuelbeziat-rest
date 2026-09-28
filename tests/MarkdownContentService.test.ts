@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const FIXTURES_PATH = path.resolve(__dirname, 'fixtures/markdown')
 const EMPTY_FIXTURES_PATH = path.resolve(__dirname, 'fixtures/empty-content')
+const INVALID_PATH = path.resolve(__dirname, 'fixtures/invalid')
 
 // Simple data shaping function for tests
 const dataShapeFn = (marked: MarkedFile) => ({
@@ -63,12 +64,45 @@ describe('MarkdownContentService', () => {
 			await expect(service.initialize()).rejects.toThrow('Content path does not exist: /non-existent-path-that-has-no-files')
 			errorSpy.mockRestore()
 		})
+
+		it('rejects two files that resolve to the same slug', async () => {
+			const service = new MarkdownContentService(path.join(INVALID_PATH, 'duplicate'), dataShapeFn)
+			vi.spyOn(console, 'error').mockImplementation(() => {})
+			await expect(service.initialize()).rejects.toThrow('duplicate slug "same"')
+		})
+
+		it('rejects a slug the routes could never match', async () => {
+			const service = new MarkdownContentService(path.join(INVALID_PATH, 'bad-slug'), dataShapeFn)
+			vi.spyOn(console, 'error').mockImplementation(() => {})
+			await expect(service.initialize()).rejects.toThrow('slug "My_Post" must match')
+		})
+
+		it('fails startup, naming the file, when one file cannot be parsed', async () => {
+			const service = new MarkdownContentService(path.join(INVALID_PATH, 'broken'), dataShapeFn)
+			vi.spyOn(console, 'error').mockImplementation(() => {})
+			await expect(service.initialize()).rejects.toThrow('broken.md')
+		})
+
+		it('fails startup when the data shaping function throws', async () => {
+			const service = new MarkdownContentService(FIXTURES_PATH, () => {
+				throw new Error('bad front matter')
+			})
+			vi.spyOn(console, 'error').mockImplementation(() => {})
+			await expect(service.initialize()).rejects.toThrow('test-post.md: bad front matter')
+		})
+
+		it('stays uninitialized after a failed load', async () => {
+			const service = new MarkdownContentService(path.join(INVALID_PATH, 'duplicate'), dataShapeFn)
+			vi.spyOn(console, 'error').mockImplementation(() => {})
+			await expect(service.initialize()).rejects.toThrow()
+			expect(() => service.getAll()).toThrow('before initialize() completed')
+		})
 	})
 
 	describe('getAll()', () => {
-		it('returns an empty array before initialization', () => {
+		it('throws when read before initialization', () => {
 			const service = new MarkdownContentService(FIXTURES_PATH, dataShapeFn)
-			expect(service.getAll()).toEqual([])
+			expect(() => service.getAll()).toThrow('before initialize() completed')
 		})
 
 		it('returns all items after initialization', async () => {
@@ -82,6 +116,11 @@ describe('MarkdownContentService', () => {
 	})
 
 	describe('findBySlug()', () => {
+		it('throws when read before initialization', () => {
+			const service = new MarkdownContentService(FIXTURES_PATH, dataShapeFn)
+			expect(() => service.findBySlug('test-post')).toThrow('before initialize() completed')
+		})
+
 		it('returns undefined for an unknown slug', async () => {
 			const service = new MarkdownContentService(FIXTURES_PATH, dataShapeFn)
 			await service.initialize()

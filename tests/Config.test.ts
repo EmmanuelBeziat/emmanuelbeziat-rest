@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { requireEnv, config } from '../src/config.js'
+import { requireEnv, parsePort, config } from '../src/config.js'
 
 // The cors `origin` option is a callback: (origin, cb) => void.
 type OriginFn = (origin: string | undefined, cb: (err: Error | null, allow?: boolean) => void) => void
@@ -44,6 +44,17 @@ describe('config', () => {
 	describe('host/port', () => {
 		it('parses PORT from the environment', () => {
 			expect(config.port).toBe(3002)
+		})
+
+		it('defaults to 3000 when PORT is unset or empty', () => {
+			expect(parsePort(undefined)).toBe(3000)
+			expect(parsePort('')).toBe(3000)
+		})
+
+		it('rejects a PORT that is not an integer between 1 and 65535', () => {
+			for (const value of ['abc', '3000abc', '0', '65536', '80.5', '-1']) {
+				expect(() => parsePort(value)).toThrow(`Invalid PORT: "${value}"`)
+			}
 		})
 
 		it('falls back to 127.0.0.1 when HOST is unset', () => {

@@ -1,6 +1,11 @@
 import { describe, it, expect } from 'vitest'
+import path from 'path'
+import { fileURLToPath } from 'url'
 import ModelHandler from '../src/classes/ModelHandler.js'
 import { MarkedFile } from '../src/types.js'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const EMPTY_FIXTURES_PATH = path.resolve(__dirname, 'fixtures/empty-content')
 
 // Concrete subclass for testing
 class TestModel extends ModelHandler {
@@ -15,24 +20,23 @@ class TestModel extends ModelHandler {
 
 describe('ModelHandler', () => {
 	describe('getAllFiles()', () => {
-		it('returns an empty array when the cache is empty', async () => {
-			const model = new TestModel('/non-existent-path-that-has-no-files')
+		it('returns an empty array when the content folder is empty', async () => {
+			const model = new TestModel(EMPTY_FIXTURES_PATH)
+			await model.initialize()
 			await expect(model.getAllFiles()).resolves.toEqual([])
+		})
+
+		it('rejects when called before initialize()', async () => {
+			const model = new TestModel(EMPTY_FIXTURES_PATH)
+			await expect(model.getAllFiles()).rejects.toThrow('before initialize() completed')
 		})
 	})
 
 	describe('getFile()', () => {
 		it('throws when the slug is not found', async () => {
-			const model = new TestModel('/non-existent-path-that-has-no-files')
+			const model = new TestModel(EMPTY_FIXTURES_PATH)
+			await model.initialize()
 			await expect(model.getFile('unknown-slug')).rejects.toThrow('No data found.')
-		})
-	})
-
-	describe('readFileContent()', () => {
-		it('throws when not overridden in base class', () => {
-			// Access the base class method directly
-			const base = new ModelHandler('/tmp')
-			expect(() => base.readFileContent({} as MarkedFile)).toThrow('readFileContent must be implemented in a subclass.')
 		})
 	})
 })

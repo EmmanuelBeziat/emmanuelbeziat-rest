@@ -6,6 +6,12 @@ import { NotFoundError } from '../src/classes/NotFoundError.js'
 
 interface Item { slug: string }
 
+class ItemModel extends ModelHandler<Item> {
+	readFileContent (marked: { slug: string }): Item {
+		return { slug: marked.slug }
+	}
+}
+
 const itemSchema = {
 	type: 'object',
 	properties: { slug: { type: 'string' } },
@@ -43,7 +49,7 @@ describe('byDateDesc', () => {
 
 describe('createResourceRoutes', () => {
 	it('returns 200 with an empty array when the collection is legitimately empty', async () => {
-		const model = new ModelHandler<Item>('/non-existent-path-for-resource-test')
+		const model = new ItemModel('/non-existent-path-for-resource-test')
 		vi.spyOn(model, 'getAllFiles').mockResolvedValue([])
 
 		const app = Fastify()
@@ -59,7 +65,7 @@ describe('createResourceRoutes', () => {
 	})
 
 	it('returns 404 with the NotFoundError message when the collection fetch fails', async () => {
-		const model = new ModelHandler<Item>('/non-existent-path-for-resource-test')
+		const model = new ItemModel('/non-existent-path-for-resource-test')
 		vi.spyOn(model, 'getAllFiles').mockRejectedValue(new NotFoundError('No content found.'))
 
 		const app = Fastify()
@@ -79,7 +85,7 @@ describe('createResourceRoutes', () => {
 	})
 
 	it('returns a generic 500 without leaking details when the collection fetch throws unexpectedly', async () => {
-		const model = new ModelHandler<Item>('/non-existent-path-for-resource-test')
+		const model = new ItemModel('/non-existent-path-for-resource-test')
 		vi.spyOn(model, 'getAllFiles').mockRejectedValue(new Error('database exploded'))
 
 		const app = Fastify()

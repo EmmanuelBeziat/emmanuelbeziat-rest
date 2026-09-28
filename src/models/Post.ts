@@ -1,5 +1,6 @@
 import ModelHandler from '../classes/ModelHandler.js'
 import { config } from '../config.js'
+import { requireTitle, requireDate } from '../utils/meta.js'
 import { MarkedFile, PostData } from '../types.js'
 
 class Post extends ModelHandler<PostData> {
@@ -14,10 +15,10 @@ class Post extends ModelHandler<PostData> {
 	 */
 	readFileContent (marked: MarkedFile): PostData {
 		return {
-			title: marked.meta.title,
+			title: requireTitle(marked),
 			slug: marked.slug,
 			image: marked.meta.image || '',
-			date: marked.meta.date || new Date(),
+			date: requireDate(marked),
 			tags: marked.meta.tags || [''],
 			categories: marked.meta.categories || ['non-classe'],
 			description: marked.meta.description || '',

@@ -2,11 +2,13 @@
  * Shared JSON Schema fragments reused across the resource routes.
  */
 
+export const SLUG_PATTERN = /^[a-z0-9-]+$/
+
 // Validates a `:slug` URL parameter: lowercase letters, digits and hyphens only.
 export const slugParams = {
 	type: 'object',
 	properties: {
-		slug: { type: 'string', pattern: '^[a-z0-9-]+$' }
+		slug: { type: 'string', pattern: SLUG_PATTERN.source }
 	},
 	required: ['slug']
 }

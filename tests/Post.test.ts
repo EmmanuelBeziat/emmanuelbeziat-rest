@@ -47,7 +47,8 @@ describe('Post Model', () => {
 			markdown: 'Minimal content',
 			html: '<p>Minimal content</p>',
 			meta: {
-				title: 'Minimal Title'
+				title: 'Minimal Title',
+				date: '2024-05-01'
 			}
 		}
 
@@ -56,7 +57,7 @@ describe('Post Model', () => {
 		expect(result.title).toBe('Minimal Title')
 		expect(result.slug).toBe('minimal-post')
 		expect(result.image).toBe('')
-		expect(result.date).toBeInstanceOf(Date)
+		expect(result.date).toBe('2024-05-01')
 		expect(result.tags).toEqual([''])
 		expect(result.categories).toEqual(['non-classe'])
 		expect(result.description).toBe('')
@@ -73,6 +74,7 @@ describe('Post Model', () => {
 			html: '<p>Draft content</p>',
 			meta: {
 				title: 'Draft Title',
+				date: '2024-05-01',
 				publish: false
 			}
 		}
@@ -80,5 +82,20 @@ describe('Post Model', () => {
 		const result = readFileContent(markedFile)
 
 		expect(result.publish).toBe(false)
+	})
+
+	it('throws when the title is missing', () => {
+		const markedFile = { slug: 'no-title', markdown: '', html: '', meta: { date: '2024-01-01' } } as MarkedFile
+		expect(() => readFileContent(markedFile)).toThrow('"no-title": front matter "title" is missing or empty')
+	})
+
+	it('throws when the date is missing instead of defaulting to now', () => {
+		const markedFile = { slug: 'no-date', markdown: '', html: '', meta: { title: 'T' } } as MarkedFile
+		expect(() => readFileContent(markedFile)).toThrow('"no-date": front matter "date" is missing')
+	})
+
+	it('throws when the date is not a valid date', () => {
+		const markedFile = { slug: 'bad-date', markdown: '', html: '', meta: { title: 'T', date: 'someday' } } as MarkedFile
+		expect(() => readFileContent(markedFile)).toThrow('"bad-date": front matter "date" is not a valid date: someday')
 	})
 })

@@ -3,9 +3,9 @@ export interface MarkedFile {
 	markdown: string
 	html: string
 	meta: {
-		title: string
+		title?: string
 		image?: string
-		date?: Date
+		date?: Date | string
 		tags?: string[]
 		color?: string
 		clients?: string[]

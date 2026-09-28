@@ -4,6 +4,7 @@ import { glob } from 'glob'
 import matter from 'gray-matter'
 import Markdown from '../classes/Markdown.js'
 import { MarkedFile } from '../types.js'
+import { SLUG_PATTERN } from '../utils/schemas.js'
 
 /**
  * A caching service to read, parse, and store markdown content from the filesystem.
@@ -33,6 +34,8 @@ class MarkdownContentService<T extends { slug: string } = { slug: string }> {
 	/**
 	 * Initializes the cache by reading and parsing all markdown files.
 	 * This method should be called once at application startup.
+	 *
+	 * Every file must load: a file that fails to parse, yields a slug the routes cannot match, or collides with another file's slug fails startup with the full list of problems, instead of silently disappearing.
 	 */
 	async initialize (): Promise<void> {
 		if (this.isInitialized) {
@@ -54,49 +57,74 @@ class MarkdownContentService<T extends { slug: string } = { slug: string }> {
 				return
 			}
 
-			const allContent = await Promise.all(files.map(file => this.processFile(file)))
-			allContent.forEach(item => {
-				if (item && item.slug) {
-					this.content.set(item.slug, item)
+			const results = await Promise.allSettled(files.map(file => this.processFile(file)))
+			const problems: string[] = []
+			const sources = new Map<string, string>()
+
+			results.forEach((result, index) => {
+				const file = files[index]
+				if (result.status === 'rejected') {
+					const reason = result.reason instanceof Error ? result.reason.message : String(result.reason)
+					problems.push(`${file}: ${reason}`)
+					return
 				}
+
+				const item = result.value
+				if (!SLUG_PATTERN.test(item.slug)) {
+					problems.push(`${file}: slug "${item.slug}" must match ${SLUG_PATTERN} (it would be unreachable)`)
+					return
+				}
+
+				const existing = sources.get(item.slug)
+				if (existing) {
+					problems.push(`${file}: duplicate slug "${item.slug}" (already used by ${existing})`)
+					return
+				}
+
+				sources.set(item.slug, file)
+				this.content.set(item.slug, item)
 			})
+
+			if (problems.length) {
+				this.content.clear()
+				throw new Error(`Invalid content in ${this.contentPath}:\n- ${problems.join('\n- ')}`)
+			}
 
 			this.isInitialized = true
 		}
 		catch (error) {
 			console.error(`Failed to initialize content from ${this.contentPath}:`, error)
-			throw error // Re-throw to potentially stop the server from starting
+			throw error // Re-throw to stop the server from starting
 		}
 	}
 
 	/**
-	 * Processes a single markdown file.
+	 * Processes a single markdown file. Errors propagate to `initialize`.
 	 * @param {string} filePath The full path to the file.
-	 * @returns {Promise<Object|null>}
+	 * @returns {Promise<Object>}
 	 */
-	private async processFile (filePath: string): Promise<T | null> {
-		try {
-			const fileContent = await fs.readFile(filePath, 'utf8')
-			const parsed = matter(fileContent)
-			const marked: MarkedFile = {
-				meta: parsed.data,
-				markdown: parsed.content,
-				slug: '',
-				html: ''
-			}
+	private async processFile (filePath: string): Promise<T> {
+		const fileContent = await fs.readFile(filePath, 'utf8')
+		const parsed = matter(fileContent)
 
-			// Extract the base file name without the extension to create a slug
-			const baseName = path.basename(filePath, path.extname(filePath))
-			marked.slug = baseName.replace(/^\d{4}-\d{2}-\d{2}-/, '')
+		// Extract the base file name without the extension to create a slug
+		const baseName = path.basename(filePath, path.extname(filePath))
+		const markdown = parsed.content || ''
 
-			marked.markdown = marked.markdown || ''
-			marked.html = Markdown.renderMarkdown(marked.markdown) || ''
+		return this.dataShapeFn({
+			meta: parsed.data,
+			markdown,
+			slug: baseName.replace(/^\d{4}-\d{2}-\d{2}-/, ''),
+			html: Markdown.renderMarkdown(markdown) || ''
+		})
+	}
 
-			return this.dataShapeFn(marked)
-		}
-		catch (error) {
-			console.error(`Error processing file ${filePath}:`, error)
-			return null
+	/**
+	 * Throws if the cache is read before `initialize()` completed, so an early read can never be mistaken for (and memoized as) empty content.
+	 */
+	private assertInitialized (): void {
+		if (!this.isInitialized) {
+			throw new Error(`Content from ${this.contentPath} was read before initialize() completed.`)
 		}
 	}
 
@@ -105,6 +133,7 @@ class MarkdownContentService<T extends { slug: string } = { slug: string }> {
 	 * @returns {Array<Object>}
 	 */
 	getAll (): T[] {
+		this.assertInitialized()
 		return Array.from(this.content.values())
 	}
 
@@ -114,6 +143,7 @@ class MarkdownContentService<T extends { slug: string } = { slug: string }> {
 	 * @returns {Object | undefined}
 	 */
 	findBySlug (slug: string): T | undefined {
+		this.assertInitialized()
 		return this.content.get(slug)
 	}
 }
