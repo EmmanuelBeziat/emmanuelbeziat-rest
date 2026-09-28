@@ -1,5 +1,5 @@
 import slug from 'slug'
-import MarkdownIt, { Options as MarkdownItOptions } from 'markdown-it'
+import MarkdownIt, { Options as MarkdownItOptions, PluginWithOptions } from 'markdown-it'
 import MarkdownItPrism from 'markdown-it-prism'
 import MarkdownItAttrs from 'markdown-it-attrs'
 import MarkdownItBlockEmbed from 'markdown-it-block-embed'
@@ -42,7 +42,7 @@ class Markdown {
 		}
 
 		const md = new MarkdownIt(markdownItOptions)
-			.use(MarkdownItAttrs)
+			.use(MarkdownItAttrs as unknown as PluginWithOptions)
 			.use(MarkdownItLazyLoading)
 			.use(MarkdownItBlockEmbed, blockEmbedOptions)
 			.use(MarkdownItAnchor, anchorOptions)
