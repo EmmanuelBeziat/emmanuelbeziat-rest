@@ -38,8 +38,8 @@
   },
   "homepage": "https://github.com/EmmanuelBeziat/node-rest#readme",
   "dependencies": {
-    "@fastify/cors": "^11.3.0",
-    "dotenv": "^18.0.4",
+    "@fastify/cors": "^11.3.1",
+    "dotenv": "^18.0.6",
     "fastify": "^5.12.5",
     "fastify-favicon": "^5.0.0",
     "glob": "^13.0.6",
@@ -57,15 +57,15 @@
     "@eslint/js": "^10.0.1",
     "@types/markdown-it": "^14.2.0",
     "@types/markdown-it-attrs": "^4.1.3",
-    "@types/node": "^26.6.3",
+    "@types/node": "^26.6.4",
     "@types/slug": "^5.0.9",
-    "eslint": "^10.11.0",
-    "globals": "^17.12.0",
+    "eslint": "^10.12.0",
+    "globals": "^17.13.0",
     "husky": "^9.1.7",
-    "inquirer": "^14.2.2",
+    "inquirer": "^14.2.3",
     "lint-staged": "^17.6.0",
     "typescript": "~6.0.3",
-    "typescript-eslint": "^8.71.0",
-    "vitest": "^5.0.2"
+    "typescript-eslint": "^8.71.1",
+    "vitest": "^5.0.3"
   }
 }
