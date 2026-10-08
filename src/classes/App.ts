@@ -1,5 +1,6 @@
-import fastify, { FastifyInstance, FastifyError } from 'fastify'
+import fastify, { LogController, type FastifyInstance } from 'fastify'
 import cors from '@fastify/cors'
+import etag from '@fastify/etag'
 import favicons from 'fastify-favicon'
 import { config } from '../config.js'
 import postRoutes from '../routes/posts.js'
@@ -9,6 +10,7 @@ import mainRoutes from '../routes/main.js'
 import Post from '../models/Post.js'
 import Portfolio from '../models/Portfolio.js'
 import Code from '../models/Code.js'
+import { errorHandler, notFoundHandler } from '../utils/errors.js'
 
 /**
  * Initializes and configures the Fastify application.
@@ -17,13 +19,25 @@ class App {
 	public app: FastifyInstance
 
 	constructor () {
-		this.app = fastify({ logger: { level: process.env.LOG_LEVEL || 'warn' } })
+		this.app = fastify({
+			logger: { level: process.env.LOG_LEVEL || 'info' },
+			// Per-request lines would drown the log; errors are still logged by the error handler.
+			logController: new LogController({ disableRequestLogging: true })
+		})
 		this.configure()
 	}
 
 	configure () {
 		// Register core plugins
 		this.app.register(cors, config.cors)
+		this.app.register(etag)
+
+		// Content only changes on restart: clients may keep it but must revalidate, which the ETag turns into a cheap 304.
+		this.app.addHook('onSend', async (_request, reply) => {
+			if (!reply.hasHeader('cache-control')) {
+				reply.header('cache-control', 'no-cache')
+			}
+		})
 		this.app.register(favicons, {
 			path: config.paths.favicons,
 			name: 'favicon.ico'
@@ -35,37 +49,15 @@ class App {
 		this.app.register(codeRoutes)
 		this.app.register(mainRoutes)
 
-		// Global not found handler
-		this.app.setNotFoundHandler((request, reply) => {
-			reply
-				.code(404)
-				.type('application/json')
-				.send({
-					statusCode: 404,
-					error: 'Not Found',
-					message: `Route ${request.method} ${request.url} not found`
-				})
-		})
-
-		// Global error handler
-		this.app.setErrorHandler((error: FastifyError, _request, reply) => {
-			const status = error.statusCode || (reply.statusCode >= 400 ? reply.statusCode : 500)
-			reply
-				.code(status)
-				.type('application/json')
-				.send({
-					statusCode: status,
-					error: status === 500 ? 'Internal Server Error' : 'Error',
-					message: error.message || 'An error occurred'
-				})
-		})
+		this.app.setNotFoundHandler(notFoundHandler)
+		this.app.setErrorHandler(errorHandler)
 
 		// Ensure content caches are initialized before serving
 		this.app.addHook('onReady', async () => {
 			await Promise.all([
-				Post.initialize(),
-				Portfolio.initialize(),
-				Code.initialize(),
+				Post.initialize(this.app.log),
+				Portfolio.initialize(this.app.log),
+				Code.initialize(this.app.log),
 			])
 		})
 	}

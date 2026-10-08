@@ -1,22 +1,6 @@
 import Post from '../models/Post.js'
+import { PostSchema } from '../utils/schemas.js'
 import { createResourceRoutes, byDateDesc } from '../utils/resource.js'
-
-const PostItemSchema = {
-	type: 'object',
-	properties: {
-		title: { type: 'string' },
-		slug: { type: 'string' },
-		image: { type: 'string' },
-		date: { anyOf: [{ type: 'string' }, { type: 'number' }] },
-		tags: { type: 'array', items: { type: 'string' } },
-		categories: { type: 'array', items: { type: 'string' } },
-		description: { type: 'string' },
-		publish: { type: 'boolean' },
-		markdown: { type: 'string' },
-		markup: { type: 'string' },
-	},
-	required: ['slug']
-}
 
 /**
  * Routes for the Post resource: newest first.
@@ -24,6 +8,6 @@ const PostItemSchema = {
 export default createResourceRoutes({
 	basePath: 'posts',
 	model: Post,
-	itemSchema: PostItemSchema,
+	itemSchema: PostSchema,
 	transform: byDateDesc
 })

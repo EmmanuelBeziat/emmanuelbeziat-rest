@@ -2,15 +2,14 @@ import App from './classes/App.js'
 import { config } from './config.js'
 
 /**
- * Starts the server.
+ * Starts the server. Fastify logs the listening address itself.
  */
 const start = async () => {
 	try {
-		const address = await App.listen({ port: config.port, host: config.host })
-		console.log(`Server started on ${address}`)
+		await App.listen({ port: config.port, host: config.host })
 	}
 	catch (error) {
-		console.error(`Error starting server: ${error}`)
+		App.log.fatal(error, 'Error starting server')
 		process.exit(1)
 	}
 }
@@ -21,13 +20,13 @@ const start = async () => {
  * @param {string} signal The received process signal.
  */
 const shutdown = async (signal: string) => {
-	console.log(`Received ${signal}, shutting down...`)
+	App.log.info(`Received ${signal}, shutting down...`)
 	try {
 		await App.close()
 		process.exit(0)
 	}
 	catch (error) {
-		console.error(`Error during shutdown: ${error}`)
+		App.log.error(error, 'Error during shutdown')
 		process.exit(1)
 	}
 }

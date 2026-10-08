@@ -1,26 +1,24 @@
-import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify'
+import Type from 'typebox'
+import type { FastifyInstance } from 'fastify'
+import type { TypeBoxTypeProvider } from '@fastify/type-provider-typebox'
 import rss from '../models/RSS.js'
-import { sendError } from '../utils/errors.js'
+
+const HomeSchema = Type.Array(Type.Object({ hello: Type.String() }))
 
 /**
  * Encapsulates the core routes of the application, like home and RSS.
  * @param {FastifyInstance} fastify - The Fastify instance.
  */
 async function mainRoutes (fastify: FastifyInstance) {
+	const app = fastify.withTypeProvider<TypeBoxTypeProvider>()
+
 	// Home route
-	fastify.get('/', { schema: { response: { 200: { type: 'array', items: { type: 'object', properties: { hello: { type: 'string' } }, required: ['hello'] } } } } }, async (_request: FastifyRequest, reply: FastifyReply) => {
-		reply.send([{ hello: 'world' }])
-	})
+	app.get('/', { schema: { response: { 200: HomeSchema } } }, async () => [{ hello: 'world' }])
 
 	// RSS feed route
-	fastify.get('/rss/blog.xml', { schema: { response: { 200: { type: 'string' } } } }, async (_request: FastifyRequest, reply: FastifyReply) => {
-		try {
-			const rssData = await rss.serveRSS()
-			reply.type('application/xml').send(rssData)
-		}
-		catch (err) {
-			sendError(reply, err)
-		}
+	app.get('/rss/blog.xml', { schema: { response: { 200: Type.String() } } }, async (_request, reply) => {
+		reply.type('application/xml')
+		return rss.serveRSS()
 	})
 }
 

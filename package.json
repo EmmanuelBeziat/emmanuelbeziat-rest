@@ -1,17 +1,20 @@
 {
   "name": "node-rest",
-  "version": "4.0.1",
+  "version": "5.0.0",
   "description": "🎲 A NodeJS App that provide a very simple REST API (just GET) from markdown files.",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
+  "engines": {
+    "node": ">=22.9"
+  },
   "type": "module",
   "scripts": {
     "start": "npm run dev",
     "update": "git pull && npm-check -u",
     "setup": "npm i && node setup.js",
     "build": "tsc",
-    "dev": "tsc && node --watch -r dotenv/config dist/index.js",
-    "prod": "tsc && node -r dotenv/config dist/index.js",
-    "deploy": "tsc && pm2 start dist/index.js --name 'emmanuelb-rest' --node-args='-r dotenv/config' || pm2 reload emmanuelb-rest --update-env",
+    "dev": "tsc && node --watch --env-file-if-exists=.env dist/index.js",
+    "prod": "tsc && node --env-file-if-exists=.env dist/index.js",
+    "deploy": "tsc && pm2 start dist/index.js --name 'emmanuelb-rest' --node-args='--env-file-if-exists=.env' || pm2 reload emmanuelb-rest --update-env",
     "test": "vitest --run",
     "lint": "npx eslint src",
     "prepare": "husky"
@@ -39,7 +42,8 @@
   "homepage": "https://github.com/EmmanuelBeziat/node-rest#readme",
   "dependencies": {
     "@fastify/cors": "^11.3.1",
-    "dotenv": "^18.0.6",
+    "@fastify/etag": "^6.2.0",
+    "@fastify/type-provider-typebox": "^6.1.0",
     "fastify": "^5.12.5",
     "fastify-favicon": "^5.0.0",
     "glob": "^13.0.6",
@@ -51,7 +55,8 @@
     "markdown-it-image-lazy-loading": "^2.1.0",
     "markdown-it-prism": "^4.0.0",
     "markdown-it-smartarrows": "^1.0.1",
-    "slug": "^12.0.1"
+    "slug": "^12.0.1",
+    "typebox": "^1.3.36"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

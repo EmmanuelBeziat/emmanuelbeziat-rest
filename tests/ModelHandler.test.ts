@@ -6,6 +6,7 @@ import { MarkedFile } from '../src/types.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const EMPTY_FIXTURES_PATH = path.resolve(__dirname, 'fixtures/empty-content')
+const FIXTURES_PATH = path.resolve(__dirname, 'fixtures/markdown')
 
 // Concrete subclass for testing
 class TestModel extends ModelHandler {
@@ -18,17 +19,30 @@ class TestModel extends ModelHandler {
 	}
 }
 
+// Hides every item, to exercise isVisible()
+class HiddenModel extends TestModel {
+	protected isVisible () {
+		return false
+	}
+}
+
 describe('ModelHandler', () => {
 	describe('getAllFiles()', () => {
 		it('returns an empty array when the content folder is empty', async () => {
 			const model = new TestModel(EMPTY_FIXTURES_PATH)
 			await model.initialize()
-			await expect(model.getAllFiles()).resolves.toEqual([])
+			expect(model.getAllFiles()).toEqual([])
 		})
 
-		it('rejects when called before initialize()', async () => {
+		it('throws when called before initialize()', () => {
 			const model = new TestModel(EMPTY_FIXTURES_PATH)
-			await expect(model.getAllFiles()).rejects.toThrow('before initialize() completed')
+			expect(() => model.getAllFiles()).toThrow('before initialize() completed')
+		})
+
+		it('leaves out items that are not visible', async () => {
+			const model = new HiddenModel(FIXTURES_PATH)
+			await model.initialize()
+			expect(model.getAllFiles()).toEqual([])
 		})
 	})
 
@@ -36,7 +50,13 @@ describe('ModelHandler', () => {
 		it('throws when the slug is not found', async () => {
 			const model = new TestModel(EMPTY_FIXTURES_PATH)
 			await model.initialize()
-			await expect(model.getFile('unknown-slug')).rejects.toThrow('No data found.')
+			expect(() => model.getFile('unknown-slug')).toThrow('No data found.')
+		})
+
+		it('treats an item that is not visible as not found', async () => {
+			const model = new HiddenModel(FIXTURES_PATH)
+			await model.initialize()
+			expect(() => model.getFile('test-post')).toThrow('No data found.')
 		})
 	})
 })

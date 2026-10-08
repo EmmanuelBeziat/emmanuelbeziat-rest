@@ -1,8 +1,10 @@
 import { describe, it, expect, vi } from 'vitest'
 import Fastify from 'fastify'
+import Type from 'typebox'
 import { byDateDesc, createResourceRoutes } from '../src/utils/resource.js'
 import ModelHandler from '../src/classes/ModelHandler.js'
 import { NotFoundError } from '../src/classes/NotFoundError.js'
+import { errorHandler } from '../src/utils/errors.js'
 
 interface Item { slug: string }
 
@@ -12,11 +14,7 @@ class ItemModel extends ModelHandler<Item> {
 	}
 }
 
-const itemSchema = {
-	type: 'object',
-	properties: { slug: { type: 'string' } },
-	required: ['slug'],
-}
+const itemSchema = Type.Object({ slug: Type.String() })
 
 describe('byDateDesc', () => {
 	it('orders items by date string, most recent first', () => {
@@ -50,9 +48,10 @@ describe('byDateDesc', () => {
 describe('createResourceRoutes', () => {
 	it('returns 200 with an empty array when the collection is legitimately empty', async () => {
 		const model = new ItemModel('/non-existent-path-for-resource-test')
-		vi.spyOn(model, 'getAllFiles').mockResolvedValue([])
+		vi.spyOn(model, 'getAllFiles').mockReturnValue([])
 
 		const app = Fastify()
+		app.setErrorHandler(errorHandler)
 		app.register(createResourceRoutes({ basePath: 'items', model, itemSchema }))
 		await app.ready()
 
@@ -66,9 +65,10 @@ describe('createResourceRoutes', () => {
 
 	it('returns 404 with the NotFoundError message when the collection fetch fails', async () => {
 		const model = new ItemModel('/non-existent-path-for-resource-test')
-		vi.spyOn(model, 'getAllFiles').mockRejectedValue(new NotFoundError('No content found.'))
+		vi.spyOn(model, 'getAllFiles').mockImplementation(() => { throw new NotFoundError('No content found.') })
 
 		const app = Fastify()
+		app.setErrorHandler(errorHandler)
 		app.register(createResourceRoutes({ basePath: 'items', model, itemSchema }))
 		await app.ready()
 
@@ -86,9 +86,10 @@ describe('createResourceRoutes', () => {
 
 	it('returns a generic 500 without leaking details when the collection fetch throws unexpectedly', async () => {
 		const model = new ItemModel('/non-existent-path-for-resource-test')
-		vi.spyOn(model, 'getAllFiles').mockRejectedValue(new Error('database exploded'))
+		vi.spyOn(model, 'getAllFiles').mockImplementation(() => { throw new Error('database exploded') })
 
 		const app = Fastify()
+		app.setErrorHandler(errorHandler)
 		app.register(createResourceRoutes({ basePath: 'items', model, itemSchema }))
 		await app.ready()
 

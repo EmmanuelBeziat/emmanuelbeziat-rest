@@ -1,50 +1,37 @@
-import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify'
-import ModelHandler from '../classes/ModelHandler.js'
-import { listSchema, detailSchema } from './schemas.js'
-import { sendError } from './errors.js'
+import Type, { type TSchema, type Static } from 'typebox'
+import type { FastifyInstance } from 'fastify'
+import type ModelHandler from '../classes/ModelHandler.js'
+import { SlugParams } from './schemas.js'
 
-interface ResourceRoutesOptions<T extends { slug: string }> {
+interface ResourceRoutesOptions<S extends TSchema> {
 	// URL segment for the resource, e.g. 'posts' -> /posts and /posts/:slug
 	basePath: string
-	// The model singleton backing the resource.
-	model: ModelHandler<T>
-	// JSON Schema describing a single item, used for response serialization.
-	itemSchema: object
+	// The model singleton backing the resource. Its type is tied to the schema: a model missing a field the schema declares does not compile.
+	model: ModelHandler<Static<S> & { slug: string }>
+	// Schema describing a single item, used for response serialization.
+	itemSchema: S
 	// Optional ordering applied to the collection before it is sent.
-	transform?: (items: T[]) => T[]
+	transform?: (items: Static<S>[]) => Static<S>[]
 }
 
 /**
- * Builds a Fastify plugin exposing the standard read-only routes for a
- * markdown-backed resource: a collection route (`/basePath`) and a detail
- * route (`/basePath/:slug`).
+ * Builds a Fastify plugin exposing the standard read-only routes for a markdown-backed resource: a collection route (`/basePath`) and a detail route (`/basePath/:slug`).
+ * Handlers just return or throw: the global error handler turns errors into responses.
  */
-export function createResourceRoutes<T extends { slug: string }> ({ basePath, model, itemSchema, transform }: ResourceRoutesOptions<T>) {
+export function createResourceRoutes<S extends TSchema> ({ basePath, model, itemSchema, transform = items => items }: ResourceRoutesOptions<S>) {
 
-	let collection: T[] | null = null
+	// The cache never changes after startup, so the ordered collection is computed once.
+	let collection: Static<S>[] | null = null
 
 	return async function (fastify: FastifyInstance) {
-		fastify.get(`/${basePath}`, { schema: listSchema(itemSchema) }, async (_request: FastifyRequest, reply: FastifyReply) => {
-			try {
-				if (!collection) {
-					const data = await model.getAllFiles()
-					collection = transform ? transform(data) : data
-				}
-				reply.send(collection)
-			}
-			catch (err) {
-				sendError(reply, err)
-			}
+		// The schema/model match is enforced by ResourceRoutesOptions: a type provider cannot resolve a still-generic schema here.
+		fastify.get(`/${basePath}`, { schema: { response: { 200: Type.Array(itemSchema) } } }, async () => {
+			collection ??= transform(model.getAllFiles())
+			return collection
 		})
 
-		fastify.get(`/${basePath}/:slug`, { schema: detailSchema(itemSchema) }, async (request: FastifyRequest<{ Params: { slug: string } }>, reply: FastifyReply) => {
-			try {
-				const data = await model.getFile(request.params.slug)
-				reply.send(data)
-			}
-			catch (err) {
-				sendError(reply, err)
-			}
+		fastify.get<{ Params: Static<typeof SlugParams> }>(`/${basePath}/:slug`, { schema: { params: SlugParams, response: { 200: itemSchema } } }, async request => {
+			return model.getFile(request.params.slug)
 		})
 	}
 }
@@ -53,4 +40,4 @@ export function createResourceRoutes<T extends { slug: string }> ({ basePath, mo
  * Orders items by their `date` field, most recent first. Returns a new array.
  */
 export const byDateDesc = <T extends { date: Date | string }> (items: T[]): T[] =>
-	[...items].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+	items.toSorted((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())

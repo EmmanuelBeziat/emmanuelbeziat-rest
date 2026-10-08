@@ -1,16 +1,15 @@
-import fs from 'fs/promises'
-import * as path from 'path'
+import fs from 'node:fs/promises'
 import { config } from '../config.js'
 
 class RSS {
-	private folder: string
+	private file: string
 
 	constructor () {
-		this.folder = config.content.rss
+		this.file = config.content.rss
 	}
 
 	async serveRSS (): Promise<string> {
-		return fs.readFile(path.resolve(this.folder), 'utf8')
+		return fs.readFile(this.file, 'utf8')
 	}
 }
 

@@ -3,8 +3,11 @@ import path from 'path'
 import { glob } from 'glob'
 import matter from 'gray-matter'
 import Markdown from '../classes/Markdown.js'
-import { MarkedFile } from '../types.js'
+import type { MarkedFile } from '../types.js'
 import { SLUG_PATTERN } from '../utils/schemas.js'
+
+// The one logger method the service needs, satisfied by both `console` and Fastify's pino logger.
+export type WarnLogger = { warn: (message: string) => void }
 
 /**
  * A caching service to read, parse, and store markdown content from the filesystem.
@@ -36,66 +39,61 @@ class MarkdownContentService<T extends { slug: string } = { slug: string }> {
 	 * This method should be called once at application startup.
 	 *
 	 * Every file must load: a file that fails to parse, yields a slug the routes cannot match, or collides with another file's slug fails startup with the full list of problems, instead of silently disappearing.
+	 * @param {WarnLogger} log Where to report non-fatal problems (defaults to the console).
 	 */
-	async initialize (): Promise<void> {
+	async initialize (log: WarnLogger = console): Promise<void> {
 		if (this.isInitialized) {
 			return
 		}
 
-		try {
-			const stat = await fs.stat(this.contentPath).catch(() => {
-				throw new Error(`Content path does not exist: ${this.contentPath}`)
-			})
-			if (!stat.isDirectory()) {
-				throw new Error(`Content path is not a directory: ${this.contentPath}`)
-			}
+		const stat = await fs.stat(this.contentPath).catch(() => {
+			throw new Error(`Content path does not exist: ${this.contentPath}`)
+		})
+		if (!stat.isDirectory()) {
+			throw new Error(`Content path is not a directory: ${this.contentPath}`)
+		}
 
-			const files = await glob(`${this.contentPath}/*.md`)
-			if (!files.length) {
-				console.warn(`No markdown files found in ${this.contentPath}`)
-				this.isInitialized = true
+		const files = await glob(`${this.contentPath}/*.md`)
+		if (!files.length) {
+			log.warn(`No markdown files found in ${this.contentPath}`)
+			this.isInitialized = true
+			return
+		}
+
+		const results = await Promise.allSettled(files.map(file => this.processFile(file)))
+		const problems: string[] = []
+		const sources = new Map<string, string>()
+
+		results.forEach((result, index) => {
+			const file = files[index] as string
+			if (result.status === 'rejected') {
+				const reason = result.reason instanceof Error ? result.reason.message : String(result.reason)
+				problems.push(`${file}: ${reason}`)
 				return
 			}
 
-			const results = await Promise.allSettled(files.map(file => this.processFile(file)))
-			const problems: string[] = []
-			const sources = new Map<string, string>()
-
-			results.forEach((result, index) => {
-				const file = files[index]
-				if (result.status === 'rejected') {
-					const reason = result.reason instanceof Error ? result.reason.message : String(result.reason)
-					problems.push(`${file}: ${reason}`)
-					return
-				}
-
-				const item = result.value
-				if (!SLUG_PATTERN.test(item.slug)) {
-					problems.push(`${file}: slug "${item.slug}" must match ${SLUG_PATTERN} (it would be unreachable)`)
-					return
-				}
-
-				const existing = sources.get(item.slug)
-				if (existing) {
-					problems.push(`${file}: duplicate slug "${item.slug}" (already used by ${existing})`)
-					return
-				}
-
-				sources.set(item.slug, file)
-				this.content.set(item.slug, item)
-			})
-
-			if (problems.length) {
-				this.content.clear()
-				throw new Error(`Invalid content in ${this.contentPath}:\n- ${problems.join('\n- ')}`)
+			const item = result.value
+			if (!SLUG_PATTERN.test(item.slug)) {
+				problems.push(`${file}: slug "${item.slug}" must match ${SLUG_PATTERN} (it would be unreachable)`)
+				return
 			}
 
-			this.isInitialized = true
+			const existing = sources.get(item.slug)
+			if (existing) {
+				problems.push(`${file}: duplicate slug "${item.slug}" (already used by ${existing})`)
+				return
+			}
+
+			sources.set(item.slug, file)
+			this.content.set(item.slug, item)
+		})
+
+		if (problems.length) {
+			this.content.clear()
+			throw new Error(`Invalid content in ${this.contentPath}:\n- ${problems.join('\n- ')}`)
 		}
-		catch (error) {
-			console.error(`Failed to initialize content from ${this.contentPath}:`, error)
-			throw error // Re-throw to stop the server from starting
-		}
+
+		this.isInitialized = true
 	}
 
 	/**

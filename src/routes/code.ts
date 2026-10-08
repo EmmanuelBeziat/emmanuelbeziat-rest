@@ -1,15 +1,6 @@
 import Code from '../models/Code.js'
+import { CodeSchema } from '../utils/schemas.js'
 import { createResourceRoutes } from '../utils/resource.js'
-
-const CodeItemSchema = {
-	type: 'object',
-	properties: {
-		slug: { type: 'string' },
-		markdown: { type: 'string' },
-		markup: { type: 'string' },
-	},
-	required: ['slug']
-}
 
 /**
  * Routes for the Code resource: most recently added first.
@@ -17,6 +8,6 @@ const CodeItemSchema = {
 export default createResourceRoutes({
 	basePath: 'codes',
 	model: Code,
-	itemSchema: CodeItemSchema,
-	transform: items => [...items].reverse()
+	itemSchema: CodeSchema,
+	transform: items => items.toReversed()
 })

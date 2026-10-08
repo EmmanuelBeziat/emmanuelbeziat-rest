@@ -1,19 +1,25 @@
-import { FastifyReply } from 'fastify'
-import { NotFoundError } from '../classes/NotFoundError.js'
+import { STATUS_CODES } from 'node:http'
+import type { FastifyError, FastifyReply, FastifyRequest } from 'fastify'
 
 /**
- * Sends a consistent JSON error response. Known "not found" errors become a
- * 404 with their message; anything unexpected is logged and reported as a 500
- * without leaking internal details to the client.
- * @param {FastifyReply} reply The Fastify reply to send through.
- * @param {unknown} err The error caught in the route handler.
+ * Global error handler: the single place errors become responses.
+ * Errors carrying a 4xx `statusCode` (NotFoundError, schema validation) keep their status and message; anything else is logged and reported as a generic 500 without leaking internal details to the client.
  */
-export function sendError (reply: FastifyReply, err: unknown): void {
-	if (err instanceof NotFoundError) {
-		reply.code(404).send({ statusCode: 404, error: 'Not Found', message: err.message })
+export function errorHandler (error: FastifyError, request: FastifyRequest, reply: FastifyReply): void {
+	const status = error?.statusCode ?? 500
+
+	if (status >= 500) {
+		request.log.error(error)
+		reply.code(500).send({ statusCode: 500, error: 'Internal Server Error', message: 'An error occurred' })
 		return
 	}
 
-	reply.log.error(err)
-	reply.code(500).send({ statusCode: 500, error: 'Internal Server Error', message: 'An error occurred' })
+	reply.code(status).send({ statusCode: status, error: STATUS_CODES[status] ?? 'Error', message: error.message })
+}
+
+/**
+ * Global handler for unknown routes.
+ */
+export function notFoundHandler (request: FastifyRequest, reply: FastifyReply): void {
+	reply.code(404).send({ statusCode: 404, error: 'Not Found', message: `Route ${request.method} ${request.url} not found` })
 }

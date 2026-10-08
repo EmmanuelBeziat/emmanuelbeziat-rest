@@ -9,7 +9,7 @@
 ## What?
 
 - Fetch markdown files, parse it to create a rest API for blogging
-- Environment configuration using dotenv
+- Environment configuration from a `.env` file, loaded by Node itself (`--env-file`)
 
 ## Installation
 

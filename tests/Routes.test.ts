@@ -32,22 +32,22 @@ describe('Posts Route', () => {
 		expect(response.statusCode).toBe(200)
 	})
 
-	it('returns all fixture posts', () => {
+	it('returns the published fixture posts only', () => {
 		expect(Array.isArray(responseBody)).toBe(true)
-		expect(responseBody).toHaveLength(3)
+		expect(responseBody).toHaveLength(2)
 	})
 
 	it('orders posts by date, most recent first', () => {
-		expect(responseBody.map(post => post.slug)).toEqual(['second-post', 'third-post', 'first-post'])
+		expect(responseBody.map(post => post.slug)).toEqual(['second-post', 'first-post'])
 	})
 
 	it('strips the date prefix from the slug', () => {
 		responseBody.forEach(post => expect(post.slug).not.toMatch(/^\d{4}-\d{2}-\d{2}-/))
 	})
 
-	it('passes the publish flag through (including false)', () => {
-		const third = responseBody.find(post => post.slug === 'third-post')
-		expect(third.publish).toBe(false)
+	it('does not serve an unpublished post by slug', async () => {
+		const draft = await App.inject({ method: 'GET', url: '/posts/third-post' })
+		expect(draft.statusCode).toBe(404)
 	})
 })
 
@@ -214,5 +214,33 @@ describe('RSS Route', () => {
 		expect(body.message).not.toContain('ENOENT')
 
 		serveRSS.mockRestore()
+	})
+})
+
+describe('CORS', () => {
+	it('answers a disallowed origin normally, without CORS headers', async () => {
+		const response = await App.inject({ method: 'GET', url: '/posts', headers: { origin: 'https://evil.com' } })
+		expect(response.statusCode).toBe(200)
+		expect(response.headers['access-control-allow-origin']).toBeUndefined()
+	})
+
+	it('reflects an allowed origin', async () => {
+		const response = await App.inject({ method: 'GET', url: '/posts', headers: { origin: 'https://example.com' } })
+		expect(response.headers['access-control-allow-origin']).toBe('https://example.com')
+	})
+})
+
+describe('HTTP caching', () => {
+	it('asks clients to revalidate', async () => {
+		const response = await App.inject({ method: 'GET', url: '/posts' })
+		expect(response.headers['cache-control']).toBe('no-cache')
+		expect(response.headers.etag).toBeDefined()
+	})
+
+	it('answers 304 when the ETag still matches', async () => {
+		const first = await App.inject({ method: 'GET', url: '/posts/second-post' })
+		const second = await App.inject({ method: 'GET', url: '/posts/second-post', headers: { 'if-none-match': first.headers.etag as string } })
+		expect(second.statusCode).toBe(304)
+		expect(second.body).toBe('')
 	})
 })

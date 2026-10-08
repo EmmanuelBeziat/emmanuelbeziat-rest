@@ -1,6 +1,6 @@
 import ModelHandler from '../classes/ModelHandler.js'
 import { config } from '../config.js'
-import { MarkedFile, CodeData } from '../types.js'
+import type { MarkedFile, CodeData } from '../types.js'
 
 class Code extends ModelHandler<CodeData> {
 	constructor () {
@@ -12,11 +12,11 @@ class Code extends ModelHandler<CodeData> {
 	 * @param {MarkedFile} marked parsed marked files with metadata
 	 * @returns {CodeData}
 	 */
-	readFileContent (marked: MarkedFile): CodeData {
+	override readFileContent (marked: MarkedFile): CodeData {
 		return {
 			slug: marked.slug.replace(/^code-/, ''),
-			markdown: marked.markdown || '',
-			markup: marked.html || ''
+			markdown: marked.markdown,
+			markup: marked.html
 		}
 	}
 }

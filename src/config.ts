@@ -1,9 +1,7 @@
-import * as path from 'path'
-import { fileURLToPath } from 'url'
-import { FastifyCorsOptions } from '@fastify/cors'
+import path from 'node:path'
+import type { FastifyCorsOptions } from '@fastify/cors'
 
-// Simulate __dirname in ES modules
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const __dirname = import.meta.dirname
 
 /**
  * Reads a required environment variable, failing fast with a clear message if it is missing rather than letting an `undefined` path surface later
@@ -49,15 +47,13 @@ export const config = {
 		rss: requireEnv('RSS')
 	},
 	cors: {
+		// Allow requests from localhost, a specific domain, or server-side requests (no origin).
+		// A rejected origin is answered normally, just without CORS headers: the browser blocks it. Passing an Error here would turn it into a 500.
 		origin: (origin, cb) => {
-			// Allow requests from localhost, a specific domain, or server-side requests (no origin)
-			if (!origin
+			const allowed = !origin
 				|| /^https?:\/\/localhost(:\d+)?$/.test(origin)
-				|| (process.env.CORS_ORIGIN && origin === process.env.CORS_ORIGIN)) {
-				cb(null, true)
-				return
-			}
-			cb(new Error('Not allowed'), false)
+				|| origin === process.env.CORS_ORIGIN
+			cb(null, allowed)
 		}
-	} as FastifyCorsOptions
+	} satisfies FastifyCorsOptions
 }

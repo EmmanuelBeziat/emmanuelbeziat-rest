@@ -1,23 +1,6 @@
 import Portfolio from '../models/Portfolio.js'
+import { PortfolioSchema } from '../utils/schemas.js'
 import { createResourceRoutes, byDateDesc } from '../utils/resource.js'
-
-const PortfolioItemSchema = {
-	type: 'object',
-	properties: {
-		title: { type: 'string' },
-		slug: { type: 'string' },
-		image: { type: 'string' },
-		date: { anyOf: [{ type: 'string' }, { type: 'number' }] },
-		tags: { type: 'array', items: { type: 'string' } },
-		clients: { type: 'array', items: { type: 'string' } },
-		categories: { type: 'array', items: { type: 'string' } },
-		description: { type: 'string' },
-		color: { type: 'string' },
-		markdown: { type: 'string' },
-		markup: { type: 'string' },
-	},
-	required: ['slug']
-}
 
 /**
  * Routes for the Portfolio resource: newest first.
@@ -25,6 +8,6 @@ const PortfolioItemSchema = {
 export default createResourceRoutes({
 	basePath: 'portfolio',
 	model: Portfolio,
-	itemSchema: PortfolioItemSchema,
+	itemSchema: PortfolioSchema,
 	transform: byDateDesc
 })

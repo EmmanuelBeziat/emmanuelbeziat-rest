@@ -58,7 +58,7 @@ describe('Post Model', () => {
 		expect(result.slug).toBe('minimal-post')
 		expect(result.image).toBe('')
 		expect(result.date).toBe('2024-05-01')
-		expect(result.tags).toEqual([''])
+		expect(result.tags).toEqual([])
 		expect(result.categories).toEqual(['non-classe'])
 		expect(result.description).toBe('')
 		expect(result.publish).toBe(true)
@@ -82,6 +82,26 @@ describe('Post Model', () => {
 		const result = readFileContent(markedFile)
 
 		expect(result.publish).toBe(false)
+	})
+
+	it('accepts a single string where a list is expected', () => {
+		const markedFile = { slug: 'one-tag', markdown: '', html: '', meta: { title: 'T', date: '2024-01-01', tags: 'css' } } as MarkedFile
+		expect(readFileContent(markedFile).tags).toEqual(['css'])
+	})
+
+	it('throws when a list field holds something other than strings', () => {
+		const markedFile = { slug: 'bad-tags', markdown: '', html: '', meta: { title: 'T', date: '2024-01-01', tags: [1, 2] } } as MarkedFile
+		expect(() => readFileContent(markedFile)).toThrow('"bad-tags": front matter "tags" must be a list of strings')
+	})
+
+	it('throws when a string field has the wrong type', () => {
+		const markedFile = { slug: 'bad-image', markdown: '', html: '', meta: { title: 'T', date: '2024-01-01', image: 42 } } as MarkedFile
+		expect(() => readFileContent(markedFile)).toThrow('"bad-image": front matter "image" must be a string')
+	})
+
+	it('throws when publish is not a boolean', () => {
+		const markedFile = { slug: 'bad-publish', markdown: '', html: '', meta: { title: 'T', date: '2024-01-01', publish: 'no' } } as MarkedFile
+		expect(() => readFileContent(markedFile)).toThrow('"bad-publish": front matter "publish" must be true or false')
 	})
 
 	it('throws when the title is missing', () => {
