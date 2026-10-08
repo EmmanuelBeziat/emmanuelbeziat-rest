@@ -44,6 +44,7 @@ jspm_packages
 dist
 
 # LLM
+AGENTS.md
 CLAUDE.md
 .claude
 .kilo
