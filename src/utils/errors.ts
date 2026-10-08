@@ -2,8 +2,10 @@ import { STATUS_CODES } from 'node:http'
 import type { FastifyError, FastifyReply, FastifyRequest } from 'fastify'
 
 /**
- * Global error handler: the single place errors become responses.
- * Errors carrying a 4xx `statusCode` (NotFoundError, schema validation) keep their status and message; anything else is logged and reported as a generic 500 without leaking internal details to the client.
+ * Global error handler: 4xx errors keep their status and message, anything else is logged and answered with a generic 500
+ * @param {FastifyError} error The thrown error
+ * @param {FastifyRequest} request The request
+ * @param {FastifyReply} reply The reply
  */
 export function errorHandler (error: FastifyError, request: FastifyRequest, reply: FastifyReply): void {
 	const status = error?.statusCode ?? 500
@@ -18,7 +20,9 @@ export function errorHandler (error: FastifyError, request: FastifyRequest, repl
 }
 
 /**
- * Global handler for unknown routes.
+ * Global handler for unknown routes
+ * @param {FastifyRequest} request The request
+ * @param {FastifyReply} reply The reply
  */
 export function notFoundHandler (request: FastifyRequest, reply: FastifyReply): void {
 	reply.code(404).send({ statusCode: 404, error: 'Not Found', message: `Route ${request.method} ${request.url} not found` })

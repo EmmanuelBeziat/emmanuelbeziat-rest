@@ -4,9 +4,10 @@ import type { FastifyCorsOptions } from '@fastify/cors'
 const __dirname = import.meta.dirname
 
 /**
- * Reads a required environment variable, failing fast with a clear message if it is missing rather than letting an `undefined` path surface later
+ * Reads a required environment variable
  * @param {string} key The environment variable name
  * @returns {string} The variable's value
+ * @throws {Error} When the variable is missing or empty
  */
 export const requireEnv = (key: string): string => {
 	const value = process.env[key]
@@ -17,9 +18,10 @@ export const requireEnv = (key: string): string => {
 }
 
 /**
- * Parses a TCP port, rejecting anything that is not an integer in 1-65535 (PORT=abc would otherwise become NaN)
- * @param {string | undefined} value The raw value, or undefined for the default
- * @returns {number} The port number
+ * Parses a TCP port
+ * @param {string | undefined} value The raw value, undefined or empty for the default
+ * @returns {number} The port number, 3000 by default
+ * @throws {Error} When the value is not an integer between 1 and 65535
  */
 export const parsePort = (value: string | undefined): number => {
 	if (value === undefined || value === '') {
@@ -39,7 +41,6 @@ export const config = {
 		public: path.resolve(__dirname, '../public'),
 		favicons: path.resolve(__dirname, '../public/favicons')
 	},
-	// Filesystem locations of the markdown content, validated at startup.
 	content: {
 		posts: requireEnv('POSTS'),
 		codes: requireEnv('CODES'),
@@ -47,8 +48,6 @@ export const config = {
 		rss: requireEnv('RSS')
 	},
 	cors: {
-		// Allow requests from localhost, a specific domain, or server-side requests (no origin).
-		// A rejected origin is answered normally, just without CORS headers: the browser blocks it. Passing an Error here would turn it into a 500.
 		origin: (origin, cb) => {
 			const allowed = !origin
 				|| /^https?:\/\/localhost(:\d+)?$/.test(origin)

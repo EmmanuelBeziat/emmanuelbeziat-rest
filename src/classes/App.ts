@@ -13,7 +13,7 @@ import Code from '../models/Code.js'
 import { errorHandler, notFoundHandler } from '../utils/errors.js'
 
 /**
- * Initializes and configures the Fastify application.
+ * Fastify application: plugins, routes, handlers and content initialization
  */
 class App {
 	public app: FastifyInstance
@@ -21,18 +21,18 @@ class App {
 	constructor () {
 		this.app = fastify({
 			logger: { level: process.env.LOG_LEVEL || 'info' },
-			// Per-request lines would drown the log; errors are still logged by the error handler.
 			logController: new LogController({ disableRequestLogging: true })
 		})
 		this.configure()
 	}
 
+	/**
+	 * Registers plugins, hooks, routes and global handlers
+	 */
 	configure () {
-		// Register core plugins
 		this.app.register(cors, config.cors)
 		this.app.register(etag)
 
-		// Content only changes on restart: clients may keep it but must revalidate, which the ETag turns into a cheap 304.
 		this.app.addHook('onSend', async (_request, reply) => {
 			if (!reply.hasHeader('cache-control')) {
 				reply.header('cache-control', 'no-cache')
@@ -43,7 +43,6 @@ class App {
 			name: 'favicon.ico'
 		})
 
-		// Register route plugins
 		this.app.register(postRoutes)
 		this.app.register(portfolioRoutes)
 		this.app.register(codeRoutes)
@@ -52,7 +51,6 @@ class App {
 		this.app.setNotFoundHandler(notFoundHandler)
 		this.app.setErrorHandler(errorHandler)
 
-		// Ensure content caches are initialized before serving
 		this.app.addHook('onReady', async () => {
 			await Promise.all([
 				Post.initialize(this.app.log),

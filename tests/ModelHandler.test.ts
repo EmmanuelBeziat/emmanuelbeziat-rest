@@ -8,7 +8,6 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const EMPTY_FIXTURES_PATH = path.resolve(__dirname, 'fixtures/empty-content')
 const FIXTURES_PATH = path.resolve(__dirname, 'fixtures/markdown')
 
-// Concrete subclass for testing
 class TestModel extends ModelHandler {
 	constructor (folder: string) {
 		super(folder)
@@ -19,7 +18,6 @@ class TestModel extends ModelHandler {
 	}
 }
 
-// Hides every item, to exercise isVisible()
 class HiddenModel extends TestModel {
 	protected isVisible () {
 		return false

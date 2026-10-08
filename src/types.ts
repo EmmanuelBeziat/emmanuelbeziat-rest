@@ -1,7 +1,7 @@
 export type { PostData, PortfolioData, CodeData } from './utils/schemas.js'
 
 /**
- * A parsed markdown file. `meta` is the raw front matter: it comes from YAML, so nothing about its shape is guaranteed until the `utils/meta.ts` readers check it.
+ * A parsed markdown file, `meta` being the raw unvalidated front matter
  */
 export interface MarkedFile {
 	slug: string

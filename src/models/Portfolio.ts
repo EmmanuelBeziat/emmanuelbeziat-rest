@@ -3,15 +3,18 @@ import { config } from '../config.js'
 import { requireTitle, requireDate, optionalString, optionalStringList } from '../utils/meta.js'
 import type { MarkedFile, PortfolioData } from '../types.js'
 
+/**
+ * Portfolio entries
+ */
 class Portfolio extends ModelHandler<PortfolioData> {
 	constructor () {
 		super(config.content.portfolio)
 	}
 
 	/**
-	 * Reads the content of a marked file and returns its components
-	 * @param {MarkedFile} marked parsed marked files with metadata
-	 * @returns {PortfolioData}
+	 * Shapes a parsed markdown file into a portfolio record
+	 * @param {MarkedFile} marked The parsed markdown file
+	 * @returns {PortfolioData} The record
 	 */
 	override readFileContent (marked: MarkedFile): PortfolioData {
 		return {

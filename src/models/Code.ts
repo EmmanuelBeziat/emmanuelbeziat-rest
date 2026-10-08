@@ -2,15 +2,18 @@ import ModelHandler from '../classes/ModelHandler.js'
 import { config } from '../config.js'
 import type { MarkedFile, CodeData } from '../types.js'
 
+/**
+ * Code snippets
+ */
 class Code extends ModelHandler<CodeData> {
 	constructor () {
 		super(config.content.codes)
 	}
 
 	/**
-	 * Reads the content of a marked file and returns its components
-	 * @param {MarkedFile} marked parsed marked files with metadata
-	 * @returns {CodeData}
+	 * Shapes a parsed markdown file into a code record
+	 * @param {MarkedFile} marked The parsed markdown file
+	 * @returns {CodeData} The record
 	 */
 	override readFileContent (marked: MarkedFile): CodeData {
 		return {

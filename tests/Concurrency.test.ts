@@ -1,9 +1,6 @@
 import { describe, it, expect, beforeAll } from 'vitest'
 import App from '../src/classes/App.js'
 
-// Replaces the former wall-clock "performance" suite, which was flaky on shared
-// runners and depended on production slugs. These checks are deterministic:
-// they assert correctness under concurrency and cache stability, not timings.
 describe('API concurrency & caching', () => {
 	beforeAll(async () => {
 		await App.ready()

@@ -9,7 +9,6 @@ const FIXTURES_PATH = path.resolve(__dirname, 'fixtures/markdown')
 const EMPTY_FIXTURES_PATH = path.resolve(__dirname, 'fixtures/empty-content')
 const INVALID_PATH = path.resolve(__dirname, 'fixtures/invalid')
 
-// Simple data shaping function for tests
 const dataShapeFn = (marked: MarkedFile) => ({
 	slug: marked.slug,
 	title: marked.meta.title,
@@ -41,7 +40,6 @@ describe('MarkdownContentService', () => {
 			await service.initialize()
 			const sizeBefore = service.getAll().length
 
-			// Second call should be a no-op
 			await service.initialize()
 			const sizeAfter = service.getAll().length
 
@@ -51,7 +49,6 @@ describe('MarkdownContentService', () => {
 		it('warns but does not throw when the directory exists but has no markdown files', async () => {
 			const service = new MarkdownContentService(EMPTY_FIXTURES_PATH, dataShapeFn)
 			const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
-			// Should not throw
 			await expect(service.initialize()).resolves.toBeUndefined()
 			expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('No markdown files found'))
 			expect(service.getAll()).toEqual([])

@@ -3,7 +3,6 @@ import Fastify from 'fastify'
 import { errorHandler, notFoundHandler } from '../src/utils/errors.js'
 import { NotFoundError } from '../src/classes/NotFoundError.js'
 
-// A bare app whose routes throw, so each error path goes through the real handler.
 const app = Fastify({ logger: false })
 app.setErrorHandler(errorHandler)
 app.setNotFoundHandler(notFoundHandler)

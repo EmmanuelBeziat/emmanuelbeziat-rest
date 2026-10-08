@@ -1,7 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { requireEnv, parsePort, config } from '../src/config.js'
 
-// The cors `origin` option is a callback: (origin, cb) => void.
 type OriginFn = (origin: string | undefined, cb: (err: Error | null, allow?: boolean) => void) => void
 
 const isOriginAllowed = (origin: string | undefined): boolean => {

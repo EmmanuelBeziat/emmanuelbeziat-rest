@@ -244,3 +244,19 @@ describe('HTTP caching', () => {
 		expect(second.body).toBe('')
 	})
 })
+
+describe('List payloads', () => {
+	it.each(['/posts', '/portfolio', '/codes'])('%s leaves out the raw markdown but keeps the markup', async url => {
+		const items = JSON.parse((await App.inject({ method: 'GET', url })).body)
+		expect(items.length).toBeGreaterThan(0)
+		items.forEach(item => {
+			expect(item).not.toHaveProperty('markdown')
+			expect(item.markup).toBeTypeOf('string')
+		})
+	})
+
+	it.each(['/posts/second-post', '/portfolio/project-alpha', '/codes/css'])('%s still includes the markdown', async url => {
+		const item = JSON.parse((await App.inject({ method: 'GET', url })).body)
+		expect(item.markdown).toBeTypeOf('string')
+	})
+})

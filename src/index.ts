@@ -2,7 +2,7 @@ import App from './classes/App.js'
 import { config } from './config.js'
 
 /**
- * Starts the server. Fastify logs the listening address itself.
+ * Starts the server
  */
 const start = async () => {
 	try {
@@ -15,9 +15,8 @@ const start = async () => {
 }
 
 /**
- * Closes the server gracefully on a termination signal, letting in-flight
- * requests finish before exiting (important for `pm2 reload`).
- * @param {string} signal The received process signal.
+ * Closes the server gracefully, letting in-flight requests finish
+ * @param {string} signal The received process signal
  */
 const shutdown = async (signal: string) => {
 	App.log.info(`Received ${signal}, shutting down...`)

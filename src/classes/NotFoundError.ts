@@ -1,10 +1,12 @@
 /**
- * Error thrown when a requested resource does not exist in the cache.
- * Its `statusCode` is read by the global error handler, which turns it into a 404; any error without one is treated as a 500.
+ * Error thrown when a requested resource does not exist, answered as a 404
  */
 export class NotFoundError extends Error {
 	readonly statusCode = 404
 
+	/**
+	 * @param {string} message The message sent to the client
+	 */
 	constructor (message: string) {
 		super(message)
 		this.name = 'NotFoundError'

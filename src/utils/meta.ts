@@ -1,17 +1,21 @@
 import type { MarkedFile } from '../types.js'
 
 /**
- * Front matter readers. Front matter is untyped YAML, so each reader checks the runtime type and fails startup with a message naming the file and field, instead of serving a malformed record.
+ * Throws a front matter error naming the file and field
+ * @param {MarkedFile} marked The parsed markdown file
+ * @param {string} key The front matter field
+ * @param {string} problem What is wrong with the field
+ * @throws {Error} Always
  */
-
 const fail = (marked: MarkedFile, key: string, problem: string): never => {
 	throw new Error(`"${marked.slug}": front matter "${key}" ${problem}`)
 }
 
 /**
- * Reads the required `title` from front matter, throwing if it is missing or blank rather than serving an item without one.
- * @param {MarkedFile} marked The parsed markdown file.
- * @returns {string} The title.
+ * Reads the required `title`
+ * @param {MarkedFile} marked The parsed markdown file
+ * @returns {string} The title
+ * @throws {Error} When the title is missing or blank
  */
 export const requireTitle = (marked: MarkedFile): string => {
 	const title = marked.meta.title
@@ -22,9 +26,10 @@ export const requireTitle = (marked: MarkedFile): string => {
 }
 
 /**
- * Reads the required `date` from front matter, throwing if it is missing or unparseable. Defaulting instead would give undated items the server start time (moving on every restart) or a NaN that breaks date ordering.
- * @param {MarkedFile} marked The parsed markdown file.
- * @returns {Date | string} The date, unchanged.
+ * Reads the required `date`
+ * @param {MarkedFile} marked The parsed markdown file
+ * @returns {Date | string} The date, unchanged
+ * @throws {Error} When the date is missing or invalid
  */
 export const requireDate = (marked: MarkedFile): Date | string => {
 	const date = marked.meta.date
@@ -38,8 +43,12 @@ export const requireDate = (marked: MarkedFile): Date | string => {
 }
 
 /**
- * Reads an optional string field.
- * @returns {string} The value, or `fallback` when absent.
+ * Reads an optional string field
+ * @param {MarkedFile} marked The parsed markdown file
+ * @param {string} key The front matter field
+ * @param {string} fallback The value when absent
+ * @returns {string} The value
+ * @throws {Error} When the value is not a string
  */
 export const optionalString = (marked: MarkedFile, key: string, fallback = ''): string => {
 	const value = marked.meta[key]
@@ -53,8 +62,12 @@ export const optionalString = (marked: MarkedFile, key: string, fallback = ''): 
 }
 
 /**
- * Reads an optional list of strings. A single string is accepted as a one-item list (`tags: css` in YAML).
- * @returns {string[]} The values, or `fallback` when absent.
+ * Reads an optional list of strings, a single string becoming a one-item list
+ * @param {MarkedFile} marked The parsed markdown file
+ * @param {string} key The front matter field
+ * @param {string[]} fallback The value when absent
+ * @returns {string[]} The values
+ * @throws {Error} When the value is not a string or a list of strings
  */
 export const optionalStringList = (marked: MarkedFile, key: string, fallback: string[] = []): string[] => {
 	const value = marked.meta[key]
@@ -71,8 +84,12 @@ export const optionalStringList = (marked: MarkedFile, key: string, fallback: st
 }
 
 /**
- * Reads an optional boolean field.
- * @returns {boolean} The value, or `fallback` when absent.
+ * Reads an optional boolean field
+ * @param {MarkedFile} marked The parsed markdown file
+ * @param {string} key The front matter field
+ * @param {boolean} fallback The value when absent
+ * @returns {boolean} The value
+ * @throws {Error} When the value is not a boolean
  */
 export const optionalBoolean = (marked: MarkedFile, key: string, fallback: boolean): boolean => {
 	const value = marked.meta[key]

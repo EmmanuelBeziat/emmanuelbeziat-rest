@@ -7,14 +7,13 @@ import MarkdownItAnchor from 'markdown-it-anchor'
 import MarkdownItSmartArrows from 'markdown-it-smartarrows'
 import MarkdownItLazyLoading from 'markdown-it-image-lazy-loading'
 
-// PrismJS components for syntax highlighting
 import 'prismjs/components/prism-php.min.js'
 import 'prismjs/components/prism-markdown.min.js'
 import 'prismjs/components/prism-pug.min.js'
 import 'prismjs/components/prism-markup-templating.min.js'
 
 /**
- * Markdown class to initialize and render markdown content with plugins
+ * Markdown renderer configured with the markdown-it plugins
  */
 class Markdown {
 	private md: MarkdownIt

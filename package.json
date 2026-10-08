@@ -1,6 +1,6 @@
 {
   "name": "node-rest",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "🎲 A NodeJS App that provide a very simple REST API (just GET) from markdown files.",
   "main": "dist/index.js",
   "engines": {

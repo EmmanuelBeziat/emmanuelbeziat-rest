@@ -1,17 +1,14 @@
 import Type, { type Static } from 'typebox'
 
-/**
- * Shared schemas: each resource is described once here, and both its TypeScript type (`Static<>`) and its response serialization derive from that single definition.
- */
-
 export const SLUG_PATTERN = /^[a-z0-9-]+$/
 
-// Validates a `:slug` URL parameter: lowercase letters, digits and hyphens only.
+/**
+ * `:slug` URL parameter: lowercase letters, digits and hyphens
+ */
 export const SlugParams = Type.Object({
 	slug: Type.String({ pattern: SLUG_PATTERN.source })
 })
 
-// gray-matter yields a Date for unquoted YAML dates and a string otherwise; both are passed through unchanged.
 const DateField = Type.Unsafe<Date | string>({ anyOf: [{ type: 'string' }, { type: 'number' }] })
 
 export const PostSchema = Type.Object({
@@ -46,6 +43,13 @@ export const CodeSchema = Type.Object({
 	markdown: Type.String(),
 	markup: Type.String(),
 })
+
+/**
+ * Collection item schemas, without the raw `markdown`
+ */
+export const PostListSchema = Type.Omit(PostSchema, ['markdown'])
+export const PortfolioListSchema = Type.Omit(PortfolioSchema, ['markdown'])
+export const CodeListSchema = Type.Omit(CodeSchema, ['markdown'])
 
 export type PostData = Static<typeof PostSchema>
 export type PortfolioData = Static<typeof PortfolioSchema>

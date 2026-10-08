@@ -6,12 +6,13 @@ import Markdown from '../classes/Markdown.js'
 import type { MarkedFile } from '../types.js'
 import { SLUG_PATTERN } from '../utils/schemas.js'
 
-// The one logger method the service needs, satisfied by both `console` and Fastify's pino logger.
+/**
+ * Minimal logger, satisfied by `console` and Fastify's logger
+ */
 export type WarnLogger = { warn: (message: string) => void }
 
 /**
- * A caching service to read, parse, and store markdown content from the filesystem.
- * Content is loaded once at startup to avoid filesystem access on every request.
+ * Reads, parses and caches markdown content from a directory, loaded once at startup
  */
 class MarkdownContentService<T extends { slug: string } = { slug: string }> {
 	private content: Map<string, T> = new Map()
@@ -20,8 +21,8 @@ class MarkdownContentService<T extends { slug: string } = { slug: string }> {
 	private dataShapeFn: (marked: MarkedFile) => T
 
 	/**
-	 * @param {string} contentPath The path to the directory containing markdown files.
-	 * @param {Function} dataShapeFn A function to shape the parsed markdown data.
+	 * @param {string} contentPath The directory containing the markdown files
+	 * @param {Function} dataShapeFn Shapes a parsed markdown file into a record
 	 */
 	constructor (contentPath: string, dataShapeFn: (marked: MarkedFile) => T) {
 		if (!contentPath) {
@@ -35,11 +36,9 @@ class MarkdownContentService<T extends { slug: string } = { slug: string }> {
 	}
 
 	/**
-	 * Initializes the cache by reading and parsing all markdown files.
-	 * This method should be called once at application startup.
-	 *
-	 * Every file must load: a file that fails to parse, yields a slug the routes cannot match, or collides with another file's slug fails startup with the full list of problems, instead of silently disappearing.
-	 * @param {WarnLogger} log Where to report non-fatal problems (defaults to the console).
+	 * Reads and parses every markdown file into the cache, does nothing once initialized
+	 * @param {WarnLogger} log Logger for non-fatal problems, defaults to the console
+	 * @throws {Error} Listing every file that fails to parse, has an invalid slug or a duplicate slug
 	 */
 	async initialize (log: WarnLogger = console): Promise<void> {
 		if (this.isInitialized) {
@@ -97,15 +96,14 @@ class MarkdownContentService<T extends { slug: string } = { slug: string }> {
 	}
 
 	/**
-	 * Processes a single markdown file. Errors propagate to `initialize`.
-	 * @param {string} filePath The full path to the file.
-	 * @returns {Promise<Object>}
+	 * Reads, parses and shapes a single markdown file
+	 * @param {string} filePath The full path to the file
+	 * @returns {Promise<T>} The shaped record
 	 */
 	private async processFile (filePath: string): Promise<T> {
 		const fileContent = await fs.readFile(filePath, 'utf8')
 		const parsed = matter(fileContent)
 
-		// Extract the base file name without the extension to create a slug
 		const baseName = path.basename(filePath, path.extname(filePath))
 		const markdown = parsed.content || ''
 
@@ -118,7 +116,7 @@ class MarkdownContentService<T extends { slug: string } = { slug: string }> {
 	}
 
 	/**
-	 * Throws if the cache is read before `initialize()` completed, so an early read can never be mistaken for (and memoized as) empty content.
+	 * @throws {Error} When the cache is read before `initialize()` completed
 	 */
 	private assertInitialized (): void {
 		if (!this.isInitialized) {
@@ -127,8 +125,8 @@ class MarkdownContentService<T extends { slug: string } = { slug: string }> {
 	}
 
 	/**
-	 * Retrieves all content from the cache.
-	 * @returns {Array<Object>}
+	 * Retrieves all items from the cache
+	 * @returns {T[]} The items
 	 */
 	getAll (): T[] {
 		this.assertInitialized()
@@ -136,9 +134,9 @@ class MarkdownContentService<T extends { slug: string } = { slug: string }> {
 	}
 
 	/**
-	 * Retrieves a single item by its slug from the cache.
-	 * @param {string} slug
-	 * @returns {Object | undefined}
+	 * Retrieves an item from the cache by its slug
+	 * @param {string} slug The slug to search for
+	 * @returns {T | undefined} The item, undefined when unknown
 	 */
 	findBySlug (slug: string): T | undefined {
 		this.assertInitialized()

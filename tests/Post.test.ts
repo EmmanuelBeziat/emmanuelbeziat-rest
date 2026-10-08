@@ -2,12 +2,9 @@ import { describe, it, expect } from 'vitest'
 import Post from '../src/models/Post.js'
 import { MarkedFile } from '../src/types.js'
 
-// Accéder à la méthode readFileContent pour les tests
-// Note: Ceci est une approche pour tester une méthode d'une instance singleton
 const readFileContent = Post.readFileContent.bind(Post)
 
 describe('Post Model', () => {
-	// Test avec des métadonnées complètes
 	it('processes complete metadata correctly', () => {
 		const markedFile: MarkedFile = {
 			slug: 'test-post',
@@ -40,7 +37,6 @@ describe('Post Model', () => {
 		})
 	})
 
-	// Test avec des métadonnées minimales
 	it('provides default values for missing metadata', () => {
 		const markedFile: MarkedFile = {
 			slug: 'minimal-post',
@@ -66,7 +62,6 @@ describe('Post Model', () => {
 		expect(result.markup).toBe('<p>Minimal content</p>')
 	})
 
-	// Test avec publish explicitement à false
 	it('respects explicit publish:false setting', () => {
 		const markedFile: MarkedFile = {
 			slug: 'draft-post',
