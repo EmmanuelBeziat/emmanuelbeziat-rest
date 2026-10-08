@@ -45,4 +45,5 @@ dist
 
 # LLM
 CLAUDE.md
+.claude
 .kilo
